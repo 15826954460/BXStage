@@ -7,9 +7,7 @@ const Layout = {
   font: {
   },
 
-  /**
-   * 字重
-   */
+  /** 字重 */
   fontWeight: {
 
   },
@@ -19,23 +17,33 @@ const Layout = {
     ios: 'PingFang SC'
   },
 
-  /**颜色值**/
+  /** 颜色值 **/
   color: {
-    /**app通用色**/
+    /** app通用色 **/
+    wight_bg: '#ffffff',
+    gray_bg: '#f7f7f7',
+    /** app按钮色 **/
 
-    /**app按钮色**/
+    /** app文字色 **/
+    text_color: '#ffffff',
 
-    /**app文字色**/
+    /** app导航颜色 */
+    nav_bg: 'blue',
+    nav_text_color: '#ffffff',
+
+    /** app底部tab的颜色 */
+    bottom_tab_bg: '#f7f7f7',
+    active_tint_color: '#000',
+    inactive_tint_color: '#999',
   },
 
-  /**按钮类型**/
+  /** 按钮类型 **/
   button: {},
 
-  /**间距规范**/
+  /** 间距规范 **/
   gap: {},
 
-  /**自定义通用UI组件**/
-  /**布局属性**/
+  /** 布局属性 **/
   layout: {
     ccc: {
       flexDirection: 'column',
@@ -153,8 +161,6 @@ const Layout = {
       alignItems: 'flex-start'
     }
   },
-  /**头栏**/
-  nav: {},
 }
 
-export {Layout}
+export default Layout

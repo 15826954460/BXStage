@@ -8,7 +8,7 @@ import {Platform, StatusBar, PixelRatio, Dimensions} from "react-native";
  * baiyunsong
  * 第三方依赖库的引用
  */
-import {getAPILevel, getDeviceId} from "react-native-device-info";
+import DeviceInfo from "react-native-device-info/";
 
 /**
  * 2018-09-23
@@ -34,8 +34,11 @@ const size = (function countScreenSize() {
     return 4;//5.5英寸 i6p i6sp i7p i8p
   }
 })();
-const isIPhoneX = Platform.OS === 'ios' && (getDeviceId() === 'iPhone10,6' || getDeviceId() === 'iPhone10,3');
+
+const isIPhoneX = Platform.OS === 'ios' && (DeviceInfo.getDeviceId() === 'iPhone10,6' || DeviceInfo.getDeviceId() === 'iPhone10,3');
+
 const navHeight = 44; // 默认导航的高度为44，实际开发根据设计要求来配置
+
 const Size = {
   // 和屏幕相关的信息
   screen: {
@@ -54,6 +57,10 @@ const Size = {
   // nav 导航的高度
   navHeight: {
     navHeight: navHeight
+  },
+  navBar: {
+    navShadowHeight: 14,
+    // navBarHeight: nav.height + (Platform.OS === 'android' ? (Number(DeviceInfo.getAPILevel()) >= 21 ? 0 : 0) : (isIPhoneX ? 44 : 20))//状态栏高度，iOS=20，安卓如果是沉浸式状态栏则为0，否则通过StatusBar获取
   },
   // 机型的模板
   phoneModel: (model) => {
@@ -149,4 +156,4 @@ const Size = {
     if (model === "x86_64") return "Simulator";
   }
 }
-export {Size}
+export default Size
