@@ -27,13 +27,14 @@ export default class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>{'login'}</Text>
+        <Text style={{fontSize: 16}}>{'login  4444'}</Text>
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
-    ...Layout.layout.ccc
+    flex: 1,
+    // ...Layout.layout.ccc
   }
 });

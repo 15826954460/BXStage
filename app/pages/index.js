@@ -1,82 +1,45 @@
-import React from 'react';
+/** react 组建的引用 */
+import React, {Component} from "react";
 import {
-  Text
-} from 'react-native';
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
-import TakeOut from './takeOut/takeOut';
-import Search from './search/search';
-import Order from './order/order';
-import My from './my/my';
-// import TabBarItem from './components/TabBarItem';
+/** 全局样式的引用 */
 
-import {createBottomTabNavigator} from 'react-navigation';
+/** 第三方依赖库的引用 */
 
-import Size from '../styles/size';
-import Layout from "../styles/layout";
+/** 自定义组建的引用 */
+export default class Vue2 extends Component {
 
-const baseWidth = 325 // 设计图的基准 ip6 为基准
-const baseFont = 12 // 默认为 12 像素
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-export default createBottomTabNavigator({
-    TakeOut: {
-      screen: TakeOut,
-      navigationOptions: ({navigation}) => ({
-        tabBarIcon: ({focused, tintColor}) => {
-          // return <TabBarItem
-          // tintColor={tintColor}
-          // focused={focused}
-          // 默认没有选中时的图标
-          // focusImage={require('../../../res/images/ic_favorite.png')}
-          // // 选中后的图标
-          // blurImage={require('../../../res/images/ic_favorite.png')}
-          // />
-          return <Text>{'TakeOut'}</Text>
-        },
-      }),
-    },
-    Search: {
-      screen: Search,
-      navigationOptions:({navigation}) => ({
-        tabBarIcon: ({focused, tintColor}) => {
-          return <Text>{'Search'}</Text>
-        }
-      })
-    },
-    Order:  {
-      screen: Order,
-      navigationOptions:({navigation}) => ({
-        tabBarIcon: ({focused, tintColor}) => {
-          return <Text>{'Order'}</Text>
-        }
-      })
-    },
-    My: {
-      screen: My,
-      navigationOptions:({navigation}) => ({
-        tabBarIcon: ({focused, tintColor}) => {
-          return <Text>{'My'}</Text>
-        }
-      })
-    },
-  },
-  {
-    navigationOptions:({navigation}) => ({
-    }),
-    // 手动定义选项卡的循序，如果 createBottomTabNavigator 顺序是对的也可以不用设置
-    order: ['TakeOut', 'Search', 'Order', 'My'],
-    tabBarOptions: {
-      activeTintColor: Layout.color.active_tint_color, // 活动选项卡的标签和图标颜色。
-      inactiveTintColor: Layout.color.inactive_tint_color, // 非活动选项卡的标签和图标颜色
-      activeBackgroundColor: Layout.color.bottom_tab_bg, // 活动选项卡的背景颜色。
-      inactiveBackgroundColor: Layout.color.bottom_tab_bg, // 非活动选项卡的背景颜色。
-      showIcon: true, // 是否显示选项卡的图标，默认为true。
-      labelStyle: {
-        fontSize: (Size.width > baseWidth) ? (Size.width / baseWidth * baseFont) : baseFont,
-      },
-      style: {
-        backgroundColor: Layout.color.bottom_tab_bg,
-        // borderTopWidth: 0, // 该属性控制默认的线
-      },
-      allowFontScaling: false,
-    },
-  });
+  componentDidMount() {
+
+  }
+
+  componentWillMount() {
+
+  }
+
+  componentWillUnmount() {
+
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>Vue2.0</Text>
+      </View>
+    );
+  }
+}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});

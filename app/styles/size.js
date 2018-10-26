@@ -11,11 +11,10 @@ import {Platform, StatusBar, PixelRatio, Dimensions} from "react-native";
 import DeviceInfo from "react-native-device-info/";
 
 /**
- * 2018-09-23
- * baiyunsong
  * 声明一些常量
  */
 const {width, height} = Dimensions.get('window');//屏幕宽度
+
 const minPixel = PixelRatio.get();
 // 根据设备的分辨率，返回对应的像素缩放比列
 const size = (function countScreenSize() {

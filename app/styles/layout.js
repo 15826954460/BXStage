@@ -5,11 +5,40 @@
 const Layout = {
   /**字体大小**/
   font: {
+    Title1: 30,
+    Title2: 20,
+    Title3: 18,
+    Title4: 17,
+
+    Subtle1: 16,
+    Subtle2: 15,
+
+    Body1: 14,
+    Body2: 13,
+
+    Small1: 12,
+    Small2: 11,
+
+    /**按钮文字字号**/
+    btn_bottom: 17,
+    btn_l: 17,
+    btn_m: 16,
+    btn_xs: 16,
+    btn_s: 13,
+    btn_input: 14
   },
 
   /** 字重 */
   fontWeight: {
-
+    Thin: '100',
+    UltraLight: '200',
+    Light: '300',
+    Regular: '400',
+    Medium: '500',
+    Semibold: '600',
+    Bold: '700',
+    Heavy: '800',
+    Black: '900'
   },
 
   fontFamily: {
@@ -19,29 +48,101 @@ const Layout = {
 
   /** 颜色值 **/
   color: {
-    /** app通用色 **/
-    wight_bg: '#ffffff',
-    gray_bg: '#f7f7f7',
-    /** app按钮色 **/
+    /**app通用色**/
+    white_bg: '#ffffff',
+    white_nvg: '#ffffff',
+    white_bar: '#fafafa',
 
-    /** app文字色 **/
-    text_color: '#ffffff',
+    gray_bg: '#f9f9f9',
+    gray_press: '#f2f2f2',
+    gray_line: '#eaeaea',
+    green_status: '#dfdfdf',
 
-    /** app导航颜色 */
-    nav_bg: 'blue',
-    nav_text_color: '#ffffff',
+    yellow_main: '#ffc040',
+    red_main: '#ff6446',
+    gray_status: '#41c557',
+    green_itembg: '#83de8b',
+    black: '#000000',
+    orange_gradient_start: '#ff684a',//橙色渐变块渐变色起始色
+    orange_gradient_end: '#f94133',//橙色渐变块渐变色结束色
 
-    /** app底部tab的颜色 */
-    bottom_tab_bg: '#f7f7f7',
-    active_tint_color: '#000',
-    inactive_tint_color: '#999',
+    /**app按钮色**/
+    btno_start: '#ffaf0a',//橙色按钮普通状态渐变色起始色
+    btno_end: '#ff4631',//橙色按钮普通状态渐变色结束色
+    btno_p_start: '#ffa100',//橙色按钮按下状态渐变色起始色
+    btno_p_end: '#ff3820',//橙色按钮按下状态渐变色结束色
+    btno_d_start: '#ffd785',//橙色按钮不可点渐变色起始色
+    btno_d_end: '#ffa398',//橙色按钮不可点渐变色结束色
+
+    /**app文字色**/
+    wblack: '#000000',
+    wgray_bar: '#aaaaaa',
+    wgray_main: '#b8b8b8',
+    wgray_sub: '#d9d9d9',
+    wwhite: '#ffffff',
+    wwhite_alpha: 'rgba(255,255,255,.65)',
+    wred: '#f85f30',
+    worange: '#ffa015',
+    wgreen: '#41c557'
   },
 
   /** 按钮类型 **/
-  button: {},
+  button: {
+    btn_bottom: {
+      // width,
+      // height: 44 + (CommonSize.isIPhoneX ? CommonSize.screen.iPhoneXHomeIndicatorAreaHeight:0),
+      // paddingBottom: CommonSize.isIPhoneX ? CommonSize.screen.iPhoneXHomeIndicatorAreaHeight:0,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    btn_l: {
+      // width: width - 24,
+      height: 44,
+      borderRadius: 22,
+      marginHorizontal: 12,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    btn_m: {
+      width: 160,
+      height: 36,
+      borderRadius: 18,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    btn_xs: {
+      width: 123,
+      height: 36,
+      borderRadius: 18,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    btn_s: {
+      width: 115,
+      height: 34,
+      borderRadius: 17,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    btn_input: {
+      width: 60,
+      height: 28,
+      borderRadius: 14,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }
+  },
 
   /** 间距规范 **/
-  gap: {},
+  gap: {
+    gap_edge: 12,
+  },
 
   /** 布局属性 **/
   layout: {
@@ -163,4 +264,4 @@ const Layout = {
   },
 }
 
-export default Layout
+export {Layout}

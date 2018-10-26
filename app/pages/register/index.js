@@ -1,3 +1,4 @@
+/** react 组建的引用 */
 import React, {Component} from "react";
 import {
   StyleSheet,
@@ -5,21 +6,12 @@ import {
   View,
 } from "react-native";
 
-import Register from './register';
+/** 全局样式的引用 */
+import {Layout} from '../../styles/layout'
 
-import {createStackNavigator} from 'react-navigation';
+/** 第三方依赖库的引用 */
 
-const RegisterStackRoot = createStackNavigator({
-  Login: {screen: Register}
-}, {
-  initialRouteName: 'Register',
-  headerMode: 'none',
-  mode: 'modal',
-  navigationOptions: {
-    gesturesEnabled: false,
-  },
-})
-
+/** 自定义组建的引用 */
 export default class Vue2 extends Component {
 
   constructor(props) {
@@ -40,11 +32,16 @@ export default class Vue2 extends Component {
   }
 
   render() {
-    return <RegisterStackRoot ref={ref => {this.RegisterStackRoot = ref}}/>;
+    return (
+      <View style={styles.container}>
+        <Text>register</Text>
+      </View>
+    );
   }
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    ...Layout.layout.ccc,
   }
 });
