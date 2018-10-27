@@ -16,21 +16,23 @@ import SplashScreen from 'react-native-splash-screen';
 import {createStackNavigator} from 'react-navigation';
 
 /** 页面以及自定义组件的引用 */
-import LoginPage from './app/pages/login';
 import RegisterPage from './app/pages/register';
+import LoginPage from './app/pages/login';
 import InstalmentPage from './app/pages/instalment';
+import LoginOutPage from './app/pages/loginOut';
 
 /** 工具类的引用 */
-import {StatusBarUtil} from './app/utils/StatusBar';
+import {StatusBarUtil} from './app/utils/statusBar';
 
 const Stack = createStackNavigator(
   {
     LoginPage: { screen: LoginPage },
+    LoginOutPage: {screen:LoginOutPage},
     RegisterPage: { screen: RegisterPage },
     InstalmentPage: { screen: InstalmentPage },
   },
   {
-    initialRouteName: 'LoginPage',
+    initialRouteName: 'RegisterPage',
     headerMode: 'none',
     mode: 'modal',
     navigationOptions: {

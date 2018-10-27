@@ -20,9 +20,10 @@ export default class BXTextInput extends Component {
     isShowPasswordIcon: PropTypes.bool,
     maxLength: PropTypes.number,
     secureTextEntry: PropTypes.bool,
-    handle: PropTypes.func
+    handle: PropTypes.func,
+    keyboardAppearance: PropTypes.oneOf(['default', 'light', 'dark']),
+    autoFocus: PropTypes.bool,
   }
-
   /** 设置默认属性，底层也是通过this.props.xxx 来设置 */
   static defaultProps = {
     keyboardType: 'default',
@@ -30,6 +31,8 @@ export default class BXTextInput extends Component {
     isShowPasswordIcon: false,
     placeholder: '',
     handle: null,
+    keyboardAppearance: 'default',
+    autoFocus: false,
   }
 
   constructor(props) {
@@ -102,7 +105,10 @@ export default class BXTextInput extends Component {
     }
     this.setState({
       inputValue: text
+    }, ()=>{
+      console.log(2222,this.state.inputValue)
     })
+
   }
 
 
@@ -121,7 +127,7 @@ export default class BXTextInput extends Component {
   }
 
   render() {
-    const {isShowPasswordIcon, secureTextEntry, placeholder, keyboardType, maxLength} = this.props
+    const {isShowPasswordIcon, secureTextEntry, placeholder, keyboardType, maxLength, autoFocus} = this.props
     const {isShowClearIcon, inputValue} = this.state
     return (
       <View style={[styles.inputWrapper, this.state.inputFocus ? styles.inputFocus : styles.inputBlur]}>
@@ -137,6 +143,8 @@ export default class BXTextInput extends Component {
           selection={{start:inputValue.length , end:inputValue.length}}
           placeholderTextColor={Layout.color.wgray_sub}
           value={inputValue}
+          enablesReturnKeyAutomatically={true}
+          autoFocus={autoFocus}
           onBlur={this._onBlur}
           onFocus={this._onFocus}
           onChangeText={this._onChangeText}

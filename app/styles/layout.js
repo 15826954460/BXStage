@@ -264,4 +264,15 @@ const Layout = {
   },
 }
 
-export {Layout}
+const CommonStyle = {
+  bottomTextSize: {
+    fontSize: Layout.font.Subtle2,
+    color: Layout.color.wgray_main,
+    height: 20,
+    lineHeight: 20,
+    marginBottom: 23,
+    alignSelf: 'center',
+  }
+}
+
+export {Layout, CommonStyle}

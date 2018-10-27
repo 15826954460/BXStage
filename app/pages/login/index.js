@@ -5,9 +5,9 @@ import {
   Text, Image,
   View, ScrollView, Dimensions, TextInput, TouchableWithoutFeedback, TouchableHighlight, TouchableOpacity
 } from "react-native";
-import {Layout} from "../../styles/layout";
 
 /** 全局样式的引用 */
+import {Layout} from "../../styles/layout";
 
 /** 第三方依赖库的引用 */
 import {SafeAreaView} from 'react-navigation';
@@ -17,6 +17,8 @@ const {width, height} = Dimensions.get('window');//屏幕宽度
 
 /** 自定义组建的引用 */
 import BXTextInput from '../../components/TextInput';
+import BottomText from '../../components/BottomText/BottomText';
+import StaticPages from '../../utils/staticPage'
 
 export default class Vue2 extends Component {
 
@@ -25,6 +27,7 @@ export default class Vue2 extends Component {
     this.isShowIcon = false;
     this.state = {
       secureTextEntry: true,
+      agreement: true,
     };
   }
 
@@ -41,13 +44,19 @@ export default class Vue2 extends Component {
   }
 
   // 是否显示密码
-  _changeSecure=() => {
+  _changeSecure = () => {
     this.setState({
       secureTextEntry: !this.state.secureTextEntry
     })
   }
 
+  // 跳转到币下分期服务协议
+  _goToAgreement = () => {
+
+  }
+
   render() {
+    const {agreement} = this.state
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView
@@ -56,15 +65,8 @@ export default class Vue2 extends Component {
           keyboardShouldPersistTaps={'handled'}
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.registerHeader}>
-            <Image
-              style={styles.logo}
-              resizeMode={'contain'}
-              fadeDuration={0}
-              source={require('../../images/login/login_img_logo.png')}
-            />
-            <Text style={styles.title}>{'注册账号'}</Text>
-          </View>
+
+          {StaticPages.LoginAndRegisterHeader('欢迎回来')}
 
           <BXTextInput
             placeholder={'请输入手机号'}
@@ -79,7 +81,39 @@ export default class Vue2 extends Component {
             handle={this._changeSecure}
           />
 
+          <TouchableWithoutFeedback>
+            <View style={styles.invitationCodeWrapper}>
+              <Text style={styles.invitationCode}>{'忘记密码？'}</Text>
+            </View>
+          </TouchableWithoutFeedback>
+
+          <View style={{
+            borderRadius: 22,
+            flex: 1,
+            height: 44,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'pink'
+          }}>
+            <Text>{'下一步'}</Text>
+          </View>
+
         </ScrollView>
+
+        <BottomText
+          normalText={'还没有账号？'}
+          clickText={'注册'}
+          handle={() => {
+            this.props.navigation.navigate({
+              routeName: 'RegisterPage',
+              params: {
+                // url: serviceContract,
+                // title: '币下分期注册协议'
+              }
+            })
+          }}
+        />
       </SafeAreaView>
     );
   }
@@ -94,23 +128,14 @@ const styles = StyleSheet.create({
     width: width,
     paddingHorizontal: Layout.gap.gap_edge,
   },
-  registerHeader: {
+  invitationCodeWrapper: {
+    marginTop: 16,
+    marginBottom: 30,
     flex: 1,
-    height: 42,
-    lineHeight: 42,
-    marginTop: 20,
-    marginBottom: 35,
-    ...Layout.layout.rfsc,
+    ...Layout.layout.rfefe,
   },
-  logo: {
-    width: 32,
-    height: 32,
-    marginRight: 10,
-  },
-  title: {
-    fontSize: Layout.font.Title1,
-    color: Layout.color.wblack,
-    lineHeight: 42,
-    fontWeight: Layout.fontWeight.Semibold
+  invitationCode: {
+    fontSize: 14,
+    color: Layout.color.worange,
   },
 });
