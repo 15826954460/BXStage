@@ -37,10 +37,11 @@ export default class LoginOut extends Component {
 
   render() {
     return (
-      <CNavigation isShowTitle={true}
-                   RightTitle={'注册'}
-                   LeftOrRight={'right'}
-                   textStyle={{fontSize: 16, color: '#000'}}
+      <CNavigation
+        rightButton={{
+          isShowTitle: true,
+          title: '注册'
+        }}
       >
         <ScrollView
           style={styles.scrollViewWrapper}

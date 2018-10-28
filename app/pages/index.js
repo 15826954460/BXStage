@@ -17,8 +17,6 @@ import {createStackNavigator} from 'react-navigation';
 
 /** 页面以及自定义组件的引用 */
 import LoginAndRegister from './loginAndRegister';
-// import LoginPage from './loginAndRegister/login';
-// import RegisterPage from './loginAndRegister/register';
 import InstalmentPage from './instalment/index';
 import LoginOutPage from './loginOut/index';
 
@@ -28,13 +26,11 @@ import {StatusBarUtil} from '../utils/statusBar';
 const Stack = createStackNavigator(
   {
     LoginAndRegister: { screen: LoginAndRegister },
-    // LoginPage: { screen: LoginPage },
-    // RegisterPage: { screen: RegisterPage },
     LoginOutPage: {screen:LoginOutPage},
     InstalmentPage: { screen: InstalmentPage },
   },
   {
-    initialRouteName: 'LoginAndRegister',
+    initialRouteName: 'LoginOutPage',
     headerMode: 'none',
     mode: 'none',
     navigationOptions: {
