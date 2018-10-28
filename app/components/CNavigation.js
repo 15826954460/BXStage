@@ -12,7 +12,7 @@ import {SafeAreaView, withNavigation} from 'react-navigation';
 import PropTypes from 'prop-types';
 
 /** 自定义组建的引用 */
-
+import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
 
 /** 一些常量的声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽高
@@ -69,9 +69,9 @@ class LeftButtonItem extends Component {
       <View>
         {
           isShowTitle ? <Text style={titleStyle}> {title} </Text> : isShowIcon ?
-            <TouchableWithoutFeedback onPress={this._onBackPress}>
+            <CTouchableWithoutFeedback onPress={this._onBackPress}>
               <Image source={LEFT_ICON} style={iconStyle}/>
-            </TouchableWithoutFeedback> : null
+            </CTouchableWithoutFeedback> : null
         }
       </View>
     );
@@ -115,9 +115,9 @@ class RightButtonItem extends Component {
       <View>
         {
           isShowTitle ? <Text style={titleStyle}> {title} </Text> : isShowIcon ?
-            <TouchableWithoutFeedback onPress={() => handle instanceof Function && handle()}>
+            <CTouchableWithoutFeedback onPress={handle}>
               <Image source={LEFT_ICON} style={iconStyle}/>
-            </TouchableWithoutFeedback> : null
+            </CTouchableWithoutFeedback> : null
         }
       </View>
     );
@@ -150,10 +150,11 @@ class TitleItem extends Component {
     const {title, titleStyle, handle} = Object.assign(this.defaultcenterTitle, this.props.centerTitle)
     return (
       <View>
-        <Text style={titleStyle}
-              onPress={() => handle instanceof Function && handle()}>
-          {title ? title : null}
-        </Text>
+        <CTouchableWithoutFeedback onPress={handle}>
+          <Text style={titleStyle} >
+            {title ? title : null}
+          </Text>
+        </CTouchableWithoutFeedback>
       </View>
     );
   }
