@@ -25,7 +25,7 @@ import DeviceInfo from "react-native-device-info";
 import dateFormat from 'dateformat';
 
 /** 引入工具方法 */
-import {IdCardUtils} from './AboutIdcard';
+import {IdCardUtils} from './aboutIdCard';
 
 /**  声明一些常量 */
 const [defaultPixel, defaultWidth, defaultHeight] = [2, 750, 1334];  // iphone6的像素密度, 这个可以根据你实际的设计稿来定义

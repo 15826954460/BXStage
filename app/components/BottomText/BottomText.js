@@ -1,16 +1,19 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet,
+  StyleSheet, Dimensions,
   Text,
   View,
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout, CommonStyle} from "../../styles/layout";
+import {Layout} from "../../styles/layout";
 
 /** 第三方依赖库的引用 */
 import PropTypes from 'prop-types';
+
+/** 一些常量的声明 */
+const {width, height} = Dimensions.get('window');//屏幕宽度
 
 /** 自定义组建的引用 */
 export default class BottomText extends Component {
@@ -20,7 +23,7 @@ export default class BottomText extends Component {
     handle: PropTypes.func,
   }
   static defaultProps = {
-    normalText:'', // 还没有账号？
+    normalText: '', // 还没有账号？
     clickText: '', // 注册
     handle: null,
   }
@@ -42,25 +45,40 @@ export default class BottomText extends Component {
 
   }
 
-  _goToOtherPage=() =>{
+  /** 页面切换 */
+  _goToOtherPage = () => {
     this.props.handle instanceof Function && this.props.handle()
   }
+
   render() {
     const {normalText, clickText} = this.props
     return (
-      <Text style={styles.bottomText}>
-        {normalText}
-        <Text style={styles.bottomTextRightColor}
-              onPress={this._goToOtherPage}>
-          {clickText}
+      <View style={styles.bottomTextWrapper}>
+        <Text style={styles.bottomText}>
+          {normalText}
+          <Text style={styles.bottomTextRightColor}
+                onPress={this._goToOtherPage}>
+            {clickText}
+          </Text>
         </Text>
-      </Text>
+      </View>
     );
   }
 }
 const styles = StyleSheet.create({
+  bottomTextWrapper: {
+    position: 'absolute',
+    bottom: 23,
+    width: width,
+    ...Layout.layout.rcc,
+  },
   bottomText: {
-    ...CommonStyle.bottomTextSize,
+    fontSize: Layout.font.Subtle2,
+    color: Layout.color.wgray_main,
+    height: 20,
+    lineHeight: 20,
+    // marginBottom: 23,
+    // alignSelf: 'center'
   },
   bottomTextRightColor: {
     color: Layout.color.worange,

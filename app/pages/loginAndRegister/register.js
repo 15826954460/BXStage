@@ -10,7 +10,6 @@ import {Layout} from "../../styles/layout";
 /** 全局样式的引用 */
 
 /** 第三方依赖库的引用 */
-import {SafeAreaView} from 'react-navigation';
 
 /** 一些常量的声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
@@ -58,7 +57,7 @@ export default class Register extends Component {
   render() {
     const {agreement} = this.state
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <ScrollView
           style={styles.scrollViewStyle}
           keyboardDismissMode={'on-drag'}
@@ -125,18 +124,10 @@ export default class Register extends Component {
         <BottomText
           normalText={'已有账号？'}
           clickText={'登陆'}
-          handle={() => {
-            this.props.navigation.navigate({
-              routeName: 'LoginPage',
-              params: {
-                // url: serviceContract,
-                // title: '币下分期注册协议'
-              }
-            })
-          }}
+          handle={this.props.switchToLogin}
         />
 
-      </SafeAreaView>
+      </View>
     );
   }
 }
@@ -144,6 +135,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Layout.color.white_bg,
+    position: 'relative',
   },
   scrollViewStyle: {
     flex: 1,

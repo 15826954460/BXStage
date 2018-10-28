@@ -8,11 +8,9 @@ import {Platform, StatusBar, PixelRatio, Dimensions} from "react-native";
  * baiyunsong
  * 第三方依赖库的引用
  */
-import DeviceInfo from "react-native-device-info/";
+import DeviceInfo from "react-native-device-info";
 
-/**
- * 声明一些常量
- */
+/** 声明一些常量 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
 
 const minPixel = PixelRatio.get();
@@ -155,4 +153,4 @@ const Size = {
     if (model === "x86_64") return "Simulator";
   }
 }
-export default Size
+export {Size}
