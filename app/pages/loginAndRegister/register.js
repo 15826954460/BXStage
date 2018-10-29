@@ -18,6 +18,7 @@ const {width, height} = Dimensions.get('window');//屏幕宽度
 import BXTextInput from '../../components/TextInput';
 import BottomText from '../../components/BottomText/BottomText';
 import StaticPages from '../../utils/staticPage';
+import CGradientButton from '../../components/CGradientButton';
 
 export default class Register extends Component {
 
@@ -25,8 +26,11 @@ export default class Register extends Component {
     super(props);
     this.isShowIcon = false;
     this.state = {
+      disabled: true,
       secureTextEntry: true,
       agreement: true,
+      code: '',
+      telephoneNumber: ''
     };
   }
 
@@ -42,10 +46,48 @@ export default class Register extends Component {
 
   }
 
-  // 是否显示密码
-  _changeSecure = () => {
+  // 输入手机号
+  _getTel = (val) => {
+    const {code, agreement} = this.state
+    this.state.telephoneNumber = val
+    if (code.length >= 6 && val.length >= 11 && agreement) {
+      this.setState({disabled: false})
+    }
+    else if (code.length < 6 || val.length < 11 || !agreement) {
+      this.setState({disabled: true})
+    }
+  }
+
+  // 输入验证码
+  _getCode = (val) => {
+    const {telephoneNumber} = this.state
+    this.state.code = val
+    if (telephoneNumber.length >= 11 && val.length >= 6) {
+      this.setState({disabled: false})
+    }
+    else if (telephoneNumber.length < 11 || val.length < 6) {
+      this.setState({disabled: true})
+    }
+  }
+
+  // 选择同意协议
+  _changeAgreement = () => {
     this.setState({
-      secureTextEntry: !this.state.secureTextEntry
+      agreement: !this.state.agreement,
+    })
+  }
+
+  _clearInputTel = () => {
+    this.setState({
+      telephoneNumber: '',
+      disabled: true,
+    })
+  }
+
+  _clearInputCode =()=> {
+    this.setState({
+      code: '',
+      disabled: true,
     })
   }
 
@@ -55,7 +97,6 @@ export default class Register extends Component {
   }
 
   render() {
-    const {agreement} = this.state
     return (
       <View style={styles.container}>
         <ScrollView
@@ -70,13 +111,19 @@ export default class Register extends Component {
             placeholder={'请输入手机号'}
             keyboardType={'numeric'}
             maxLength={11}
+            handle={this._getTel}
+            clearInputValue={this._clearInputTel}
           />
 
           <BXTextInput
             placeholder={'请输入邀请码'}
+            keyboardType={'numeric'}
+            maxLength={6}
             isShowPasswordIcon={true}
             secureTextEntry={this.state.secureTextEntry}
-            handle={this._changeSecure}
+            changeSecureTextEntry={() => this.setState({secureTextEntry: !this.state.secureTextEntry})}
+            clearInputValue={this._clearInputCode}
+            handle={this._getCode}
           />
 
           <TouchableWithoutFeedback>
@@ -85,25 +132,22 @@ export default class Register extends Component {
             </View>
           </TouchableWithoutFeedback>
 
-          <View style={{
-            borderRadius: 22,
-            flex: 1,
-            height: 44,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'pink'
-          }}>
-            <Text>{'下一步'}</Text>
-          </View>
+          <CGradientButton
+            disabled={this.state.disabled}
+            gradientStyle={styles.linearGradient}
+            contentText={'注册'}
+            textStyle={styles.buttonStyle}
+            handle={() => {
+            }}
+          />
 
           <View style={styles.agreementWrapper}>
             <TouchableWithoutFeedback
-              onPress={() => this.setState({agreement: !agreement})}
+              onPress={this._changeAgreement}
             >
               <Image
                 style={styles.agreementIcon}
-                source={agreement ? require('../../images/login/login_img_check_pre.png') : require('../../images/login/login_img_check_un.png')}/>
+                source={this.state.agreement ? require('../../images/login/login_img_check_pre.png') : require('../../images/login/login_img_check_un.png')}/>
             </TouchableWithoutFeedback>
 
             <Text style={styles.agreementText}>
@@ -165,5 +209,19 @@ const styles = StyleSheet.create({
   forgetSecretCode: {
     fontSize: 14,
     color: Layout.color.worange,
+  },
+
+  linearGradient: {
+    borderRadius: 22,
+    flex: 1,
+    height: 44,
+    ...Layout.layout.rcc,
+  },
+  buttonStyle: {
+    fontFamily: 'PingFangSC-Regular',
+    fontSize: 17,
+    color: '#FFFFFF',
+    letterSpacing: 0,
+    textAlign: 'center',
   },
 });

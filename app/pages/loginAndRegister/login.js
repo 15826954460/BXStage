@@ -17,7 +17,8 @@ const {width, height} = Dimensions.get('window');//屏幕宽度
 /** 自定义组建的引用 */
 import BXTextInput from '../../components/TextInput';
 import BottomText from '../../components/BottomText/BottomText';
-import StaticPages from '../../utils/staticPage'
+import StaticPages from '../../utils/staticPage';
+import CGradientButton from '../../components/CGradientButton';
 
 export default class Login extends Component {
 
@@ -86,17 +87,11 @@ export default class Login extends Component {
               </View>
             </TouchableWithoutFeedback>
 
-            <View style={{
-              borderRadius: 22,
-              flex: 1,
-              height: 44,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'pink'
-            }}>
-              <Text>{'下一步'}</Text>
-            </View>
+            <CGradientButton
+              gradientStyle={styles.linearGradient}
+              contentText={'登陆'}
+              textStyle={styles.buttonStyle}
+            />
 
           </ScrollView>
 
@@ -130,5 +125,19 @@ const styles = StyleSheet.create({
   invitationCode: {
     fontSize: 14,
     color: Layout.color.worange,
+  },
+
+  linearGradient: {
+    borderRadius: 22,
+    flex: 1,
+    height: 44,
+    ...Layout.layout.rcc,
+  },
+  buttonStyle: {
+    fontFamily: 'PingFangSC-Regular',
+    fontSize: 17,
+    color: '#FFFFFF',
+    letterSpacing: 0,
+    textAlign: 'center',
   },
 });

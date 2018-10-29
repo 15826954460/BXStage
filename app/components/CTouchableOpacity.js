@@ -1,3 +1,4 @@
+/** react 组建的引用 */
 import React, {Component} from "react";
 import {
   StyleSheet, View, ViewPropTypes, TouchableOpacity

@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet,TouchableWithoutFeedback
+  TouchableWithoutFeedback
 } from "react-native";
 
 /** 第三方依赖库的引用 */
@@ -41,7 +41,7 @@ export default class CTouchableWithoutFeedback extends Component {
       this.isJump = true
       clearTimeout(this.timer)
       this.timer = null
-    }, 1000)
+    }, 500)
   }
 
   _onPress() {
@@ -60,8 +60,3 @@ export default class CTouchableWithoutFeedback extends Component {
     );
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});

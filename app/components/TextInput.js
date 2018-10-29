@@ -60,11 +60,6 @@ export default class BXTextInput extends Component {
 
   /** 当props发生变化时执行，初始化render时不执行，在这个回调函数里面，你可以根据属性的变化，通过调用this.setState()来更新你的组件状态，旧的属性还是可以通过this.props来获取,这里调用更新状态是安全的，并不会触发额外的render调用*/
   componentWillReceiveProps(nextProps) {
-    if (nextProps.secureTextEntry) {
-      this.setState({
-        inputValue: this.state.inputValue
-      })
-    }
   }
 
   // 失去焦点
@@ -103,12 +98,8 @@ export default class BXTextInput extends Component {
       this.isShowIcon = false
       this.setState({isShowClearIcon: false, isShowPasswordIcon: false})
     }
-    this.setState({
-      inputValue: text
-    }, ()=>{
-      console.log(2222,this.state.inputValue)
-    })
-
+    this.state.inputValue = text
+    this.props.handle instanceof Function && this.props.handle(text)
   }
 
 
@@ -119,11 +110,12 @@ export default class BXTextInput extends Component {
       inputValue: '',
       isShowClearIcon: false,
       isShowPasswordIcon: false,
-    })
+    },)
+    this.props.clearInputValue instanceof Function && this.props.clearInputValue()
   }
 
   _onPressSecure = () => {
-    this.props.handle instanceof Function && this.props.handle()
+    this.props.changeSecureTextEntry instanceof Function && this.props.changeSecureTextEntry()
   }
 
   render() {
@@ -140,7 +132,6 @@ export default class BXTextInput extends Component {
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           maxLength={maxLength}
-          selection={{start:inputValue.length , end:inputValue.length}}
           placeholderTextColor={Layout.color.wgray_sub}
           value={inputValue}
           enablesReturnKeyAutomatically={true}

@@ -9,29 +9,36 @@ import {
 
 /** 第三方依赖库的引用 */
 import {Layout} from "../../styles/layout";
+import LinearGradient from 'react-native-linear-gradient';
 
 /** 自定义组建的引用 */
 import BXTextInput from '../../components/TextInput';
 import BottomText from '../../components/BottomText/BottomText';
 import CNavigation from '../../components/CNavigation';
+import CGradientButton from '../../components/CGradientButton';
 
 export default class LoginOut extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      disabled: true,
+    };
   }
 
   componentDidMount() {
     // 可以根据页面是否获取焦点来做一些事
-    console.log(111111111,this.props.navigation.isFocused())
+    console.log(111111111, this.props.navigation.isFocused())
   }
 
   componentWillMount() {
-
   }
 
   componentWillUnmount() {
+  }
+
+
+  _login = () => {
 
   }
 
@@ -40,7 +47,7 @@ export default class LoginOut extends Component {
       <CNavigation
         rightButton={{
           isShowTitle: true,
-          title: '注册'
+          title: '注册',
         }}
       >
         <ScrollView
@@ -65,6 +72,7 @@ export default class LoginOut extends Component {
             placeholder={'请输入密码'}
             isShowPasswordIcon={true}
             secureTextEntry={this.state.secureTextEntry}
+            changeDisable={(bool) => {this.setState({disabled: bool})}}
             handle={this._changeSecure}
           />
 
@@ -74,17 +82,13 @@ export default class LoginOut extends Component {
             </View>
           </TouchableWithoutFeedback>
 
-          <View style={{
-            borderRadius: 22,
-            flex: 1,
-            height: 44,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'pink'
-          }}>
-            <Text>{'下一步'}</Text>
-          </View>
+          <CGradientButton
+            disabled={this.state.disabled}
+            gradientStyle={styles.linearGradient}
+            contentText={'登陆'}
+            textStyle={styles.buttonStyle}
+            handle={this._login}
+          />
 
         </ScrollView>
 
@@ -95,6 +99,7 @@ export default class LoginOut extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   scrollViewWrapper: {
     flex: 1,
@@ -128,5 +133,19 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
+  },
+
+  linearGradient: {
+    borderRadius: 22,
+    flex: 1,
+    height: 44,
+    ...Layout.layout.rcc,
+  },
+  buttonStyle: {
+    fontFamily: 'PingFangSC-Regular',
+    fontSize: 17,
+    color: '#FFFFFF',
+    letterSpacing: 0,
+    textAlign: 'center',
   },
 });

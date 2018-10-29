@@ -13,6 +13,7 @@
     "react-native": "0.56.0",
     "react-native-code-push": "5.4.2",
     "react-native-device-info": "0.22.5",
+    "react-native-linear-gradient": "^2.4.2",
     "react-native-splash-screen": "3.1.1",
     "react-native-vector-icons": "5.0.0",
     "react-navigation": "2.12.1"

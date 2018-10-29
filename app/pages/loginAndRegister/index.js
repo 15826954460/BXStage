@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Dimensions,
+  StyleSheet, Dimensions,StatusBar,
   Text,
   View,
   Animated,
@@ -20,15 +20,13 @@ import {Util} from "../../utils/util";
 
 /** 声明一些常量 */
 const {width, height} = Dimensions.get('window');
+const ANDROID_STATUS_BAR_HEIGHT= StatusBar.currentHeight; // 获取当前设备状态栏的高度
 const
   IPHONEX_STATUSBAR_HEIGHT = 44, /** iPhoneX 刘海状态栏高度 */
-  IPHONEX_BOTTOM_AREA_HEIGHT = 34, /** iPhoneX 底部 Home Indicator 横条安全区域高度 */
-  NAV_HEIGHT = 44;
-/** 导航栏的高度，根据项目实际进行设置 */
+  IPHONEX_BOTTOM_AREA_HEIGHT = 34; /** iPhoneX 底部 Home Indicator 横条安全区域高度 */
 
-/** 获取页面安全区域可用高度 */
-const AVAILABLE_HEIGHT = Util.isIPhoneX() ? height - (IPHONEX_STATUSBAR_HEIGHT + IPHONEX_BOTTOM_AREA_HEIGHT) : height - 20;
-
+/** 获取页面安全区域可用高度,根据不同的手机做适配 */
+const AVAILABLE_HEIGHT = Util.isAndroid() ? ANDROID_STATUS_BAR_HEIGHT : Util.isIPhoneX() ? (height - (IPHONEX_STATUSBAR_HEIGHT + IPHONEX_BOTTOM_AREA_HEIGHT)) : (height - 20);
 
 export default class Vue2 extends Component {
 

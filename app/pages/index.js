@@ -32,7 +32,7 @@ const Stack = createStackNavigator(
     SettingPage: { screen: SettingPage },
   },
   {
-    initialRouteName: 'LoginOutPage',
+    initialRouteName: 'LoginAndRegister',
     headerMode: 'none',
     mode: 'none',
     navigationOptions: {
