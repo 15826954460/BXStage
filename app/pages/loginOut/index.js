@@ -9,7 +9,6 @@ import {
 
 /** 第三方依赖库的引用 */
 import {Layout} from "../../styles/layout";
-import {SafeAreaView} from 'react-navigation';
 
 /** 自定义组建的引用 */
 import BXTextInput from '../../components/TextInput';
@@ -24,7 +23,8 @@ export default class LoginOut extends Component {
   }
 
   componentDidMount() {
-
+    // 可以根据页面是否获取焦点来做一些事
+    console.log(111111111,this.props.navigation.isFocused())
   }
 
   componentWillMount() {
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   logoIconWrapper: {
     flex: 1,
     ...Layout.layout.ccc,
-    marginTop: 70
+    marginTop: 26
   },
   logoIcon: {
     width: 90,

@@ -19,6 +19,7 @@ import {createStackNavigator} from 'react-navigation';
 import LoginAndRegister from './loginAndRegister';
 import InstalmentPage from './instalment/index';
 import LoginOutPage from './loginOut/index';
+import SettingPage from './setting/index';
 
 /** 工具类的引用 */
 import {StatusBarUtil} from '../utils/statusBar';
@@ -28,6 +29,7 @@ const Stack = createStackNavigator(
     LoginAndRegister: { screen: LoginAndRegister },
     LoginOutPage: {screen:LoginOutPage},
     InstalmentPage: { screen: InstalmentPage },
+    SettingPage: { screen: SettingPage },
   },
   {
     initialRouteName: 'LoginOutPage',
@@ -36,9 +38,8 @@ const Stack = createStackNavigator(
     navigationOptions: {
       gesturesEnabled: true, // 默认不启用滑动手势(ios手机默认启用，android手机默认关闭)
     },
-    // 路由动画相关
+    // 路由动画相关，可以获取当前路由栈以及当前路由
     onTransitionStart: (transitionProps, prevTransitionProps) => {
-      // const {routeName} = res.scene.route
       console.log(4444, transitionProps, prevTransitionProps)
     },
     // 动画配置

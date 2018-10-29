@@ -116,7 +116,7 @@ class RightButtonItem extends Component {
         {
           isShowTitle ? <Text style={titleStyle}> {title} </Text> : isShowIcon ?
             <CTouchableWithoutFeedback onPress={handle}>
-              <Image source={LEFT_ICON} style={iconStyle}/>
+              <Image source={RIGHT_ICON} style={iconStyle}/>
             </CTouchableWithoutFeedback> : null
         }
       </View>
@@ -151,9 +151,11 @@ class TitleItem extends Component {
     return (
       <View>
         <CTouchableWithoutFeedback onPress={handle}>
-          <Text style={titleStyle} >
-            {title ? title : null}
-          </Text>
+          <View>
+            <Text style={titleStyle}>
+              {title ? title : null}
+            </Text>
+          </View>
         </CTouchableWithoutFeedback>
       </View>
     );
@@ -191,11 +193,8 @@ class CNavigation extends Component {
   render() {
     const {LeftOrRight, commonBackgroundColor, navBackgroundColor} = this.props
     return (
-      <SafeAreaView style={[styles.container,
-        {backgroundColor: commonBackgroundColor}
-      ]}>
-        <View style={{position: 'relative', flex: 1}}>
-
+      <SafeAreaView style={[{flex: 1, backgroundColor: commonBackgroundColor}]}>
+        <View style={styles.container}>
           <View style={[styles.navContainer, {backgroundColor: navBackgroundColor}]}>
             <View style={styles.buttonWrapper}>
               {
@@ -205,15 +204,12 @@ class CNavigation extends Component {
                 LeftOrRight === 'right' || 'all' ? <RightButtonItem {...this.props}/> : <View/>
               }
             </View>
-
             <View style={styles.titleItemWrapper}>
               <TitleItem {...this.props}/>
             </View>
           </View>
-
           {this.props.children}
         </View>
-
       </SafeAreaView>
     );
   }
@@ -223,7 +219,9 @@ export default withNavigation(CNavigation)
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
     flex: 1,
+    paddingTop: 44,
   },
   navContainer: {
     width: width,
