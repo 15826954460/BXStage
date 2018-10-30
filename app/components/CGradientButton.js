@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from 'react';
 import {
-  ViewPropTypes, Text, Dimensions,
+  Text, Dimensions,
 } from 'react-native';
 
 /** 第三方依赖库的引用 */
@@ -17,7 +17,10 @@ import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
 
 /** 一些常量的声明 */
 const {width, height} = Dimensions.get('window');
-const GAP_EDAG = 12; // 间距
+
+/** 一些自定义工具的引用 */
+import {bouncedUtils} from '../utils/bouncedUtils';
+
 /** 按钮的颜色 */
 const
   BTN_DEFAULT_START = '#ffaf0a', // 橙色按钮普通状态渐变色起始色
@@ -39,10 +42,8 @@ const BUTTON_STYLE = {
   },
   btn_l: {
     flex: 1,
-    // width: (width - GAP_EDAG * 2),
     height: 44,
     borderRadius: 22,
-    marginHorizontal: 12,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -92,8 +93,9 @@ export default class CGradientButton extends Component {
   _disabledColorArray = [BTN_DISABLE_START, BTN_DISABLED_END];
 
   static propTypes = {
-    wrapStyle: ViewPropTypes.style,
+    wrapStyle: PropTypes.object,
     gradientType: PropTypes.string,
+    textStyle: PropTypes.object,
     onPress: PropTypes.func,
     colorsArray: PropTypes.array, // 父组件传进来的默认按钮颜色数组
     colorsPressArray: PropTypes.array, // 父组件传进来的按钮点击的颜色数组
@@ -108,7 +110,7 @@ export default class CGradientButton extends Component {
 
   static defaultProps = {
     contentText: '',
-    disabled: false,
+    dynamic: false,
     start: {x: 0.0, y: 0.0}, // 关于渐变动画的初始值
     end: {x: 1.0, y: 0.0}, // 关于渐变动画的初始值
     locations: [0, 1.0], // 关于渐变动画的初始值（location 要和 colors 长度对应）
@@ -120,6 +122,7 @@ export default class CGradientButton extends Component {
     this.state = {
       pressDown: false,
     };
+    props.getCGradientInstance instanceof Function && props.getCGradientInstance(this)
   }
 
   /** 自定义组件是否进行重新render的时机 */
@@ -130,7 +133,7 @@ export default class CGradientButton extends Component {
   }
 
   componentDidMount() {
-
+    
   }
 
   componentWillMount() {
@@ -158,7 +161,7 @@ export default class CGradientButton extends Component {
           colors={disabled ? (colorsDisableArray || this._disabledColorArray) : (pressDown ? (colorsPressArray || this._onPressInColorArray) : (colorsArray || this._defaultColorArray))}
           locations={locations}
           style={BUTTON_STYLE[gradientType]}>
-          <Text style={[textStyle]}
+          <Text style={textStyle}
                 numberOfLines={numberOfLines}>
             {contentText}
           </Text>

@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import {
   StyleSheet, ScrollView,
   Keyboard,
+  Text,
   View,
 } from "react-native";
 
@@ -21,19 +22,14 @@ import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
 import {Layout} from "../../styles/layout";
 
-
-export default class ValidationCode extends Component {
-  _count = 60;
-  _isAllowPress = true;
-  _timer = null;
+export default class Vue2 extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      validationCode: '',
+      password: '',
       disabled: true,
-      getDisabled: false,
-      defaultText: '获取'
+      secureTextEntry: true,
     };
   }
 
@@ -49,50 +45,36 @@ export default class ValidationCode extends Component {
   componentWillReceiveProps(nextProps, nextState) {
   }
 
+  shouldComponentUpdate(nextProps) {
+    return true
+  }
+
   /** 监听用户输入 */
   _onChangeText = (val) => {
     /** 假设验证码都是 4 位数字 */
-    this.state.validationCode = val
-    if (val.length >= 4) {
+    this.state.password = val
+    if (val.length >= 6) {
       this.setState({disabled: false})
     }
-    else if (val.length < 4) {
+    else if (val.length < 6) {
       this.setState({disabled: true})
     }
   }
 
   /** 验证验证码, 实际开发中自行获取接口, 这里为了演示效果还是前端来做校验  */
-  _validationCode = () => {
+  _validationPassword = () => {
     Keyboard.dismiss()
-    let validateLegal = Util.checkPureNumber(this.state.validationCode)
-    if (!validateLegal) {
+    let passwordLegal = Util.checkPassword(this.state.password)
+    if (!passwordLegal) {
       bouncedUtils.notices.show({
         type: 'warning', content: '验证码错误，请重新输入'
       })
       return
     }
-
-    /** 根据时间来判断，根据后端返回错误信息来处理，前端暂不做演示 */
-    if (validateLegal) {
-    }
-  }
-
-  _getValidationCode = () => {
-    if (this._isAllowPress) {
-      this._isAllowPress = false
-      this._timer = setInterval(() => {
-        if (this._count > 1) {
-          this._count -= 1
-          this.setState({defaultText: `${this._count}"`, getDisabled: true})
-        }
-        else {
-          this.setState({defaultText: '获取', getDisabled: false})
-          this._count = 60
-          this._isAllowPress = true
-          clearInterval(this._timer)
-          this._timer = null
-        }
-      }, 1000)
+    if (passwordLegal) {
+      bouncedUtils.notices.show({
+        type: 'success', content: '注册成功'
+      })
     }
   }
 
@@ -110,38 +92,27 @@ export default class ValidationCode extends Component {
                     keyboardDismissMode={'on-drag'}
                     keyboardShouldPersistTaps={'handled'}>
 
-          {StaticPages.validationAndSetting('输入验证码', '验证码已发送到手机158****4460')}
+          {StaticPages.validationAndSetting('设置登陆密码', '请设置6~16位数字、字母组合密码')}
 
-          <View style={{flex: 1, position: 'relative', ...Layout.layout.ccc}}>
-
-            <BXTextInput
-              maxLength={4}
-              isButton={true}
-              placeholder={'请输入验证码'}
-              keyboardType={'numeric'}
-              handle={this._onChangeText}
-            />
-
-            <View style={{position: 'absolute', right: 12,}}>
-              <CGradientButton
-                gradientType={'btn_input'}
-                contentText={this.state.defaultText}
-                textStyle={styles.inputButtonStyle}
-                disabled={this.state.getDisabled}
-                onPress={this._getValidationCode}
-              />
-            </View>
-
-          </View>
+          <BXTextInput
+            placeholder={'请设置登陆密码'}
+            keyboardType={'default'}
+            maxLength={16}
+            isShowPasswordIcon={true}
+            secureTextEntry={this.state.secureTextEntry}
+            changeSecureTextEntry={() => this.setState({secureTextEntry: !this.state.secureTextEntry})}
+            clearInputValue={() => this.setState({disabled: true, password: ''})}
+            handle={this._onChangeText}
+          />
 
 
           <View style={{marginTop: 40}}>
             <CGradientButton
               gradientType={'btn_l'}
-              contentText={'下一步'}
+              contentText={'确定'}
               textStyle={styles.buttonStyle}
               disabled={this.state.disabled}
-              onPress={this._validationCode}
+              onPress={this._validationPassword}
             >
             </CGradientButton>
           </View>
@@ -160,10 +131,6 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     fontSize: 17,
-    color: '#fff'
-  },
-  inputButtonStyle: {
-    fontSize: 14,
     color: '#fff'
   },
 });

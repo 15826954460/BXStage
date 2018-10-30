@@ -17,10 +17,12 @@ import {createStackNavigator} from 'react-navigation';
 
 /** 页面以及自定义组件的引用 */
 import LoginAndRegister from './loginAndRegister';
+import ValidationCodePage from './loginAndRegister/validationCode';
+import SettingLoginPassword from './loginAndRegister/settingLoginPassword';
 import InstalmentPage from './instalment/index';
 import LoginOutPage from './loginOut/index';
 import SettingPage from './setting/index';
-import CToast from '../pages/testView/tostTest';
+// import CToast from '../pages/testView/tostTest';
 
 /** 工具类的引用 */
 import {StatusBarUtil} from '../utils/statusBar';
@@ -28,13 +30,15 @@ import {StatusBarUtil} from '../utils/statusBar';
 const Stack = createStackNavigator(
   {
     LoginAndRegister: { screen: LoginAndRegister },
+    ValidationCodePage: { screen: ValidationCodePage },
+    SettingLoginPassword: { screen: SettingLoginPassword },
     LoginOutPage: {screen:LoginOutPage},
     InstalmentPage: { screen: InstalmentPage },
     SettingPage: { screen: SettingPage },
-    CToast: { screen: CToast },
+    // CToast: { screen: CToast },
   },
   {
-    initialRouteName: 'LoginAndRegister',
+    initialRouteName: 'SettingLoginPassword',
     headerMode: 'none',
     mode: 'none',
     navigationOptions: {

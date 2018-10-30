@@ -13,6 +13,7 @@ import {Layout} from "../styles/layout";
 
 /** 自定义组建的引用 */
 export default class StaticPages extends Component {
+  // 登陆页面的头部
   static LoginAndRegisterHeader = (text) => {
     return <View style={styles.registerHeader}>
       <Image
@@ -22,6 +23,17 @@ export default class StaticPages extends Component {
         source={require('../images/login/login_img_logo.png')}
       />
       <Text style={styles.title}>{text}</Text>
+    </View>
+  }
+  // 验证码和设置密码的头部
+  static validationAndSetting = (title, text) => {
+    return <View style={styles.entryWrapper}>
+      <Text style={{fontSize: 30, marginBottom: 4, color: '#000', fontFamily: 'PingFangSC-Semibold'}}>
+        {title}
+      </Text>
+      <Text style={{fontSize: 14, color: '#B8B8B8'}}>
+        {text}
+      </Text>
     </View>
   }
 
@@ -52,5 +64,10 @@ const styles = StyleSheet.create({
     color: Layout.color.wblack,
     lineHeight: 42,
     fontWeight: Layout.fontWeight.Semibold
+  },
+  entryWrapper: {
+    flex: 1,
+    marginTop: 20,
+    marginBottom: 38,
   },
 });

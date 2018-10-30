@@ -43,8 +43,8 @@ class LeftButtonItem extends Component {
         color: '#000'
       }, // 默认文案的样式
       iconStyle: {
-        width: 46,
-        height: 46,
+        width: 23,
+        height: 23,
       }, // 默认icon样式
     };
     this.state = {};

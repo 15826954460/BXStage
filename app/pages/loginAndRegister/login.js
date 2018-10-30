@@ -15,7 +15,7 @@ import {Layout} from "../../styles/layout";
 const {width, height} = Dimensions.get('window');//屏幕宽度
 
 /** 自定义组建的引用 */
-import BXTextInput from '../../components/TextInput';
+import BXTextInput from '../../components/CTextInput';
 import BottomText from '../../components/BottomText/BottomText';
 import StaticPages from '../../utils/staticPage';
 import CGradientButton from '../../components/CGradientButton';

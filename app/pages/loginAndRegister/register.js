@@ -1,9 +1,9 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet,
+  StyleSheet,AsyncStorage,
   Text, Image,
-  View, ScrollView, Dimensions, TextInput, TouchableWithoutFeedback, TouchableHighlight, TouchableOpacity
+  View, ScrollView, Dimensions, TouchableWithoutFeedback, TouchableHighlight, TouchableOpacity
 } from "react-native";
 import {Layout} from "../../styles/layout";
 
@@ -12,6 +12,7 @@ import {Layout} from "../../styles/layout";
 /** 工具方法的引用 */
 import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
+import {StorageData} from '../../utils/staticPage';
 
 /** 第三方依赖库的引用 */
 
@@ -19,7 +20,7 @@ import {bouncedUtils} from '../../utils/bouncedUtils';
 const {width, height} = Dimensions.get('window');//屏幕宽度
 
 /** 自定义组建的引用 */
-import BXTextInput from '../../components/TextInput';
+import BXTextInput from '../../components/CTextInput';
 import BottomText from '../../components/BottomText/BottomText';
 import StaticPages from '../../utils/staticPage';
 import CGradientButton from '../../components/CGradientButton';
@@ -103,11 +104,16 @@ export default class Register extends Component {
 
   /** 输入验证 */
   _validation = () => {
+    /** 这里会根据用户的操作进行一些本地数据的保存，方便后面做交互验证 */
     let codeLegal = Util.checkPureNumber(this.state.code)
     let telephoneLegal = Util.checkMobile(this.state.telephoneNumber)
     if (codeLegal && telephoneLegal && this.state.agreement) {
       bouncedUtils.notices.show({
         type: 'success', content: '注册成功'
+      })
+      /** 储存用户信息 */
+      StorageData.saveUserInfo({
+        tel: this.state.telephoneNumber, inviteCode: this.state.code
       })
       return
     }

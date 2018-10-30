@@ -11,7 +11,7 @@ import {Layout} from "../styles/layout";
 import PropTypes from 'prop-types';
 
 /** 自定义组建的引用 */
-import CGradientButton from  './CGradientButton';
+import CGradientButton from './CGradientButton';
 
 export default class BXTextInput extends Component {
 
@@ -47,6 +47,7 @@ export default class BXTextInput extends Component {
       inputValue: '',
       isShowClearIcon: false,
       isShowPasswordIcon: props.isShowPasswordIcon,
+      // disabled: false, // 单独为获取渐变色的按钮设置的控制变量
     };
   }
 
@@ -66,7 +67,7 @@ export default class BXTextInput extends Component {
   componentWillReceiveProps(nextProps) {
   }
 
-  // 失去焦点
+  /** 失去焦点 */
   _onBlur = () => {
     this.setState({
       inputFocus: false,
@@ -74,7 +75,7 @@ export default class BXTextInput extends Component {
     })
   }
 
-  // 获取焦点
+  /** 获取焦点 */
   _onFocus = () => {
     this.isShowIcon = false
     if (this.state.inputValue.length > 0) {
@@ -92,7 +93,7 @@ export default class BXTextInput extends Component {
       })
     }
   }
-
+  /** 监听输入事件 */
   _onChangeText = (text) => {
     if (text.length > 0 && !this.isShowIcon) {
       this.isShowIcon = true
@@ -106,7 +107,7 @@ export default class BXTextInput extends Component {
     this.props.handle instanceof Function && this.props.handle(text)
   }
 
-
+  /** 清除 */
   _clear = () => {
     this.inputInstance.clear()
     this.isShowIcon = false
@@ -118,9 +119,15 @@ export default class BXTextInput extends Component {
     this.props.clearInputValue instanceof Function && this.props.clearInputValue()
   }
 
+  /** 密码是否可见 */
   _onPressSecure = () => {
     this.props.changeSecureTextEntry instanceof Function && this.props.changeSecureTextEntry()
   }
+
+  // /** 根据时间来判断按钮是否禁用 */
+  // _judgeByTimer = (bool) => {
+  //     this.setState({disabled: bool})
+  // }
 
   render() {
     const {isShowPasswordIcon, secureTextEntry, placeholder, keyboardType, maxLength, autoFocus, isButton} = this.props
@@ -170,14 +177,18 @@ export default class BXTextInput extends Component {
           }
           {/*按钮*/}
           {
-            isButton ? <View>
-              <CGradientButton
-                gradientType={'btn_input'}
-                contentText={'获取'}
-                textStyle={{fontSize: 14, color: '#fff'}}
-                disabled={false}
-              />
-            </View> : null
+            // isButton ? <View>
+            //   <CGradientButton
+            //     getCGradientInstance={ref => this._CGradientInstance = ref}
+            //     judgeByTimer={this._judgeByTimer}
+            //     dynamic={true}
+            //     gradientType={'btn_input'}
+            //     contentText={'获取'}
+            //     textStyle={styles.buttonStyle}
+            //     disabled={this.state.disabled}
+            //     onPress={this._CGradientInstance ? this._CGradientInstance._setTimer : null}
+            //   />
+            // </View> : null
           }
         </View>
 
@@ -224,5 +235,5 @@ const styles = StyleSheet.create({
   iconStyle: {
     height: 24,
     width: 24,
-  }
+  },
 });

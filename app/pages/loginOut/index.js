@@ -12,7 +12,7 @@ import {Layout} from "../../styles/layout";
 import LinearGradient from 'react-native-linear-gradient';
 
 /** 自定义组建的引用 */
-import BXTextInput from '../../components/TextInput';
+import BXTextInput from '../../components/CTextInput';
 import BottomText from '../../components/BottomText/BottomText';
 import CNavigation from '../../components/CNavigation';
 import CGradientButton from '../../components/CGradientButton';
@@ -28,7 +28,7 @@ export default class LoginOut extends Component {
 
   componentDidMount() {
     // 可以根据页面是否获取焦点来做一些事
-    console.log(111111111, this.props.navigation.isFocused())
+    // console.log(111111111, this.props.navigation.isFocused())
   }
 
   componentWillMount() {
@@ -45,6 +45,7 @@ export default class LoginOut extends Component {
   render() {
     return (
       <CNavigation
+        leftorright={'right'}
         rightButton={{
           isShowTitle: true,
           title: '注册',

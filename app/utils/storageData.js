@@ -1,48 +1,44 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
+  AsyncStorage
 } from "react-native";
 
 /** 全局样式的引用 */
 
 /** 第三方依赖库的引用 */
 
-/** 自定义组建的引用 */
-export default class Vue2 extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {};
+class StorageData extends Component {
+  // setItem(key: string, value: string, [callback]: ?(error: ?Error) => void)
+  static saveUserInfo = async (data) => {
+    await StorageData.mergeUserInfo('userInfo', data)
+    await AsyncStorage.setItem('userInfo', JSON.stringify(data), (error) => {
+      window.console.log(`请使用正确的数据格式，错误信息为${error}`)
+    });
   }
 
-  componentDidMount() {
+  // static getItem(key: string, [callback]: ?(error: ?Error, result: ?string) => void)
+  static getUserInfo = async (key) => {
+    await AsyncStorage.getItem(key, (error, result) => {
+      if (result) {
+        return result
+      } else {
+        window.console.log(error)
+      }
+    });
   }
 
-  componentWillMount() {
-  }
+  // static mergeItem(key: string, value: string, [callback]: ?(error: ?Error) => void
+  static mergeUserInfo = async (key, data) => {
+    AsyncStorage.mergeItem(key, JSON.stringify(data), (error, result) => {
+      if (result) {
 
-  componentWillUnmount() {
-  }
-
-  componentWillReceiveProps(nextProps, nextState) {
-  }
-
-  shouldComponentUpdate(nextProps) {
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Vue2.0</Text>
-      </View>
-    );
+      }
+      else if (error) {
+        window.console.log()
+      }
+    });
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
+
+export {StorageData}

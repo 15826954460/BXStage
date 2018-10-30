@@ -12,7 +12,7 @@ export default class CTouchableWithoutFeedback extends Component {
     disabled: PropTypes.bool,
     onPress: PropTypes.func,
   }
-
+S
   static defaultProps = {
     disabled: false,
     onPress: null,
@@ -46,6 +46,7 @@ export default class CTouchableWithoutFeedback extends Component {
 
   _onPress = () => {
     const {onPress} = this.props
+    console.log(1111, '=======')
     this._isAllowToJump() && onPress instanceof Function && onPress()
   }
 
