@@ -34,8 +34,6 @@ const size = (function countScreenSize() {
 
 const isIPhoneX = Platform.OS === 'ios' && (DeviceInfo.getDeviceId() === 'iPhone10,6' || DeviceInfo.getDeviceId() === 'iPhone10,3');
 
-const navHeight = 44; // 默认导航的高度为44，实际开发根据设计要求来配置
-
 const Size = {
   // 和屏幕相关的信息
   screen: {
@@ -50,14 +48,6 @@ const Size = {
   // 状态栏高度，iOS=20，安卓如果是沉浸式状态栏则为0，否则通过 StatusBar 获取, 安卓手机 Level 大于 1 的时候才有状态栏
   statusBar: {
     height: (Platform.OS === 'android' ? (Number(getAPILevel()) >= 21 ? StatusBar.currentHeight : 0) : (isIPhoneX ? 44 : 20))
-  },
-  // nav 导航的高度
-  navHeight: {
-    navHeight: navHeight
-  },
-  navBar: {
-    navShadowHeight: 14,
-    // navBarHeight: nav.height + (Platform.OS === 'android' ? (Number(DeviceInfo.getAPILevel()) >= 21 ? 0 : 0) : (isIPhoneX ? 44 : 20))//状态栏高度，iOS=20，安卓如果是沉浸式状态栏则为0，否则通过StatusBar获取
   },
   // 机型的模板
   phoneModel: (model) => {

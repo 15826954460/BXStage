@@ -42,7 +42,12 @@ export default class Login extends Component {
   componentWillUnmount() {
 
   }
+  componentWillReceiveProps(nextProps, nextState) {
 
+  }
+  shouldComponentUpdate(nextProps) {
+
+  }
   // 是否显示密码
   _changeSecure = () => {
     this.setState({

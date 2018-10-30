@@ -20,6 +20,7 @@ import LoginAndRegister from './loginAndRegister';
 import InstalmentPage from './instalment/index';
 import LoginOutPage from './loginOut/index';
 import SettingPage from './setting/index';
+import CToast from '../pages/testView/tostTest';
 
 /** 工具类的引用 */
 import {StatusBarUtil} from '../utils/statusBar';
@@ -30,6 +31,7 @@ const Stack = createStackNavigator(
     LoginOutPage: {screen:LoginOutPage},
     InstalmentPage: { screen: InstalmentPage },
     SettingPage: { screen: SettingPage },
+    CToast: { screen: CToast },
   },
   {
     initialRouteName: 'LoginAndRegister',
@@ -40,7 +42,7 @@ const Stack = createStackNavigator(
     },
     // 路由动画相关，可以获取当前路由栈以及当前路由
     onTransitionStart: (transitionProps, prevTransitionProps) => {
-      console.log(4444, transitionProps, prevTransitionProps)
+      // console.log(4444, transitionProps, prevTransitionProps)
     },
     // 动画配置
     transitionConfig: () => ({
@@ -80,7 +82,8 @@ export default class Vue2 extends Component {
   }
 
   componentDidMount() {
-    SplashScreen.hide()
+    SplashScreen.hide() // 隐藏白屏
+    // 为了效果，向本地存储一些验证数据的信息
   }
 
   componentWillMount() {

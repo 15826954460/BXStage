@@ -9,6 +9,10 @@ import {Layout} from "../../styles/layout";
 
 /** 全局样式的引用 */
 
+/** 工具方法的引用 */
+import {Util} from '../../utils/util';
+import {bouncedUtils} from '../../utils/bouncedUtils';
+
 /** 第三方依赖库的引用 */
 
 /** 一些常量的声明 */
@@ -50,10 +54,10 @@ export default class Register extends Component {
   _getTel = (val) => {
     const {code, agreement} = this.state
     this.state.telephoneNumber = val
-    if (code.length >= 6 && val.length >= 11 && agreement) {
+    if (code.length >= 6 && val.length >= 11) {
       this.setState({disabled: false})
     }
-    else if (code.length < 6 || val.length < 11 || !agreement) {
+    else if (code.length < 6 || val.length < 11) {
       this.setState({disabled: true})
     }
   }
@@ -84,16 +88,40 @@ export default class Register extends Component {
     })
   }
 
-  _clearInputCode =()=> {
+  _clearInputCode = () => {
     this.setState({
       code: '',
       disabled: true,
     })
   }
 
-  // 跳转到币下分期服务协议
+  /** 跳转到币下分期服务协议 */
   _goToAgreement = () => {
 
+  }
+
+
+  /** 输入验证 */
+  _validation = () => {
+    let codeLegal = Util.checkPureNumber(this.state.code)
+    let telephoneLegal = Util.checkMobile(this.state.telephoneNumber)
+    if (codeLegal && telephoneLegal && this.state.agreement) {
+      bouncedUtils.notices.show({
+        type: 'success', content: '注册成功'
+      })
+      return
+    }
+    if(!codeLegal || !telephoneLegal) {
+      bouncedUtils.notices.show({
+        type: 'warning', content: '手机号或邀请码错误，请重新输入'
+      })
+      return
+    }
+    if (!this.state.agreement) {
+      bouncedUtils.notices.show({
+        type: 'warning', content: '请阅读并同意用户协议'
+      })
+    }
   }
 
   render() {
@@ -134,11 +162,10 @@ export default class Register extends Component {
 
           <CGradientButton
             disabled={this.state.disabled}
-            gradientStyle={styles.linearGradient}
+            gradientType={'btn_l'}
             contentText={'注册'}
             textStyle={styles.buttonStyle}
-            handle={() => {
-            }}
+            onPress={this._validation}
           />
 
           <View style={styles.agreementWrapper}>
@@ -215,13 +242,9 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     flex: 1,
     height: 44,
-    ...Layout.layout.rcc,
   },
   buttonStyle: {
-    fontFamily: 'PingFangSC-Regular',
     fontSize: 17,
-    color: '#FFFFFF',
-    letterSpacing: 0,
-    textAlign: 'center',
+    color: '#fff'
   },
 });

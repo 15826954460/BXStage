@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet,Image,
+  StyleSheet, Image,
   Text,
   View,
 } from "react-native";
@@ -14,7 +14,7 @@ import {Layout} from "../styles/layout";
 /** 自定义组建的引用 */
 export default class StaticPages extends Component {
   static LoginAndRegisterHeader = (text) => {
-    return  <View style={styles.registerHeader}>
+    return <View style={styles.registerHeader}>
       <Image
         style={styles.logo}
         resizeMode={'contain'}
@@ -25,6 +25,12 @@ export default class StaticPages extends Component {
     </View>
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return false
+  }
+  render() {
+    return null;
+  }
 }
 const styles = StyleSheet.create({
   registerHeader: {

@@ -11,7 +11,7 @@ import {
 /** 自定义组建的引用 */
 class StatusBarUtil {
   // 初始化状态栏
-  static initialStatusBar = () => {
+  static initialStatusBar = (hideStatusBar = false) => {
     /**
      * 指定状态栏是否透明。设置为true时，应用会在状态栏之下绘制（即所谓“沉浸式”——被状态栏遮住一部分）。
      * 常和带有半透明背景色的状态栏搭配使用。
@@ -34,7 +34,14 @@ class StatusBarUtil {
      * hidden（布尔类型） - 是否隐藏状态栏
      * [animation]（StatusBarAnimation） - 改变状态栏显示状态的动画过渡效果
      */
-    StatusBar.setHidden(false, true)
+    StatusBar.setHidden(hideStatusBar, false)
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return false
+  }
+  render() {
+    return null;
   }
 }
 export {StatusBarUtil}

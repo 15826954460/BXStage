@@ -1,20 +1,23 @@
 /** react 组建的引用 */
 import React, {Component} from 'react';
 import {
-  ViewPropTypes, Text,
+  ViewPropTypes, Text, Dimensions,
 } from 'react-native';
 
 /** 第三方依赖库的引用 */
 import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
-// import CTouchableWithoutFeedback from './CTouchableWithoutFeedBack'
 
 /** 全局样式的引用 */
 
 /** 第三方依赖库的引用 */
 
 /** 自定义组建的引用 */
+import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
 
+/** 一些常量的声明 */
+const {width, height} = Dimensions.get('window');
+const GAP_EDAG = 12; // 间距
 /** 按钮的颜色 */
 const
   BTN_DEFAULT_START = '#ffaf0a', // 橙色按钮普通状态渐变色起始色
@@ -24,6 +27,59 @@ const
   BTN_DISABLE_START = '#ffd785',//橙色按钮不可点渐变色起始色
   BTN_DISABLED_END = '#ffa398';//橙色按钮不可点渐变色结束色
 
+/** 按钮的大小 */
+const BUTTON_STYLE = {
+  btn_bottom: {
+    width: width,
+    // height: 44 + (CommonSize.isIPhoneX ? CommonSize.screen.iPhoneXHomeIndicatorAreaHeight:0),
+    // paddingBottom: CommonSize.isIPhoneX ? CommonSize.screen.iPhoneXHomeIndicatorAreaHeight:0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btn_l: {
+    flex: 1,
+    // width: (width - GAP_EDAG * 2),
+    height: 44,
+    borderRadius: 22,
+    marginHorizontal: 12,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btn_m: {
+    width: 160,
+    height: 36,
+    borderRadius: 18,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btn_xs: {
+    width: 123,
+    height: 36,
+    borderRadius: 18,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btn_s: {
+    width: 115,
+    height: 34,
+    borderRadius: 17,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btn_input: {
+    width: 60,
+    height: 28,
+    borderRadius: 14,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+};
 
 export default class CGradientButton extends Component {
   //渐变按钮可点击
@@ -37,7 +93,7 @@ export default class CGradientButton extends Component {
 
   static propTypes = {
     wrapStyle: ViewPropTypes.style,
-    gradientStyle: ViewPropTypes.style,
+    gradientType: PropTypes.string,
     onPress: PropTypes.func,
     colorsArray: PropTypes.array, // 父组件传进来的默认按钮颜色数组
     colorsPressArray: PropTypes.array, // 父组件传进来的按钮点击的颜色数组
@@ -87,19 +143,27 @@ export default class CGradientButton extends Component {
 
   render() {
     const {pressDown} = this.state
-    const {contentText, disabled, start, end, locations, numberOfLines, gradientStyle, textStyle} = this.props
-    const {colorsArray, colorsPressArray, colorsDisableArray,} = this.props
+    const {contentText, disabled, start, end, locations, numberOfLines, gradientType, textStyle} = this.props
+    const {colorsArray, colorsPressArray, colorsDisableArray, onPress} = this.props
     return (
-      <LinearGradient
-        start={start}
-        end={end}
-        colors={disabled ? (colorsDisableArray || this._disabledColorArray) : (pressDown ? (colorsPressArray || this._onPressInColorArray) : (colorsArray || this._defaultColorArray))}
-        locations={locations}
-        style={gradientStyle}>
-        <Text style={textStyle} numberOfLines={numberOfLines}>
-          {contentText}
-        </Text>
-      </LinearGradient>
+      <CTouchableWithoutFeedback
+        delayPressIn={0}
+        onPressIn={() => this.setState({pressDown: true})}
+        onPress={!disabled ? onPress : null}
+        onPressOut={() => this.setState({pressDown: false})}
+      >
+        <LinearGradient
+          start={start}
+          end={end}
+          colors={disabled ? (colorsDisableArray || this._disabledColorArray) : (pressDown ? (colorsPressArray || this._onPressInColorArray) : (colorsArray || this._defaultColorArray))}
+          locations={locations}
+          style={BUTTON_STYLE[gradientType]}>
+          <Text style={[textStyle]}
+                numberOfLines={numberOfLines}>
+            {contentText}
+          </Text>
+        </LinearGradient>
+      </CTouchableWithoutFeedback>
     );
   }
 }

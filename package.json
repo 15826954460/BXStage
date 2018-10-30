@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "bundle-android": "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --sourcemap-output android/app/src/main/assets/index.android.map --assets-dest android/app/src/main/res/"
   },
   "dependencies": {
     "dateformat": "3.0.3",
@@ -13,7 +14,8 @@
     "react-native": "0.56.0",
     "react-native-code-push": "5.4.2",
     "react-native-device-info": "0.22.5",
-    "react-native-linear-gradient": "^2.4.2",
+    "react-native-linear-gradient": "2.4.2",
+    "react-native-root-siblings": "3.0.0",
     "react-native-splash-screen": "3.1.1",
     "react-native-vector-icons": "5.0.0",
     "react-navigation": "2.12.1"

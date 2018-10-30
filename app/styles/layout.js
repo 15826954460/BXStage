@@ -1,7 +1,6 @@
 /**
  * Created by hebao on 2018/3/22.
  */
-
 const Layout = {
   /**字体大小**/
   font: {
@@ -84,59 +83,6 @@ const Layout = {
     wred: '#f85f30',
     worange: '#ffa015',
     wgreen: '#41c557'
-  },
-
-  /** 按钮类型 **/
-  button: {
-    btn_bottom: {
-      // width,
-      // height: 44 + (CommonSize.isIPhoneX ? CommonSize.screen.iPhoneXHomeIndicatorAreaHeight:0),
-      // paddingBottom: CommonSize.isIPhoneX ? CommonSize.screen.iPhoneXHomeIndicatorAreaHeight:0,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    btn_l: {
-      // width: width - 24,
-      height: 44,
-      borderRadius: 22,
-      marginHorizontal: 12,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    btn_m: {
-      width: 160,
-      height: 36,
-      borderRadius: 18,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    btn_xs: {
-      width: 123,
-      height: 36,
-      borderRadius: 18,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    btn_s: {
-      width: 115,
-      height: 34,
-      borderRadius: 17,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    btn_input: {
-      width: 60,
-      height: 28,
-      borderRadius: 14,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }
   },
 
   /** 间距规范 **/

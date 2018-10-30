@@ -5,7 +5,6 @@
  */
 
 /**
- * 2018-48-23
  * 设备的像素密度，例如：
  * PixelRatio.get() === 1    mdpi Android 设备 (160 dpi)
  * PixelRatio.get() === 1.5  hdpi Android 设备 (240 dpi)
@@ -109,11 +108,11 @@ const Util = {
   },
   /** baiyunsong 检测手机号 */
   checkMobile: (mobile) => {
-    return /^1[345678]\d{9}$/.test(mobile);
+    return /^1[345678]\d{9}$/.test(Number(mobile));
   },
   /**  验证纯数字 */
   checkPureNumber: (num) => {
-    return /^[0-9]*$/.test(num);
+    return /^[0-9]*$/.test(Number(num));
   },
   /** baiyunsong 敏感信息的脱敏处理，暂时只针对手机号：保留前三位和后四位 */
   takeSensitive(value) {

@@ -25,7 +25,7 @@ export default class CTouchableWithoutFeedback extends Component {
   }
 
   /** 判断是否允许进行页面的跳转 */
-  _isAllowToJump() {
+  _isAllowToJump = () => {
     if (this.isJump) {
       this._changeJump()
       return true
@@ -35,7 +35,7 @@ export default class CTouchableWithoutFeedback extends Component {
   }
 
   /** 通过定时器来控制页面的跳转，防止react-navigation连续快速点击会导致页面多次跳转 */
-  _changeJump() {
+  _changeJump = () => {
     this.isJump = false
     this.timer = setTimeout(() => {
       this.isJump = true
@@ -44,16 +44,16 @@ export default class CTouchableWithoutFeedback extends Component {
     }, 500)
   }
 
-  _onPress() {
-    const {disabled, onPress} = this.props
-    !disabled && this._isAllowToJump() && onPress instanceof Function && onPress()
+  _onPress = () => {
+    const {onPress} = this.props
+    this._isAllowToJump() && onPress instanceof Function && onPress()
   }
 
   render() {
     return (
       <TouchableWithoutFeedback
         {...this.props}
-        onPress={() => this._onPress()}
+        onPress={this._onPress}
       >
         {this.props.children}
       </TouchableWithoutFeedback>
