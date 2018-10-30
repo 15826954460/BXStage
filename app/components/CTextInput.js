@@ -11,6 +11,8 @@ import {Layout} from "../styles/layout";
 import PropTypes from 'prop-types';
 
 /** 自定义组建的引用 */
+import CGradientButton from  './CGradientButton';
+
 export default class BXTextInput extends Component {
 
   /** 属性检测 */
@@ -23,6 +25,7 @@ export default class BXTextInput extends Component {
     handle: PropTypes.func,
     keyboardAppearance: PropTypes.oneOf(['default', 'light', 'dark']),
     autoFocus: PropTypes.bool,
+    isButton: PropTypes.bool,
   }
   /** 设置默认属性，底层也是通过this.props.xxx 来设置 */
   static defaultProps = {
@@ -33,6 +36,7 @@ export default class BXTextInput extends Component {
     handle: null,
     keyboardAppearance: 'default',
     autoFocus: false,
+    isButton: false,
   }
 
   constructor(props) {
@@ -119,7 +123,7 @@ export default class BXTextInput extends Component {
   }
 
   render() {
-    const {isShowPasswordIcon, secureTextEntry, placeholder, keyboardType, maxLength, autoFocus} = this.props
+    const {isShowPasswordIcon, secureTextEntry, placeholder, keyboardType, maxLength, autoFocus, isButton} = this.props
     const {isShowClearIcon, inputValue} = this.state
     return (
       <View style={[styles.inputWrapper, this.state.inputFocus ? styles.inputFocus : styles.inputBlur]}>
@@ -145,22 +149,35 @@ export default class BXTextInput extends Component {
           style={[styles.iconWrapper, isShowPasswordIcon ? styles.iconWrapperSpaceBetween : styles.iconWrapperFlexEnd]}
         >
           {/*这里可以继续天加View来包裹一个小icon eg: 手机或者密码的icon*/}
+          {/*删除图标*/}
           {
-            isShowClearIcon ? <TouchableWithoutFeedback
+            !isButton && isShowClearIcon ? <TouchableWithoutFeedback
               onPress={this._clear}>
               <Image
                 style={styles.iconStyle}
                 source={require('../images/login/login_img_clear.png')}/>
             </TouchableWithoutFeedback> : null
           }
+          {/*密码显示隐藏图标*/}
           {
-            isShowClearIcon && isShowPasswordIcon ? <TouchableWithoutFeedback
+            !isButton && isShowClearIcon && isShowPasswordIcon ? <TouchableWithoutFeedback
               onPress={this._onPressSecure}>
               <Image
                 style={[styles.iconStyle]}
                 source={secureTextEntry ? require('../images/login/login_img_showpsw.png') : require('../images/login/login_img_hidepsw.png')
                 }/>
             </TouchableWithoutFeedback> : null
+          }
+          {/*按钮*/}
+          {
+            isButton ? <View>
+              <CGradientButton
+                gradientType={'btn_input'}
+                contentText={'获取'}
+                textStyle={{fontSize: 14, color: '#fff'}}
+                disabled={false}
+              />
+            </View> : null
           }
         </View>
 
