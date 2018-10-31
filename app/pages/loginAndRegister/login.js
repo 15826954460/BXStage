@@ -31,23 +31,14 @@ export default class Login extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount() {}
 
-  }
+  componentWillMount() {}
 
-  componentWillMount() {
+  componentWillUnmount() {}
 
-  }
+  componentWillReceiveProps(nextProps, nextState) {}
 
-  componentWillUnmount() {
-
-  }
-  componentWillReceiveProps(nextProps, nextState) {
-
-  }
-  shouldComponentUpdate(nextProps) {
-
-  }
   // 是否显示密码
   _changeSecure = () => {
     this.setState({

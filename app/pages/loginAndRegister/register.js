@@ -12,7 +12,8 @@ import {Layout} from "../../styles/layout";
 /** 工具方法的引用 */
 import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
-import {StorageData} from '../../utils/staticPage';
+import StaticPages from '../../utils/staticPage';
+import StorageData from '../../store/storageData';
 
 /** 第三方依赖库的引用 */
 
@@ -22,7 +23,6 @@ const {width, height} = Dimensions.get('window');//屏幕宽度
 /** 自定义组建的引用 */
 import BXTextInput from '../../components/CTextInput';
 import BottomText from '../../components/BottomText/BottomText';
-import StaticPages from '../../utils/staticPage';
 import CGradientButton from '../../components/CGradientButton';
 
 export default class Register extends Component {
@@ -39,17 +39,11 @@ export default class Register extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount() {}
 
-  }
+  componentWillMount() {}
 
-  componentWillMount() {
-
-  }
-
-  componentWillUnmount() {
-
-  }
+  componentWillUnmount() {}
 
   // 输入手机号
   _getTel = (val) => {

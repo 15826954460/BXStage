@@ -1,5 +1,5 @@
 /** react 组建的引用 */
-import React, {Component} from "react";
+import React from "react";
 import {
   AsyncStorage
 } from "react-native";
@@ -8,7 +8,7 @@ import {
 
 /** 第三方依赖库的引用 */
 
-class StorageData extends Component {
+export default class StorageData {
   // setItem(key: string, value: string, [callback]: ?(error: ?Error) => void)
   static saveUserInfo = async (data) => {
     await StorageData.mergeUserInfo('userInfo', data)
@@ -40,5 +40,3 @@ class StorageData extends Component {
     });
   }
 }
-
-export {StorageData}

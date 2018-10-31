@@ -1,18 +1,18 @@
 /** react 组建的引用 */
-import React, {Component} from "react";
+import React from "react";
 import {
   StyleSheet, Image,
   Text,
   View,
 } from "react-native";
-import {Layout} from "../styles/layout";
 
 /** 全局样式的引用 */
+import {Layout} from "../styles/layout";
 
 /** 第三方依赖库的引用 */
 
 /** 自定义组建的引用 */
-export default class StaticPages extends Component {
+export default class StaticPages {
   // 登陆页面的头部
   static LoginAndRegisterHeader = (text) => {
     return <View style={styles.registerHeader}>
@@ -35,13 +35,6 @@ export default class StaticPages extends Component {
         {text}
       </Text>
     </View>
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return false
-  }
-  render() {
-    return null;
   }
 }
 const styles = StyleSheet.create({

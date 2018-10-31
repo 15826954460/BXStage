@@ -1,5 +1,5 @@
 /** react 组建的引用 */
-import React, {Component} from "react";
+import React from "react";
 import {
   StatusBar,Platform,
 } from "react-native";
@@ -35,13 +35,6 @@ class StatusBarUtil {
      * [animation]（StatusBarAnimation） - 改变状态栏显示状态的动画过渡效果
      */
     StatusBar.setHidden(hideStatusBar, false)
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return false
-  }
-  render() {
-    return null;
   }
 }
 export {StatusBarUtil}

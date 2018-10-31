@@ -20,7 +20,6 @@ import CGradientButton from '../../components/CGradientButton';
 import StaticPages from '../../utils/staticPage';
 import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
-import {Layout} from "../../styles/layout";
 
 export default class Vue2 extends Component {
 
@@ -67,7 +66,7 @@ export default class Vue2 extends Component {
     let passwordLegal = Util.checkPassword(this.state.password)
     if (!passwordLegal) {
       bouncedUtils.notices.show({
-        type: 'warning', content: '验证码错误，请重新输入'
+        type: 'warning', content: '请输入数字、字母组合密码'
       })
       return
     }

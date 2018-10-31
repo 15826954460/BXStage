@@ -160,7 +160,7 @@ export default class CGradientButton extends Component {
           end={end}
           colors={disabled ? (colorsDisableArray || this._disabledColorArray) : (pressDown ? (colorsPressArray || this._onPressInColorArray) : (colorsArray || this._defaultColorArray))}
           locations={locations}
-          style={BUTTON_STYLE[gradientType]}>
+          style={[BUTTON_STYLE[gradientType]]}>
           <Text style={textStyle}
                 numberOfLines={numberOfLines}>
             {contentText}

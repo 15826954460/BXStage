@@ -16,12 +16,16 @@ import SplashScreen from 'react-native-splash-screen';
 import {createStackNavigator} from 'react-navigation';
 
 /** 页面以及自定义组件的引用 */
-import LoginAndRegister from './loginAndRegister';
-import ValidationCodePage from './loginAndRegister/validationCode';
-import SettingLoginPassword from './loginAndRegister/settingLoginPassword';
-import InstalmentPage from './instalment/index';
-import LoginOutPage from './loginOut/index';
-import SettingPage from './setting/index';
+import LoginAndRegister from './loginAndRegister'; // 登陆和注册
+import ValidationCodePage from './loginAndRegister/validationCode'; // 获取验证码
+import SettingLoginPassword from './loginAndRegister/settingLoginPassword'; // 设置登陆密码
+import BXWebView from './bxWebView';
+import InstalmentPage from './instalment/index'; // 分期还款
+import LoginOutPage from './loginOut/index'; // 退出登陆
+import SettingPage from './setting/index'; // 设置
+import MorePerson from './errorPage/morePerson'; // 人数较多的提示页面
+import EmptyPage from './errorPage/empty'; // 人数较多的提示页面
+import NetErrorPage from './errorPage/netError'; // 人数较多的提示页面
 // import CToast from '../pages/testView/tostTest';
 
 /** 工具类的引用 */
@@ -32,13 +36,17 @@ const Stack = createStackNavigator(
     LoginAndRegister: { screen: LoginAndRegister },
     ValidationCodePage: { screen: ValidationCodePage },
     SettingLoginPassword: { screen: SettingLoginPassword },
+    BXWebView: { screen: BXWebView },
     LoginOutPage: {screen:LoginOutPage},
     InstalmentPage: { screen: InstalmentPage },
     SettingPage: { screen: SettingPage },
+    MorePerson: { screen: MorePerson },
+    EmptyPage: { screen: EmptyPage },
+    NetErrorPage: { screen: NetErrorPage },
     // CToast: { screen: CToast },
   },
   {
-    initialRouteName: 'SettingLoginPassword',
+    initialRouteName: 'NetErrorPage',
     headerMode: 'none',
     mode: 'none',
     navigationOptions: {
