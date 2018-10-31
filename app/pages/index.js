@@ -26,7 +26,7 @@ import SettingPage from './setting/index'; // 设置
 import MorePerson from './errorPage/morePerson'; // 人数较多的提示页面
 import EmptyPage from './errorPage/empty'; // 人数较多的提示页面
 import NetErrorPage from './errorPage/netError'; // 人数较多的提示页面
-// import CToast from '../pages/testView/tostTest';
+import CToast from '../components/CToast';
 
 /** 工具类的引用 */
 import {StatusBarUtil} from '../utils/statusBar';
@@ -43,10 +43,10 @@ const Stack = createStackNavigator(
     MorePerson: { screen: MorePerson },
     EmptyPage: { screen: EmptyPage },
     NetErrorPage: { screen: NetErrorPage },
-    // CToast: { screen: CToast },
+    CToast: { screen: CToast },
   },
   {
-    initialRouteName: 'NetErrorPage',
+    initialRouteName: 'LoginAndRegister',
     headerMode: 'none',
     mode: 'none',
     navigationOptions: {

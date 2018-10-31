@@ -83,6 +83,7 @@ class CNotice extends Component {
   };
 
 
+  // 获取父组件传进来的参数，并做响应的处理
   _promit = (params) => {
     const {type, content} = params
     let {backgroundColor, shadowColor, icon, text} = this.state;

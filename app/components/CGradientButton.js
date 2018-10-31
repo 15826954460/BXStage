@@ -93,28 +93,32 @@ export default class CGradientButton extends Component {
   _disabledColorArray = [BTN_DISABLE_START, BTN_DISABLED_END];
 
   static propTypes = {
-    wrapStyle: PropTypes.object,
-    gradientType: PropTypes.string,
-    textStyle: PropTypes.object,
-    onPress: PropTypes.func,
+    isGradientButton: PropTypes.bool, // 默认是渐变色按钮
+    additionalStyle: PropTypes.object, // 特殊的按钮所自定义的样式
+    gradientType: PropTypes.string, // 按钮的类型
+    onPress: PropTypes.func, // 点击事件
     colorsArray: PropTypes.array, // 父组件传进来的默认按钮颜色数组
     colorsPressArray: PropTypes.array, // 父组件传进来的按钮点击的颜色数组
     colorsDisableArray: PropTypes.array, // 父组件传进来的按钮的禁用颜色数组
-    contentText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    disabled: PropTypes.bool,
-    start: PropTypes.object,
-    end: PropTypes.object,
+    textStyle: PropTypes.object, // 按钮文字的样式
+    contentText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // 按钮的文字
+    disabled: PropTypes.bool, // 是否禁用
+    start: PropTypes.object, // 关于渐变动画开始的初始值
+    end: PropTypes.object, // 关于渐变动画开始的初始值
     locations: PropTypes.array,
-    numberOfLines: PropTypes.number,
+    numberOfLines: PropTypes.number, // 文字显示行数
   };
 
   static defaultProps = {
+    disabled: false,
+    isGradientButton: true, // 默认是渐变色按钮
     contentText: '',
     dynamic: false,
     start: {x: 0.0, y: 0.0}, // 关于渐变动画的初始值
     end: {x: 1.0, y: 0.0}, // 关于渐变动画的初始值
     locations: [0, 1.0], // 关于渐变动画的初始值（location 要和 colors 长度对应）
     numberOfLines: 0,
+    additionalStyle: {}, // 默认特殊按钮的样式为空对象，防止页面运行报错
   };
 
   constructor(props) {
@@ -122,7 +126,6 @@ export default class CGradientButton extends Component {
     this.state = {
       pressDown: false,
     };
-    props.getCGradientInstance instanceof Function && props.getCGradientInstance(this)
   }
 
   /** 自定义组件是否进行重新render的时机 */
@@ -132,21 +135,15 @@ export default class CGradientButton extends Component {
     return false
   }
 
-  componentDidMount() {
-    
-  }
+  componentDidMount() {}
 
-  componentWillMount() {
+  componentWillMount() {}
 
-  }
-
-  componentWillUnmount() {
-
-  }
+  componentWillUnmount() {}
 
   render() {
     const {pressDown} = this.state
-    const {contentText, disabled, start, end, locations, numberOfLines, gradientType, textStyle} = this.props
+    const {contentText, disabled, start, end, locations, numberOfLines, gradientType, textStyle, isGradientButton, additionalStyle} = this.props
     const {colorsArray, colorsPressArray, colorsDisableArray, onPress} = this.props
     return (
       <CTouchableWithoutFeedback
@@ -158,9 +155,11 @@ export default class CGradientButton extends Component {
         <LinearGradient
           start={start}
           end={end}
-          colors={disabled ? (colorsDisableArray || this._disabledColorArray) : (pressDown ? (colorsPressArray || this._onPressInColorArray) : (colorsArray || this._defaultColorArray))}
+          colors={
+            !isGradientButton ? (pressDown ? colorsPressArray : colorsArray) : disabled ? (colorsDisableArray || this._disabledColorArray) : (pressDown ? (colorsPressArray || this._onPressInColorArray) : (colorsArray || this._defaultColorArray))
+          }
           locations={locations}
-          style={[BUTTON_STYLE[gradientType]]}>
+          style={[BUTTON_STYLE[gradientType], additionalStyle]}>
           <Text style={textStyle}
                 numberOfLines={numberOfLines}>
             {contentText}

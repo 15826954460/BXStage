@@ -62,16 +62,17 @@ const Layout = {
     gray_status: '#41c557',
     green_itembg: '#83de8b',
     black: '#000000',
+
     orange_gradient_start: '#ff684a',//橙色渐变块渐变色起始色
     orange_gradient_end: '#f94133',//橙色渐变块渐变色结束色
 
     /**app按钮色**/
-    btno_start: '#ffaf0a',//橙色按钮普通状态渐变色起始色
-    btno_end: '#ff4631',//橙色按钮普通状态渐变色结束色
-    btno_p_start: '#ffa100',//橙色按钮按下状态渐变色起始色
-    btno_p_end: '#ff3820',//橙色按钮按下状态渐变色结束色
-    btno_d_start: '#ffd785',//橙色按钮不可点渐变色起始色
-    btno_d_end: '#ffa398',//橙色按钮不可点渐变色结束色
+    // btno_start: '#ffaf0a',//橙色按钮普通状态渐变色起始色
+    // btno_end: '#ff4631',//橙色按钮普通状态渐变色结束色
+    // btno_p_start: '#ffa100',//橙色按钮按下状态渐变色起始色
+    // btno_p_end: '#ff3820',//橙色按钮按下状态渐变色结束色
+    // btno_d_start: '#ffd785',//橙色按钮不可点渐变色起始色
+    // btno_d_end: '#ffa398',//橙色按钮不可点渐变色结束色
 
     /**app文字色**/
     wblack: '#000000',

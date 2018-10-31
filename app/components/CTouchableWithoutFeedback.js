@@ -46,7 +46,6 @@ S
 
   _onPress = () => {
     const {onPress} = this.props
-    console.log(1111, '=======')
     this._isAllowToJump() && onPress instanceof Function && onPress()
   }
 

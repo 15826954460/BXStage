@@ -1,9 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet,Image,
-  Text, TouchableWithoutFeedback,
-  View,
+  StyleSheet,Image, Text, View,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -14,7 +12,6 @@ import {
 import CNavigation from '../../components/CNavigation';
 import CGradientButton from '../../components/CGradientButton';
 import {Layout} from "../../styles/layout";
-
 
 export default class NetErrorPage extends Component {
 
@@ -67,13 +64,26 @@ export default class NetErrorPage extends Component {
           </View>
 
           <View style={styles.btnWrapper}>
-            <TouchableWithoutFeedback
-              onPress={() => {/* 这里根据实际业务请求接口，然后做对应的页面跳转 */}}
+
+            <CGradientButton
+              colorsArray={[Layout.color.white_bg, Layout.color.white_bg]}
+              gradientType={'btn_xs'}
+              isGradientButton={false}
+              contentText={'点击刷新'}
+              colorsPressArray={[Layout.color.gray_press, Layout.color.gray_press]}
+              additionalStyle={{
+                borderWidth: 0.5,
+                borderColor: Layout.color.gray_line,
+              }}
+              textStyle={{
+                fontSize: 16,
+                fontFamily: 'PingFangSC-Regular',
+                color: Layout.color.wgray_main,
+              }}
             >
-              <View style={styles.customBtn}>
-                <Text style={styles.textStyle}>{"点击刷新"}</Text>
-              </View>
-            </TouchableWithoutFeedback>
+
+            </CGradientButton>
+
           </View>
 
 
@@ -105,14 +115,4 @@ const styles = StyleSheet.create({
     marginTop: 51,
     ...Layout.layout.ccc,
   },
-  customBtn: {
-    borderColor: '#EAEAEA',
-    borderWidth: 0.5,
-    width: 115,
-    height: 34,
-    borderRadius: 17,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
 });
