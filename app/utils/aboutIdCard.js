@@ -3477,7 +3477,8 @@ const IdCardUtils = {
     idcard_array = _v.split("");
     // 地区检验
     if (GB2260[parseInt(_v.substr(0, 2))] == null) {
-      return "身份证号码地区非法!!,格式例如:32";
+      return false
+      // return "身份证号码地区非法!!,格式例如:32";
     }
     // 身份号码位数及格式检验
     switch (_v.length) {

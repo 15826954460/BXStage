@@ -199,23 +199,22 @@ class CToast extends Component {
           </ImageBackground>
         </Animated.View>
 
-
       </Animated.View>
     );
   }
 }
 
-export default class SiblingsToast extends Component {
+export default class SiblingsAlert extends Component {
   static siblingInstance = null;
 
   // 创建及显示
   static showSiblings = (params) => {
-    SiblingsToast.siblingInstance = new RootSiblings(<CToast params={params}/>)
+    SiblingsAlert.siblingInstance = new RootSiblings(<CToast params={params}/>)
   };
 
   // 销毁及隐藏
   static hideSiblings = () => {
-    SiblingsToast.siblingInstance && SiblingsToast.siblingInstance.destroy();
+    SiblingsAlert.siblingInstance && SiblingsAlert.siblingInstance.destroy();
   };
 
   render() {

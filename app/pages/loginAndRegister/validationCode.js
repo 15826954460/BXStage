@@ -29,6 +29,7 @@ export default class ValidationCode extends Component {
 
   constructor(props) {
     super(props);
+    this.titleText = '输入验证码'
     this.state = {
       validationCode: '',
       disabled: true,
@@ -38,9 +39,12 @@ export default class ValidationCode extends Component {
   }
 
   componentDidMount() {
+    const {title} = this.props.navigation.state.params
+    this.titleText = title
   }
 
   componentWillMount() {
+
   }
 
   componentWillUnmount() {
@@ -110,7 +114,7 @@ export default class ValidationCode extends Component {
                     keyboardDismissMode={'on-drag'}
                     keyboardShouldPersistTaps={'handled'}>
 
-          {StaticPages.validationAndSetting('输入验证码', '验证码已发送到手机158****4460')}
+          {StaticPages.validationAndSetting(this.titleText, '验证码已发送到手机158****4460')}
 
           <View style={{flex: 1, position: 'relative', ...Layout.layout.ccc}}>
 

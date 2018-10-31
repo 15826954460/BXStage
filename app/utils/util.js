@@ -118,7 +118,7 @@ const Util = {
   checkPassword: (val) => {
     return /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/.test(val);
   },
-  /** baiyunsong 敏感信息的脱敏处理，暂时只针对手机号：保留前三位和后四位 */
+  /** 敏感信息的脱敏处理，暂时只针对手机号：保留前三位和后四位 */
   takeSensitive(value) {
     if (!value) return
     let newValue = value.toString()

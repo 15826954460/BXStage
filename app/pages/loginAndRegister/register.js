@@ -113,14 +113,8 @@ export default class Register extends Component {
       return
     }
     if(!codeLegal || !telephoneLegal) {
-      // bouncedUtils.notices.show({
-      //   type: 'warning', content: '手机号或邀请码错误，请重新输入'
-      // })
-      bouncedUtils.toast.show({
-        title: '中国人民万岁', // 默认不显示
-        isOnlyOneBtn: true, // 默认是一个按钮
-        borderRadius: 12, // 圆角默认取值 12
-        contentText: '发的酸辣粉见识到了发斯蒂芬但是',
+      bouncedUtils.notices.show({
+        type: 'warning', content: '手机号或邀请码错误，请重新输入'
       })
       return
     }
