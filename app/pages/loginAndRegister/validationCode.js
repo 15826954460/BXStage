@@ -1,9 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, ScrollView,
-  Keyboard,
-  View,
+  StyleSheet, ScrollView, Keyboard, View,Text,Image,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -15,13 +13,17 @@ import CNavigation from '../../components/CNavigation';
 import BXTextInput from '../../components/CTextInput';
 import CGradientButton from '../../components/CGradientButton';
 
+/** 高阶组件的引用 */
+import HOCNavigationFocus from '../../components/HOC/HOCNavigationEvents';
+
 /** 获取自定义的静态方法 */
 import StaticPages from '../../utils/staticPage';
 import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
 import {Layout} from "../../styles/layout";
+import StorageData from "../../store/storageData";
 
-
+// @HOCNavigationFocus
 export default class ValidationCode extends Component {
   _count = 60;
   _isAllowPress = true;
@@ -38,20 +40,22 @@ export default class ValidationCode extends Component {
     };
   }
 
+  componentWillMount() {}
+
   componentDidMount() {
-    const {title} = this.props.navigation.state.params
-    this.titleText = title
-  }
-
-  componentWillMount() {
-
+    if (this.props.navigation.state.params) {
+      const {title} = this.props.navigation.state.params
+      this.titleText = title
+    }
   }
 
   componentWillUnmount() {
   }
 
-  componentWillReceiveProps(nextProps, nextState) {
+  componentWillBlur() {
   }
+
+  componentWillReceiveProps(nextProps, nextState) {}
 
   /** 监听用户输入 */
   _onChangeText = (val) => {
@@ -76,8 +80,16 @@ export default class ValidationCode extends Component {
       return
     }
 
-    /** 根据时间来判断，根据后端返回错误信息来处理，前端暂不做演示 */
     if (validateLegal) {
+      this.props.navigation.navigate('SettingLoginPassword')
+      /** 页面进行跳转之后，对数据和状态进行重置 */
+      this.setState({defaultText: '获取', getDisabled: false, disabled: true})
+      clearInterval(this._timer)
+      this._timer = null;
+      this._count = 60;
+      this._isAllowPress = true;
+      this.state.validationCode = ''
+      this._inputInstance._inputInstance.clear()
     }
   }
 
@@ -103,9 +115,8 @@ export default class ValidationCode extends Component {
   render() {
     return (
       <CNavigation
-        leftorright={'left'}
+        LeftOrRight={'left'}
         leftButton={{
-          isShowTitle: false,
           isShowIcon: true,
         }}
       >
@@ -116,9 +127,10 @@ export default class ValidationCode extends Component {
 
           {StaticPages.validationAndSetting(this.titleText, '验证码已发送到手机158****4460')}
 
-          <View style={{flex: 1, position: 'relative', ...Layout.layout.ccc}}>
+          <View style={{flex: 1, ...Layout.layout.ccc,}}>
 
             <BXTextInput
+              ref = {ref => this._inputInstance = ref}
               maxLength={4}
               isButton={true}
               placeholder={'请输入验证码'}
@@ -150,13 +162,13 @@ export default class ValidationCode extends Component {
             </CGradientButton>
           </View>
 
-
         </ScrollView>
 
       </CNavigation>
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

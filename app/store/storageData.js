@@ -9,33 +9,48 @@ import {
 /** 第三方依赖库的引用 */
 
 export default class StorageData {
-  // setItem(key: string, value: string, [callback]: ?(error: ?Error) => void)
-  static saveUserInfo = async (data) => {
-    await StorageData.mergeUserInfo('userInfo', data)
-    await AsyncStorage.setItem('userInfo', JSON.stringify(data), (error) => {
-      window.console.log(`请使用正确的数据格式，错误信息为${error}`)
-    });
-  }
-
-  // static getItem(key: string, [callback]: ?(error: ?Error, result: ?string) => void)
-  static getUserInfo = async (key) => {
-    await AsyncStorage.getItem(key, (error, result) => {
-      if (result) {
-        return result
-      } else {
-        window.console.log(error)
+  static saveData = async (key, data) => {
+    await AsyncStorage.setItem(key, JSON.stringify(data), (error) => {
+      if (error) {
+        window.console.log(`储存信息---【${key}】----失败，失败信息为【${error}】!!!!!!`)
+      }
+      else {
+        window.console.log(`储存信息---【${key}---】----成功！！！！`)
       }
     });
   }
 
-  // static mergeItem(key: string, value: string, [callback]: ?(error: ?Error) => void
-  static mergeUserInfo = async (key, data) => {
-    AsyncStorage.mergeItem(key, JSON.stringify(data), (error, result) => {
-      if (result) {
+  static getData = (key) => {
+    return new Promise((resolve, reject) =>{
+      AsyncStorage.getItem(key, (error, result) => {
+        if (result) {
+          return resolve(JSON.parse(result))
+        } else {
+          window.console.log(`获取信息---【${key}】----失败，失败信息为【${error}】!!!!!!`)
+          return reject(error)
+        }
+      })
+    });
+  }
+
+  static mergeData = async (key, data) => {
+    await AsyncStorage.mergeItem(key, JSON.stringify(data), (error, result) => {
+      if (!error) {
+        window.console.log(`合并数据---【${key}】----成功！！！！`)
+      }
+      else if (error) {
+        window.console.log(`合并数据---【${key}】----失败！！！！`)
+      }
+    });
+  }
+
+  static removeData = (key) => {
+    AsyncStorage.removeItem(key, (error, result) => {
+      if (!result) {
 
       }
       else if (error) {
-        window.console.log()
+        window.console.log(`删除本地数据出现异常，异常信息为${error}！！！！！`)
       }
     });
   }

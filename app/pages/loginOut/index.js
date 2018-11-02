@@ -9,7 +9,6 @@ import {
 
 /** 第三方依赖库的引用 */
 import {Layout} from "../../styles/layout";
-import LinearGradient from 'react-native-linear-gradient';
 
 /** 自定义组建的引用 */
 import BXTextInput from '../../components/CTextInput';
@@ -17,18 +16,33 @@ import BottomText from '../../components/BottomText/BottomText';
 import CNavigation from '../../components/CNavigation';
 import CGradientButton from '../../components/CGradientButton';
 
+/** 工具方法的引用 */
+import {Util} from '../../utils/util';
+import StorageData from '../../store/storageData';
+import {bouncedUtils} from '../../utils/bouncedUtils';
+
 export default class LoginOut extends Component {
 
   constructor(props) {
     super(props);
+    this._password = '',
     this.state = {
+      secureTextEntry: true,
       disabled: true,
+      userInfo: {}, // 保存用户信息的变量
+      password: '', // 用户登陆密码
     };
   }
 
   componentDidMount() {
-    // 可以根据页面是否获取焦点来做一些事
-    // console.log(111111111, this.props.navigation.isFocused())
+    /** 获取本地的用户信息 */
+    StorageData.getData('userInfo').then((res) => {
+      if (res) {
+        this.setState({userInfo: res})
+      }
+    }).catch((error) => {
+      console.log(`获取信息---【${key}】----失败，失败信息为【${error}】!!!!!!`)
+    })
   }
 
   componentWillMount() {
@@ -37,9 +51,47 @@ export default class LoginOut extends Component {
   componentWillUnmount() {
   }
 
+  /** 监听用户输入 */
+  _onChangeText = (val) => {
+    /** 假设验证码都是 4 位数字 */
+    this.state.password = val
+    if (val.length >= 6) {
+      this.setState({disabled: false})
+    }
+    else if (val.length < 6) {
+      this.setState({disabled: true})
+    }
+  }
 
-  _login = () => {
+  /** 登陆验证 */
+  _loginValidation = () => {
+    StorageData.getData('userInfo').then(res => {
+      if (res) {
+        // console.log(11113333,res)
+        console.log(1111444, res.passWord, this.state.password)
+        this._password = res.passWord
+        this._judgePassword(this.state.password, this._password)
+      } else {
+        // 错误提示就不再赘述了
+      }
+    })
+  }
 
+  /** 将用户的输入的密码和存储在本地的做比较 */
+  _judgePassword = (password, storePassword) => {
+    if (password === storePassword) {
+      /** 跳转到首页,是否需要清空用户上次的输入信息，根据实际自行补充 */
+      this.props.navigation.navigate('InstalmentPage')
+      bouncedUtils.notices.show({
+        type: 'success', content: '欢迎回来'
+      })
+      return
+    }
+    if (password !== storePassword) {
+      bouncedUtils.notices.show({
+        type: 'warning', content: '密码错误，请重新输入'
+      })
+    }
   }
 
   render() {
@@ -53,6 +105,8 @@ export default class LoginOut extends Component {
       >
         <ScrollView
           style={styles.scrollViewWrapper}
+          keyboardDismissMode={'on-drag'}
+          keyboardShouldPersistTaps={'handled'}
         >
           <View style={styles.logoIconWrapper}>
 
@@ -65,16 +119,21 @@ export default class LoginOut extends Component {
                 style={styles.logoIconBackground}
                 source={require('../../images/loginOut/sign_img_mask.png')}/>
             </View>
-            <Text style={styles.phoneNum}>{'158****4460'}</Text>
+            <Text style={styles.phoneNum}>
+              {this.state.userInfo.tel ? Util.takeSensitive(this.state.userInfo.tel) : ''}
+            </Text>
 
           </View>
 
           <BXTextInput
             placeholder={'请输入密码'}
+            keyboardType={'default'}
+            maxLength={16}
             isShowPasswordIcon={true}
             secureTextEntry={this.state.secureTextEntry}
-            changeDisable={(bool) => {this.setState({disabled: bool})}}
-            handle={this._changeSecure}
+            changeSecureTextEntry={() => this.setState({secureTextEntry: !this.state.secureTextEntry})}
+            clearInputValue={() => this.setState({disabled: true, password: ''})}
+            handle={this._onChangeText}
           />
 
           <TouchableWithoutFeedback>
@@ -84,11 +143,11 @@ export default class LoginOut extends Component {
           </TouchableWithoutFeedback>
 
           <CGradientButton
-            disabled={this.state.disabled}
-            gradientStyle={styles.linearGradient}
+            gradientType={'btn_l'}
             contentText={'登陆'}
             textStyle={styles.buttonStyle}
-            handle={this._login}
+            disabled={this.state.disabled}
+            onPress={this._loginValidation}
           />
 
         </ScrollView>

@@ -1,6 +1,4 @@
-/**
- * Created by bird-mac on 2018/8/22.
- */
+/** 页面生命周期的高阶函数 */
 import React, {Component} from 'react';
 import { View } from 'react-native';
 import { NavigationEvents } from 'react-navigation';

@@ -18,6 +18,7 @@ import CGradientButton from '../../components/CGradientButton';
 
 /** 获取自定义的静态方法 */
 import StaticPages from '../../utils/staticPage';
+import StorageData from '../../store/storageData';
 import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
 
@@ -74,6 +75,20 @@ export default class Vue2 extends Component {
       bouncedUtils.notices.show({
         type: 'success', content: '注册成功'
       })
+
+      /** 跳转到首页,是否需要清空用户上次的输入信息，根据实际自行补充 */
+      this.props.navigation.navigate('InstalmentPage')
+
+      /** 储存用户登陆密码，到达这里，用户已经注册成功 */
+      StorageData.mergeData('userInfo', {passWord: this.state.password, hasRegister: true})
+
+      /** 重置数据状态进行重置 */
+      // this._inputInstance._inputInstance.clear()
+      // this.state.password = ''
+      // this.setState({
+      //   disabled: true,
+      //   secureTextEntry: true,
+      // })
     }
   }
 
@@ -94,6 +109,7 @@ export default class Vue2 extends Component {
           {StaticPages.validationAndSetting('设置登陆密码', '请设置6~16位数字、字母组合密码')}
 
           <BXTextInput
+            ref={ref => this._inputInstance = ref}
             placeholder={'请设置登陆密码'}
             keyboardType={'default'}
             maxLength={16}

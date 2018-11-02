@@ -122,7 +122,7 @@ const Util = {
   takeSensitive(value) {
     if (!value) return
     let newValue = value.toString()
-    value = newValue.replace(value.slice(2, value.length - 4), '***')
+    value = newValue.replace(newValue.slice(3, newValue.length - 4), '****')
     return value
   },
   /** 针对某些特定的需求进行 ios 和 android 的适配 */

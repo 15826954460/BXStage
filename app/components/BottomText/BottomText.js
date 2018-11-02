@@ -33,17 +33,11 @@ export default class BottomText extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
+  componentDidMount() {}
 
-  }
+  componentWillMount() {}
 
-  componentWillMount() {
-
-  }
-
-  componentWillUnmount() {
-
-  }
+  componentWillUnmount() {}
 
   /** 页面切换 */
   _goToOtherPage = () => {
@@ -77,8 +71,6 @@ const styles = StyleSheet.create({
     color: Layout.color.wgray_main,
     height: 20,
     lineHeight: 20,
-    // marginBottom: 23,
-    // alignSelf: 'center'
   },
   bottomTextRightColor: {
     color: Layout.color.worange,

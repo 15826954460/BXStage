@@ -1,9 +1,9 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet,AsyncStorage,
+  StyleSheet, AsyncStorage,
   Text, Image,
-  View, ScrollView, Dimensions, TouchableWithoutFeedback, TouchableHighlight, TouchableOpacity
+  View, ScrollView, Dimensions, TouchableWithoutFeedback,
 } from "react-native";
 import {Layout} from "../../styles/layout";
 
@@ -16,6 +16,7 @@ import StaticPages from '../../utils/staticPage';
 import StorageData from '../../store/storageData';
 
 /** 第三方依赖库的引用 */
+import {withNavigation} from 'react-navigation';
 
 /** 一些常量的声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
@@ -25,7 +26,13 @@ import BXTextInput from '../../components/CTextInput';
 import BottomText from '../../components/BottomText/BottomText';
 import CGradientButton from '../../components/CGradientButton';
 
-export default class Register extends Component {
+/** 高阶组件的引用 */
+// import HOCNavigationFocus from '../../components/HOC/HOCNavigationEvents';
+
+
+// @HOCNavigationFocus
+class Register extends Component {
+  _userInfo = null
 
   constructor(props) {
     super(props);
@@ -39,15 +46,23 @@ export default class Register extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    StorageData.getData('userInfo').then((res) => {
+      console.log(res)
+    }).catch((error) => {
+      console.log(`获取信息---【${key}】----失败，失败信息为【${error}】!!!!!!`)
+    })
+  }
 
-  componentWillMount() {}
+  componentWillMount() {
+  }
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+  }
 
   // 输入手机号
   _getTel = (val) => {
-    const {code, agreement} = this.state
+    const {code} = this.state
     this.state.telephoneNumber = val
     if (code.length >= 6 && val.length >= 11) {
       this.setState({disabled: false})
@@ -69,27 +84,6 @@ export default class Register extends Component {
     }
   }
 
-  // 选择同意协议
-  _changeAgreement = () => {
-    this.setState({
-      agreement: !this.state.agreement,
-    })
-  }
-
-  _clearInputTel = () => {
-    this.setState({
-      telephoneNumber: '',
-      disabled: true,
-    })
-  }
-
-  _clearInputCode = () => {
-    this.setState({
-      code: '',
-      disabled: true,
-    })
-  }
-
   /** 跳转到币下分期服务协议 */
   _goToAgreement = () => {
 
@@ -101,28 +95,42 @@ export default class Register extends Component {
     /** 这里会根据用户的操作进行一些本地数据的保存，方便后面做交互验证 */
     let codeLegal = Util.checkPureNumber(this.state.code)
     let telephoneLegal = Util.checkMobile(this.state.telephoneNumber)
-    if (codeLegal && telephoneLegal && this.state.agreement) {
-      bouncedUtils.notices.show({
-        type: 'success', content: '注册成功'
-      })
 
-      /** 储存用户信息 */
-      StorageData.saveUserInfo({
-        tel: this.state.telephoneNumber, inviteCode: this.state.code
-      })
-      return
-    }
-    if(!codeLegal || !telephoneLegal) {
-      bouncedUtils.notices.show({
-        type: 'warning', content: '手机号或邀请码错误，请重新输入'
-      })
-      return
-    }
-    if (!this.state.agreement) {
-      bouncedUtils.notices.show({
-        type: 'warning', content: '请阅读并同意用户协议'
-      })
-    }
+    /** 判断用户是否已经注册 */
+    StorageData.getData('userInfo').then(res => {
+      if (res && res.hasRegister) {
+          bouncedUtils.notices.show({
+            type: 'warning', content: '您已注册，请登录'
+          })
+        } else {
+        if (codeLegal && telephoneLegal && this.state.agreement) {
+          this.props.navigation.navigate('ValidationCodePage', {
+            title: '输入验证码',
+          })
+          /** 储存用户信息 */
+          StorageData.saveData('userInfo', {
+            tel: this.state.telephoneNumber,
+          })
+          return
+        }
+        /** 手机号或者注册码错误提示 */
+        if (!codeLegal || !telephoneLegal) {
+          bouncedUtils.notices.show({
+            type: 'warning', content: '手机号或邀请码错误，请重新输入'
+          })
+          return
+        }
+        /** 用户协议提示 */
+        if (!this.state.agreement) {
+          bouncedUtils.notices.show({
+            type: 'warning', content: '请阅读并同意用户协议'
+          })
+        }
+      }
+    }).catch(error => {
+      /****/
+    })
+
   }
 
   render() {
@@ -141,7 +149,7 @@ export default class Register extends Component {
             keyboardType={'numeric'}
             maxLength={11}
             handle={this._getTel}
-            clearInputValue={this._clearInputTel}
+            clearInputValue={() => this.setState({telephoneNumber: '', disabled: true})}
           />
 
           <BXTextInput
@@ -151,7 +159,7 @@ export default class Register extends Component {
             isShowPasswordIcon={true}
             secureTextEntry={this.state.secureTextEntry}
             changeSecureTextEntry={() => this.setState({secureTextEntry: !this.state.secureTextEntry})}
-            clearInputValue={this._clearInputCode}
+            clearInputValue={() => this.setState({code: '', disabled: true})}
             handle={this._getCode}
           />
 
@@ -171,7 +179,7 @@ export default class Register extends Component {
 
           <View style={styles.agreementWrapper}>
             <TouchableWithoutFeedback
-              onPress={this._changeAgreement}
+              onPress={() => this.setState({agreement: !this.state.agreement})}
             >
               <Image
                 style={styles.agreementIcon}
@@ -189,6 +197,7 @@ export default class Register extends Component {
                 </Text>
               </View>
             </TouchableWithoutFeedback>
+
           </View>
 
         </ScrollView>
@@ -203,6 +212,8 @@ export default class Register extends Component {
     );
   }
 }
+
+export default withNavigation(Register)
 const styles = StyleSheet.create({
   container: {
     flex: 1,

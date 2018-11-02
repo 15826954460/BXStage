@@ -149,7 +149,7 @@ export default class CGradientButton extends Component {
       <CTouchableWithoutFeedback
         delayPressIn={0}
         onPressIn={() => this.setState({pressDown: true})}
-        onPress={!disabled ? onPress : null}
+        handle={!disabled ? onPress : null}
         onPressOut={() => this.setState({pressDown: false})}
       >
         <LinearGradient

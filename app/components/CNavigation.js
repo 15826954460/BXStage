@@ -48,10 +48,13 @@ class LeftButtonItem extends Component {
       }, // 默认icon样式
     };
     this.state = {};
-    console.log(5555, props.navigation)
   }
 
-  _onBackPress = () => {
+  componentDidMount() {
+  }
+
+  _navigate = () => {
+    () => console.log(11118888)
     const {handle} = Object.assign(this.defaultLeftButton, this.props.leftButton)
     /** 执行特定的事件 */
     if (handle && handle instanceof Function) {
@@ -66,17 +69,21 @@ class LeftButtonItem extends Component {
   render() {
     const {isShowTitle, title, titleStyle, iconStyle, isShowIcon} = Object.assign(this.defaultLeftButton, this.props.leftButton)
     return (
-      <View>
-        {
-          isShowTitle ? <Text style={titleStyle}> {title} </Text> : isShowIcon ?
-            <CTouchableWithoutFeedback onPress={this._onBackPress}>
+      <CTouchableWithoutFeedback handle={this._navigate}>
+        <View style={styles.btn}>
+          {
+            isShowTitle ? <Text style={titleStyle}
+                                numberOfLines={1}> {title} </Text> : isShowIcon ?
               <Image source={LEFT_ICON} style={iconStyle}/>
-            </CTouchableWithoutFeedback> : null
-        }
-      </View>
+              : null
+          }
+        </View>
+      </CTouchableWithoutFeedback>
     );
   }
 }
+
+withNavigation(LeftButtonItem)
 
 class RightButtonItem extends Component {
   static propTypes = {
@@ -109,20 +116,35 @@ class RightButtonItem extends Component {
     this.state = {};
   }
 
+  _navigate = () => {
+    // const {handle} = Object.assign(this.defaultLeftButton, this.props.leftButton)
+    // /** 执行特定的事件 */
+    // if (handle && handle instanceof Function) {
+    //   handle()
+    // }
+    // /** 左边按钮默认返回上一页 */
+    // else {
+    //   this.props.navigation.pop()
+    // }
+  }
+
   render() {
     const {isShowTitle, title, titleStyle, iconStyle, isShowIcon, handle} = Object.assign(this.defaultRightButton, this.props.rightButton)
     return (
-      <View>
-        {
-          isShowTitle ? <Text style={titleStyle}> {title} </Text> : isShowIcon ?
-            <CTouchableWithoutFeedback onPress={handle}>
-              <Image source={RIGHT_ICON} style={iconStyle}/>
-            </CTouchableWithoutFeedback> : null
-        }
-      </View>
+      <CTouchableWithoutFeedback handle={this._navigate}>
+        <View style={[styles.btn, {justifyContent: 'flex-end',}]}>
+          {
+            isShowTitle ? <Text style={titleStyle}
+                                numberOfLines={1}> {title} </Text> : isShowIcon ?
+              <Image source={RIGHT_ICON} style={iconStyle}/> : null
+          }
+        </View>
+      </CTouchableWithoutFeedback>
     );
   }
 }
+
+withNavigation(RightButtonItem)
 
 class TitleItem extends Component {
   static propTypes = {
@@ -149,18 +171,18 @@ class TitleItem extends Component {
   render() {
     const {title, titleStyle, handle} = Object.assign(this.defaultcenterTitle, this.props.centerTitle)
     return (
-      <View>
-        <CTouchableWithoutFeedback onPress={handle}>
-          <View>
-            <Text style={titleStyle}>
-              {title ? title : null}
-            </Text>
-          </View>
-        </CTouchableWithoutFeedback>
-      </View>
+      <CTouchableWithoutFeedback onPress={handle}>
+        <View>
+          <Text style={[titleStyle]} numberOfLines={1}>
+            {title ? title : null}
+          </Text>
+        </View>
+      </CTouchableWithoutFeedback>
     );
   }
 }
+
+withNavigation(TitleItem)
 
 class CNavigation extends Component {
 
@@ -194,27 +216,32 @@ class CNavigation extends Component {
     const {LeftOrRight, commonBackgroundColor, navBackgroundColor} = this.props
     return (
       <SafeAreaView style={[{flex: 1, backgroundColor: commonBackgroundColor}]}>
+
         <View style={styles.container}>
+
           <View style={[styles.navContainer, {backgroundColor: navBackgroundColor}]}>
+
             <View style={styles.buttonWrapper}>
               {
                 LeftOrRight === 'left' || 'all' ? <LeftButtonItem {...this.props}/> : <View/>
               }
+              <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <TitleItem {...this.props}/>
+              </View>
               {
                 LeftOrRight === 'right' || 'all' ? <RightButtonItem {...this.props}/> : <View/>
               }
             </View>
-            <View style={styles.titleItemWrapper}>
-              <TitleItem {...this.props}/>
-            </View>
+
           </View>
+
           {this.props.children}
+
         </View>
       </SafeAreaView>
     );
   }
 }
-
 export default withNavigation(CNavigation)
 
 const styles = StyleSheet.create({
@@ -224,23 +251,19 @@ const styles = StyleSheet.create({
     paddingTop: 44,
   },
   navContainer: {
+    position: 'absolute',
+    top: 0,
     width: width,
     height: 44,
     paddingHorizontal: Layout.gap.gap_edge,
-    position: 'absolute',
-    top: 0,
-    zIndex: 10000,
   },
   buttonWrapper: {
     flex: 1,
-    ...Layout.layout.rsbc,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  titleItemWrapper: {
-    position: 'absolute',
-    top: 0,
-    height: 44,
-    width: width,
-    lineHeight: 44,
-    ...Layout.layout.rcc,
-  },
+  btn: {
+    flexDirection: 'row',
+    width: 60
+  }
 });

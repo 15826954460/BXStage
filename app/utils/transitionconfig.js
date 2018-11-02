@@ -343,8 +343,9 @@ export const FadeToTheLeft = () => {//navigator 的默认动画
   }
 };
 
+/** 水平方向过页面切换动画，配合透明度 */
 export const Horizontal_RToL_TranslateX = () => {
-  if (Platform.OS === 'android') return Horizontal_RToL_Opacity();
+  if (Platform.OS === 'android') return Horizontal_RToL_Opacity;
   return {
     transitionSpecTransX,
     // Define scene interpolation, eq. custom transition
@@ -359,6 +360,7 @@ export const Horizontal_RToL_TranslateX = () => {
         index + 0.999,
         index + 1
       ];
+
       const outputRange = I18nManager.isRTL ? [-width, 0, width * 2 / 5, width * 2 / 5] : [width, 0, -width * 2 / 5, -width * 2 / 5];
 
       // part-2: define transition animation
@@ -366,6 +368,7 @@ export const Horizontal_RToL_TranslateX = () => {
         inputRange,
         outputRange: [1, 1, 0.3, 0],
       });
+
       const translateX = position.interpolate({
         inputRange,
         outputRange,

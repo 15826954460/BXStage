@@ -8,6 +8,7 @@
     "bundle-android": "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --sourcemap-output android/app/src/main/assets/index.android.map --assets-dest android/app/src/main/res/"
   },
   "dependencies": {
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "dateformat": "3.0.3",
     "prop-types": "15.6.2",
     "react": "16.4.1",

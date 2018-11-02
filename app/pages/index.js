@@ -19,8 +19,8 @@ import {createStackNavigator} from 'react-navigation';
 import LoginAndRegister from './loginAndRegister'; // 登陆和注册
 import ValidationCodePage from './loginAndRegister/validationCode'; // 获取验证码
 import SettingLoginPassword from './loginAndRegister/settingLoginPassword'; // 设置登陆密码
-import ValidationTelephone from './loginAndRegister/validationTelephone'; // 手机号验证
-import validationIdCard from './loginAndRegister/validationIdCard'; // 手机号验证
+import ValidationTelephone from './loginAndRegister/validationTelephone'; // 手机号验证(忘记密码后需要跳转到的页面)
+import validationIdCard from './loginAndRegister/validationIdCard'; // 身份证验证
 import BXWebView from './bxWebView';
 import InstalmentPage from './instalment/index'; // 分期还款
 import LoginOutPage from './loginOut/index'; // 退出登陆
@@ -28,10 +28,10 @@ import SettingPage from './setting/index'; // 设置
 import MorePerson from './errorPage/morePerson'; // 人数较多的提示页面
 import EmptyPage from './errorPage/empty'; // 人数较多的提示页面
 import NetErrorPage from './errorPage/netError'; // 人数较多的提示页面
-// import CAlert from '../components/CAlert';
 
 /** 工具类的引用 */
 import {StatusBarUtil} from '../utils/statusBar';
+import {Horizontal_RToL_TranslateX} from "../utils/transitionconfig";
 
 const Stack = createStackNavigator(
   {
@@ -47,10 +47,9 @@ const Stack = createStackNavigator(
     MorePerson: { screen: MorePerson },
     EmptyPage: { screen: EmptyPage },
     NetErrorPage: { screen: NetErrorPage },
-    // CToast: { screen: CAlert },
   },
   {
-    initialRouteName: 'validationIdCard',
+    initialRouteName: 'LoginAndRegister',
     headerMode: 'none',
     mode: 'none',
     navigationOptions: {
@@ -61,30 +60,7 @@ const Stack = createStackNavigator(
       // console.log(4444, transitionProps, prevTransitionProps)
     },
     // 动画配置
-    transitionConfig: () => ({
-      transitionSpec: {
-        duration: 300,
-        easing: Easing.out(Easing.poly(4)),
-        timing: Animated.timing,
-      },
-      screenInterpolator: sceneProps => {
-        const { layout, position, scene } = sceneProps;
-        const { index } = scene;
-
-        const height = layout.initHeight;
-        const translateY = position.interpolate({
-          inputRange: [index - 1, index, index + 1],
-          outputRange: [height, 0, 0],
-        });
-
-        const opacity = position.interpolate({
-          inputRange: [index - 1, index - 0.99, index],
-          outputRange: [0, 1, 1],
-        });
-
-        return { opacity, transform: [{ translateY }] };
-      },
-    }),
+    transitionConfig: Horizontal_RToL_TranslateX,
   }
 )
 

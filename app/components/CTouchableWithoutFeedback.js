@@ -41,12 +41,12 @@ S
       this.isJump = true
       clearTimeout(this.timer)
       this.timer = null
-    }, 500)
+    }, 1000)
   }
 
   _onPress = () => {
-    const {onPress} = this.props
-    this._isAllowToJump() && onPress instanceof Function && onPress()
+    const {handle} = this.props
+    this._isAllowToJump() && handle instanceof Function && handle()
   }
 
   render() {
