@@ -1,12 +1,6 @@
 /** react 组建的引用 */
 import React from "react";
-import {
-  AsyncStorage
-} from "react-native";
-
-/** 全局样式的引用 */
-
-/** 第三方依赖库的引用 */
+import { AsyncStorage } from "react-native";
 
 export default class StorageData {
   static saveData = async (key, data) => {
@@ -44,10 +38,10 @@ export default class StorageData {
     });
   }
 
-  static removeData = (key) => {
-    AsyncStorage.removeItem(key, (error, result) => {
-      if (!result) {
-
+  static removeData = async (key) => {
+    await AsyncStorage.removeItem(key, (error, result) => {
+      if (result) {
+        window.console.log(`删除数据---【${key}】----成功！！！！`)
       }
       else if (error) {
         window.console.log(`删除本地数据出现异常，异常信息为${error}！！！！！`)

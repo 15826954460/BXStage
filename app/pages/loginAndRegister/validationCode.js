@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, ScrollView, Keyboard, View,Text,Image,
+  StyleSheet, ScrollView, Keyboard, View,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -21,7 +21,6 @@ import StaticPages from '../../utils/staticPage';
 import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
 import {Layout} from "../../styles/layout";
-import StorageData from "../../store/storageData";
 
 // @HOCNavigationFocus
 export default class ValidationCode extends Component {
@@ -71,16 +70,10 @@ export default class ValidationCode extends Component {
 
   /** 验证验证码, 实际开发中自行获取接口, 这里为了演示效果还是前端来做校验  */
   _validationCode = () => {
-    Keyboard.dismiss()
     let validateLegal = Util.checkPureNumber(this.state.validationCode)
-    if (!validateLegal) {
-      bouncedUtils.notices.show({
-        type: 'warning', content: '验证码错误，请重新输入'
-      })
-      return
-    }
 
     if (validateLegal) {
+      Keyboard.dismiss()
       this.props.navigation.navigate('SettingLoginPassword')
       /** 页面进行跳转之后，对数据和状态进行重置 */
       this.setState({defaultText: '获取', getDisabled: false, disabled: true})
@@ -90,7 +83,16 @@ export default class ValidationCode extends Component {
       this._isAllowPress = true;
       this.state.validationCode = ''
       this._inputInstance._inputInstance.clear()
+      return
     }
+
+    if (!validateLegal) {
+      bouncedUtils.notices.show({
+        type: 'warning', content: '验证码错误，请重新输入'
+      })
+    }
+
+
   }
 
   _getValidationCode = () => {

@@ -1,9 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, AsyncStorage,
-  Text, Image,
-  View, ScrollView, Dimensions, TouchableWithoutFeedback,
+  StyleSheet, Text, Image, View, ScrollView, Dimensions, TouchableWithoutFeedback, Keyboard,
 } from "react-native";
 import {Layout} from "../../styles/layout";
 
@@ -84,7 +82,7 @@ class Register extends Component {
     }
   }
 
-  /** 跳转到币下分期服务协议 */
+  /** 跳转到币下分期服务协议 后期再补充 */
   _goToAgreement = () => {
 
   }
@@ -99,11 +97,13 @@ class Register extends Component {
     /** 判断用户是否已经注册 */
     StorageData.getData('userInfo').then(res => {
       if (res && res.hasRegister) {
-          bouncedUtils.notices.show({
-            type: 'warning', content: '您已注册，请登录'
-          })
-        } else {
+        Keyboard.dismiss()
+        bouncedUtils.notices.show({
+          type: 'warning', content: '您已注册，请登录'
+        })
+      } else {
         if (codeLegal && telephoneLegal && this.state.agreement) {
+          Keyboard.dismiss()
           this.props.navigation.navigate('ValidationCodePage', {
             title: '输入验证码',
           })
@@ -131,6 +131,10 @@ class Register extends Component {
       /****/
     })
 
+    /** 查看如何获取邀请码为嵌入网页，后期再补充 */
+    _toWebView = () => {
+
+    }
   }
 
   render() {
@@ -163,7 +167,7 @@ class Register extends Component {
             handle={this._getCode}
           />
 
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback handle={this._toWebView}>
             <View style={styles.forgetSecret}>
               <Text style={styles.forgetSecretCode}>{'如何获取邀请码'}</Text>
             </View>
@@ -190,7 +194,7 @@ class Register extends Component {
               {'已阅读并同意协议'}
             </Text>
 
-            <TouchableWithoutFeedback onPress={this._goToAgreement}>
+            <TouchableWithoutFeedback handle={this._goToAgreement}>
               <View>
                 <Text style={styles.agreementText}>
                   《<Text style={{textDecorationLine: 'underline'}}>{'币下分期服务协议'}</Text>》

@@ -12,9 +12,10 @@ import {Layout} from "../../styles/layout";
 /** 工具方法的引用 */
 import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
+import StorageData from '../../store/storageData';
 
 /** 第三方依赖库的引用 */
-import { withNavigation } from 'react-navigation';
+import {withNavigation} from 'react-navigation';
 
 /** 一些常量的声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
@@ -50,17 +51,6 @@ class Login extends Component {
   componentWillReceiveProps(nextProps, nextState) {
   }
 
-  /** 是否显示密码 */
-  _changeSecure = () => {
-    this.setState({
-      secureTextEntry: !this.state.secureTextEntry
-    })
-  }
-
-  // 跳转到币下分期服务协议
-  _goToAgreement = () => {
-
-  }
 
   /** 输入手机号 */
   _getTel = (val) => {
@@ -77,7 +67,7 @@ class Login extends Component {
   /** 输入密码 */
   _getPassword = (val) => {
     const {telephoneNumber} = this.state
-    this.state.code = val
+    this.state.password = val
     if (telephoneNumber.length >= 11 && val.length >= 6) {
       this.setState({disabled: false})
     }
@@ -88,26 +78,32 @@ class Login extends Component {
 
   /** 输入验证 */
   _validation = () => {
-    /** 这里会根据用户的操作进行一些本地数据的保存，方便后面做交互验证 */
-    let passwordLegal = Util.idCardIsLegal(this.state.code)
-    let telephoneLegal = Util.checkMobile(this.state.telephoneNumber)
-    if (passwordLegal && telephoneLegal) {
-      bouncedUtils.notices.show({
-        type: 'success', content: '注册成功'
-      })
-      this.props.navigation.push('InstalmentPage')
-      /** 储存用户信息 */
-      // StorageData.saveUserInfo({
-      //   tel: this.state.telephoneNumber, inviteCode: this.state.code
-      // })
-      return
-    }
-    if(!passwordLegal || !telephoneLegal) {
-      bouncedUtils.notices.show({
-        type: 'warning', content: '手机号或邀请码错误，请重新输入'
-      })
-      return
-    }
+    /** 获取本地的用户信息进行验证 */
+    StorageData.getData('userInfo').then((res) => {
+
+      let {tel, passWord} = res
+      let {password, telephoneNumber} = this.state
+
+      console.log(11111333, tel, passWord, password, telephoneNumber)
+      console.log(11144444, password === passWord, telephoneNumber === tel)
+
+      if (password === passWord && telephoneNumber === tel) {
+        bouncedUtils.notices.show({
+          type: 'success', content: '欢迎回来'
+        })
+        this.props.navigation.push('InstalmentPage')
+        return
+      }
+
+      if (password !== passWord || telephoneNumber !== tel) {
+        bouncedUtils.notices.show({
+          type: 'warning', content: '手机号或邀请码错误，请重新输入'
+        })
+      }
+    }).catch((error) => {
+      /** 捕获错误信息以及 reject 返回的 信息 */
+      console.log(`获取信息---【${key}】----失败，失败信息为【${error}】!!!!!!`)
+    })
   }
 
   render() {
@@ -132,7 +128,7 @@ class Login extends Component {
 
           <BXTextInput
             placeholder={'请输入密码'}
-            keyboardType={'numeric'}
+            keyboardType={'default'}
             maxLength={16}
             isShowPasswordIcon={true}
             secureTextEntry={this.state.secureTextEntry}
@@ -142,7 +138,7 @@ class Login extends Component {
           />
 
           <TouchableWithoutFeedback
-              onPress={() => this.props.navigation.push('ValidationTelephone')}
+            onPress={() => this.props.navigation.push('ValidationTelephone')}
           >
             <View style={styles.invitationCodeWrapper}>
               <Text style={styles.invitationCode}>{'忘记密码？'}</Text>

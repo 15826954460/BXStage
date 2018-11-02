@@ -63,15 +63,10 @@ export default class Vue2 extends Component {
 
   /** 验证验证码, 实际开发中自行获取接口, 这里为了演示效果还是前端来做校验  */
   _validationPassword = () => {
-    Keyboard.dismiss()
     let passwordLegal = Util.checkPassword(this.state.password)
-    if (!passwordLegal) {
-      bouncedUtils.notices.show({
-        type: 'warning', content: '请输入数字、字母组合密码'
-      })
-      return
-    }
+
     if (passwordLegal) {
+      Keyboard.dismiss()
       bouncedUtils.notices.show({
         type: 'success', content: '注册成功'
       })
@@ -89,6 +84,14 @@ export default class Vue2 extends Component {
       //   disabled: true,
       //   secureTextEntry: true,
       // })
+
+      return
+    }
+
+    if (!passwordLegal) {
+      bouncedUtils.notices.show({
+        type: 'warning', content: '请输入数字、字母组合密码'
+      })
     }
   }
 
