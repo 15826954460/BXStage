@@ -20,7 +20,6 @@ import CGradientButton from '../../components/CGradientButton';
 import StaticPages from '../../utils/staticPage';
 import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
-import StorageData from '../../store/storageData';
 
 export default class Vue2 extends Component {
 

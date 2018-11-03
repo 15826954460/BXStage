@@ -69,7 +69,7 @@ export default class LoginOut extends Component {
     StorageData.getData('userInfo').then(res => {
       let {passWord} = res
       this._judgePassword(this.state.password, passWord)
-    }).catch((res)=> {
+    }).catch((res) => {
       /** **/
     })
   }
@@ -95,12 +95,14 @@ export default class LoginOut extends Component {
   }
 
   /** 重置路由跳转到注册页 */
-  _goToRegister=()=> {
+  _goToRegister = (page) => {
     Routers.stackRoots.dispatch(
       StackActions.reset({
         index: 0,
         actions: [
-          NavigationActions.navigate({routeName: 'LoginAndRegister', params: {initPage: 'register'}}),
+          NavigationActions.navigate({
+            routeName: 'LoginAndRegister', params: {initPage: page}
+          }),
         ]
       })
     )
@@ -113,7 +115,7 @@ export default class LoginOut extends Component {
         rightButton={{
           isShowTitle: true,
           title: '注册',
-          handle: this._goToRegister,
+          handle: () => this._goToRegister('register'),
         }}
       >
         <ScrollView
@@ -166,9 +168,7 @@ export default class LoginOut extends Component {
         </ScrollView>
 
         <BottomText
-          handle={() => this.props.navigation.navigate('LoginAndRegister', {
-            initialPage: 'login'
-          })}
+          handle={() => this._goToRegister('login')}
           clickText={'切换账号'}
         />
       </CNavigation>
