@@ -1,10 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Dimensions, StatusBar,
-  Text,
-  View,
-  Animated,
+  StyleSheet, Dimensions, StatusBar, View, Animated,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -23,8 +20,7 @@ const {width, height} = Dimensions.get('window');
 const ANDROID_STATUS_BAR_HEIGHT = StatusBar.currentHeight; // 获取当前设备状态栏的高度
 const
   IPHONEX_STATUSBAR_HEIGHT = 44, /** iPhoneX 刘海状态栏高度 */
-  IPHONEX_BOTTOM_AREA_HEIGHT = 34;
-/** iPhoneX 底部 Home Indicator 横条安全区域高度 */
+  IPHONEX_BOTTOM_AREA_HEIGHT = 34; /** iPhoneX 底部 Home Indicator 横条安全区域高度 */
 
 /** 获取页面安全区域可用高度,根据不同的手机做适配 */
 const AVAILABLE_HEIGHT = Util.isAndroid() ? ANDROID_STATUS_BAR_HEIGHT : Util.isIPhoneX() ? (height - (IPHONEX_STATUSBAR_HEIGHT + IPHONEX_BOTTOM_AREA_HEIGHT)) : (height - 20);
@@ -33,14 +29,27 @@ export default class LoginAndRegister extends Component {
 
   constructor(props) {
     super(props);
+    let loginOpacity, registerOpacity, initPage;
+    if (props.navigation.state.params) {
+      initPage = props.navigation.state.params.initPage
+      loginOpacity = (initPage && initPage === 'login') ? 1 : 0
+      registerOpacity = (initPage && initPage === 'register') ? 1 : 0
+    }
+    else {
+      initPage = 'register'
+      loginOpacity = 0
+      registerOpacity = 1
+    }
+
     this.state = {
-      loginOpacity: new Animated.Value(0),
-      registerOpacity: new Animated.Value(1),
-      initialPage: 'register'
+      loginOpacity: new Animated.Value(loginOpacity),
+      registerOpacity: new Animated.Value(registerOpacity),
+      initPage: initPage
     };
   }
 
   componentDidMount() {
+
   }
 
   componentWillMount() {
@@ -67,7 +76,7 @@ export default class LoginAndRegister extends Component {
       this._loginInstance.setNativeProps({style: {zIndex: 10,}})
       this._registerInstance.setNativeProps({style: {zIndex: 100,}})
     })
-    this.setState({initialPage: 'register'})
+    this.setState({initPage: 'register'})
   }
 
   /** 跳转到登陆页面 */
@@ -86,9 +95,8 @@ export default class LoginAndRegister extends Component {
       this._loginInstance.setNativeProps({style: {zIndex: 100,}})
       this._registerInstance.setNativeProps({style: {zIndex: 10,}})
     })
-    this.setState({initialPage: 'login'})
+    this.setState({initPage: 'login'})
   }
-
 
   render() {
     return (
@@ -107,7 +115,7 @@ export default class LoginAndRegister extends Component {
                     outputRange: [60, 0]
                   })
                 }],
-                zIndex: this.state.initialPage === 'register' ? 100 : 10
+                zIndex: this.state.initPage === 'register' ? 100 : 10
               }
             ]}
           >
@@ -127,7 +135,7 @@ export default class LoginAndRegister extends Component {
                     outputRange: [60, 0]
                   })
                 }],
-                zIndex: this.state.initialPage === 'login' ? 100 : 10
+                zIndex: this.state.initPage === 'login' ? 100 : 10
               }
             ]}
           >

@@ -1,11 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
-  Easing,
-  Animated,
+  StyleSheet, View,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -13,7 +9,7 @@ import {Layout} from '../styles/layout';
 
 /** 第三方依赖库的引用 */
 import SplashScreen from 'react-native-splash-screen';
-import {createStackNavigator} from 'react-navigation';
+import {createStackNavigator, StackActions, NavigationActions} from 'react-navigation';
 
 /** 页面以及自定义组件的引用 */
 import LoginAndRegister from './loginAndRegister'; // 登陆和注册
@@ -31,25 +27,32 @@ import NetErrorPage from './errorPage/netError'; // 人数较多的提示页面
 
 /** 工具类的引用 */
 import {StatusBarUtil} from '../utils/statusBar';
-import {Horizontal_RToL_TranslateX} from "../utils/transitionconfig";
+import {Horizontal_RToL_TranslateX, IOS_Default} from "../utils/transitionconfig";
+import StorageData from '../store/storageData';
+import {Routers} from '../store/routes';
 
 const Stack = createStackNavigator(
   {
-    LoginAndRegister: { screen: LoginAndRegister },
-    ValidationCodePage: { screen: ValidationCodePage },
-    SettingLoginPassword: { screen: SettingLoginPassword },
-    ValidationTelephone: { screen: ValidationTelephone },
-    validationIdCard: { screen: validationIdCard },
-    BXWebView: { screen: BXWebView },
-    LoginOutPage: {screen:LoginOutPage},
-    InstalmentPage: { screen: InstalmentPage },
-    SettingPage: { screen: SettingPage },
-    MorePerson: { screen: MorePerson },
-    EmptyPage: { screen: EmptyPage },
-    NetErrorPage: { screen: NetErrorPage },
+    AuthStatus: {screen: () => <View/>}, // 初始化空页面，根据用户是否已经登录进行判断首页为那个页面
+    LoginAndRegister: {
+      screen: LoginAndRegister, navigationOptions: {
+        transitionConfig: IOS_Default, // 为该页面单独配置动画
+      }
+    },
+    ValidationCodePage: {screen: ValidationCodePage},
+    SettingLoginPassword: {screen: SettingLoginPassword},
+    ValidationTelephone: {screen: ValidationTelephone},
+    validationIdCard: {screen: validationIdCard},
+    BXWebView: {screen: BXWebView},
+    LoginOutPage: {screen: LoginOutPage},
+    InstalmentPage: {screen: InstalmentPage},
+    SettingPage: {screen: SettingPage},
+    MorePerson: {screen: MorePerson},
+    EmptyPage: {screen: EmptyPage},
+    NetErrorPage: {screen: NetErrorPage},
   },
   {
-    initialRouteName: 'LoginAndRegister',
+    initialRouteName: 'AuthStatus',
     headerMode: 'none',
     mode: 'none',
     navigationOptions: {
@@ -73,12 +76,35 @@ export default class Vue2 extends Component {
     StatusBarUtil.initialStatusBar() // 初始化装填栏的样式
   }
 
-  componentDidMount() {
-    SplashScreen.hide() // 隐藏白屏
-    // 为了效果，向本地存储一些验证数据的信息
+  componentWillMount() {
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    Routers.stackRoots = this._stackRoots
+    /** 根据用户的状态判断进入那个页面, 实际开发中比这些要复杂
+     *  请根据请求接口自行配置和处理
+     *  eg: 判断是不是前后台运行来获取最新数据
+     *      是否超过过期时间需重新登录
+     *      版本是否有升级，是否清空本地缓存等等实际业逻辑这里就不再过多赘述
+     * */
+    StorageData.getData('userInfo').then((res) => {
+      if (res) {
+        let {hasLogin} = res
+        let _initPage = hasLogin ? 'login' : 'register'
+        /** 路由栈的重置 */
+        this._stackRoots.dispatch(
+          StackActions.reset({
+            index: 0,
+            actions: [
+              NavigationActions.navigate({routeName: 'LoginAndRegister', params: {initPage: _initPage}}),
+            ]
+          })
+        )
+      }
+    })
+
+
+    SplashScreen.hide() // 隐藏白屏
   }
 
   componentWillUnmount() {
@@ -86,7 +112,7 @@ export default class Vue2 extends Component {
   }
 
   render() {
-    return <Stack/>;
+    return <Stack ref={ref => this._stackRoots = ref}/>;
   }
 }
 const styles = StyleSheet.create({

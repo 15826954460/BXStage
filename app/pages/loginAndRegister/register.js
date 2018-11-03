@@ -30,7 +30,6 @@ import CGradientButton from '../../components/CGradientButton';
 
 // @HOCNavigationFocus
 class Register extends Component {
-  _userInfo = null
 
   constructor(props) {
     super(props);
@@ -46,7 +45,6 @@ class Register extends Component {
 
   componentDidMount() {
     StorageData.getData('userInfo').then((res) => {
-      console.log(res)
     }).catch((error) => {
       console.log(`获取信息---【${key}】----失败，失败信息为【${error}】!!!!!!`)
     })
@@ -87,6 +85,19 @@ class Register extends Component {
 
   }
 
+  /** 清空数据 */
+  _clearData=() => {
+    this.setState({
+      secureTextEntry: true,
+      disabled: true,
+      agreement: true,
+    })
+    this.state.telephoneNumber = ''
+    this.state.code = ''
+    this.isShowIcon = false
+    this._telInputInstance._clear()
+    this._invitationCodeInstance._clear()
+  }
 
   /** 输入验证 */
   _validation = () => {
@@ -96,36 +107,38 @@ class Register extends Component {
 
     /** 判断用户是否已经注册 */
     StorageData.getData('userInfo').then(res => {
-      if (res && res.hasRegister) {
+      let {hasRegister} = res
+      if (hasRegister) {
         Keyboard.dismiss()
         bouncedUtils.notices.show({
           type: 'warning', content: '您已注册，请登录'
         })
-      } else {
-        if (codeLegal && telephoneLegal && this.state.agreement) {
-          Keyboard.dismiss()
-          this.props.navigation.navigate('ValidationCodePage', {
-            title: '输入验证码',
-          })
-          /** 储存用户信息 */
-          StorageData.saveData('userInfo', {
-            tel: this.state.telephoneNumber,
-          })
-          return
-        }
-        /** 手机号或者注册码错误提示 */
-        if (!codeLegal || !telephoneLegal) {
-          bouncedUtils.notices.show({
-            type: 'warning', content: '手机号或邀请码错误，请重新输入'
-          })
-          return
-        }
-        /** 用户协议提示 */
-        if (!this.state.agreement) {
-          bouncedUtils.notices.show({
-            type: 'warning', content: '请阅读并同意用户协议'
-          })
-        }
+        this._clearData()
+        return
+      }
+      if (codeLegal && telephoneLegal && this.state.agreement) {
+        Keyboard.dismiss()
+        this.props.navigation.navigate('ValidationCodePage', {
+          title: '输入验证码', from: 'settingPassword'
+        })
+        /** 储存用户信息 */
+        StorageData.saveData('userInfo', {
+          tel: this.state.telephoneNumber,
+        })
+        return
+      }
+      /** 手机号或者注册码错误提示 */
+      if (!codeLegal || !telephoneLegal) {
+        bouncedUtils.notices.show({
+          type: 'warning', content: '手机号或邀请码错误，请重新输入'
+        })
+        return
+      }
+      /** 用户协议提示 */
+      if (!this.state.agreement) {
+        bouncedUtils.notices.show({
+          type: 'warning', content: '请阅读并同意用户协议'
+        })
       }
     }).catch(error => {
       /****/
@@ -149,6 +162,7 @@ class Register extends Component {
           {StaticPages.LoginAndRegisterHeader('注册账号')}
 
           <BXTextInput
+            getRef = {ref => this._telInputInstance = ref}
             placeholder={'请输入手机号'}
             keyboardType={'numeric'}
             maxLength={11}
@@ -157,6 +171,7 @@ class Register extends Component {
           />
 
           <BXTextInput
+            getRef = {ref => this._invitationCodeInstance = ref}
             placeholder={'请输入邀请码'}
             keyboardType={'numeric'}
             maxLength={6}

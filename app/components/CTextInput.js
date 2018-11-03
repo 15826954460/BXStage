@@ -46,6 +46,7 @@ export default class BXTextInput extends Component {
       isShowClearIcon: false,
       isShowPasswordIcon: props.isShowPasswordIcon,
     };
+    props.getRef instanceof Function && props.getRef(this)
   }
 
   componentDidMount() {

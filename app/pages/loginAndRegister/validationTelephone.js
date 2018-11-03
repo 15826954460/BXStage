@@ -1,10 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, ScrollView,
-  Keyboard,
-  Text,
-  View,
+  StyleSheet, ScrollView, Keyboard, View,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -19,6 +16,7 @@ import CGradientButton from '../../components/CGradientButton';
 /** 获取自定义的静态方法 */
 import StaticPages from '../../utils/staticPage';
 import {Util} from '../../utils/util';
+import StorageData from '../../store/storageData';
 import {bouncedUtils} from '../../utils/bouncedUtils';
 
 export default class Vue2 extends Component {
@@ -48,31 +46,28 @@ export default class Vue2 extends Component {
     return true
   }
 
-  /** 监听用户输入 */
-  _onChangeText = (val) => {
-    /** 假设验证码都是 4 位数字 */
-    this.state.telephoneNumber = val
-    if (val.length >= 6) {
-      this.setState({disabled: false})
-    }
-    else if (val.length < 6) {
-      this.setState({disabled: true})
-    }
-  }
-
   /** 验证手机号 */
   _validationTelephoneNumber = () => {
     Keyboard.dismiss()
-    let telephoneNumberLegal = Util.checkPassword(this.state.telephoneNumber)
-    if (!telephoneNumberLegal) {
-      bouncedUtils.notices.show({
-        type: 'warning', content: '手机号输入有误，请重新输入'
-      })
-      return
-    }
+    StorageData.getData('userInfo').then(res => {
+      console.log(1111, res.tel, this.state.telephoneNumber)
+      let {tel} = res
+      if (tel !== this.state.telephoneNumber) {
+        bouncedUtils.notices.show({
+          type: 'warning', content: '手机号输入有误，请重新输入'
+        })
+      }
+      else {
+        this.props.navigation.navigate('ValidationCodePage',{
+          title: '安全验证', from: 'forgetPassword'
+        })
+      }
+    }).catch(() => {
+
+    })
   }
 
-  // 输入手机号
+  /** 监听手机号的输入 **/
   _getTel = (val) => {
     this.state.telephoneNumber = val
     if (val.length >= 11) {

@@ -20,6 +20,7 @@ import CGradientButton from '../../components/CGradientButton';
 import StaticPages from '../../utils/staticPage';
 import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
+import StorageData from '../../store/storageData';
 
 export default class Vue2 extends Component {
 
@@ -63,6 +64,9 @@ export default class Vue2 extends Component {
   /** 验证验证码, 实际开发中自行获取接口, 这里为了演示效果还是前端来做校验  */
   _validationIdCard = () => {
     Keyboard.dismiss()
+    /** 实际开发中这里根据后台接口返回的数据进行验证
+     * 为了演示效果，这里只做格式验证
+     * */
     let idCardLegal = Util.idCardIsLegal(this.state.idCode)
     if (!idCardLegal) {
       bouncedUtils.notices.show({
@@ -70,8 +74,9 @@ export default class Vue2 extends Component {
       })
       return
     }
+    /** 跳转到登陆页 */
     if (idCardLegal) {
-
+      this.props.navigation.navigate('SettingLoginPassword')
     }
   }
 
@@ -87,13 +92,15 @@ export default class Vue2 extends Component {
 
         <ScrollView style={styles.container}
                     keyboardDismissMode={'on-drag'}
-                    keyboardShouldPersistTaps={'handled'}>
+                    keyboardShouldPersistTaps={'handled'}
+                    showsVerticalScrollIndicator={false}
+        >
 
           {StaticPages.validationAndSetting('身份验证', '身份验证是为了确保本人操作')}
 
           <BXTextInput
             placeholder={'输入身份证号码'}
-            keyboardType={'default'}
+            keyboardType={Util.isAndroid ? 'numeric' : 'numbers-and-punctuation'}
             maxLength={18}
             clearInputValue={() => this.setState({disabled: true, idCode: ''})}
             handle={this._onChangeText}

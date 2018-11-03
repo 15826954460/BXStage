@@ -54,7 +54,6 @@ class LeftButtonItem extends Component {
   }
 
   _navigate = () => {
-    () => console.log(11118888)
     const {handle} = Object.assign(this.defaultLeftButton, this.props.leftButton)
     /** 执行特定的事件 */
     if (handle && handle instanceof Function) {
@@ -117,19 +116,15 @@ class RightButtonItem extends Component {
   }
 
   _navigate = () => {
-    // const {handle} = Object.assign(this.defaultLeftButton, this.props.leftButton)
-    // /** 执行特定的事件 */
-    // if (handle && handle instanceof Function) {
-    //   handle()
-    // }
-    // /** 左边按钮默认返回上一页 */
-    // else {
-    //   this.props.navigation.pop()
-    // }
+    const {handle} = Object.assign(this.defaultRightButton, this.props.rightButton)
+    /** 执行特定的事件 */
+    if (handle && handle instanceof Function) {
+      handle()
+    }
   }
 
   render() {
-    const {isShowTitle, title, titleStyle, iconStyle, isShowIcon, handle} = Object.assign(this.defaultRightButton, this.props.rightButton)
+    const {isShowTitle, title, titleStyle, iconStyle, isShowIcon} = Object.assign(this.defaultRightButton, this.props.rightButton)
     return (
       <CTouchableWithoutFeedback handle={this._navigate}>
         <View style={[styles.btn, {justifyContent: 'flex-end',}]}>

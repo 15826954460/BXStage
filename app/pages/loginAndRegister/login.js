@@ -76,22 +76,31 @@ class Login extends Component {
     }
   }
 
+  /** 清空数据 */
+  _clearData=() => {
+    this.setState({
+      secureTextEntry: true,
+      disabled: true,
+    })
+    this.state.telephoneNumber = ''
+    this.state.password = ''
+    this.isShowIcon = false
+    this._telInputInstance._clear()
+    this._passWordInputInstance._clear()
+  }
+
   /** 输入验证 */
   _validation = () => {
     /** 获取本地的用户信息进行验证 */
     StorageData.getData('userInfo').then((res) => {
-
       let {tel, passWord} = res
       let {password, telephoneNumber} = this.state
-
-      console.log(11111333, tel, passWord, password, telephoneNumber)
-      console.log(11144444, password === passWord, telephoneNumber === tel)
-
       if (password === passWord && telephoneNumber === tel) {
         bouncedUtils.notices.show({
           type: 'success', content: '欢迎回来'
         })
         this.props.navigation.push('InstalmentPage')
+        this._clearData()
         return
       }
 
@@ -119,6 +128,7 @@ class Login extends Component {
           {StaticPages.LoginAndRegisterHeader('欢迎回来')}
 
           <BXTextInput
+            getRef = {ref => this._telInputInstance = ref}
             placeholder={'请输入手机号'}
             keyboardType={'numeric'}
             maxLength={11}
@@ -127,6 +137,7 @@ class Login extends Component {
           />
 
           <BXTextInput
+            getRef = {ref => this._passWordInputInstance = ref}
             placeholder={'请输入密码'}
             keyboardType={'default'}
             maxLength={16}
@@ -138,7 +149,7 @@ class Login extends Component {
           />
 
           <TouchableWithoutFeedback
-            onPress={() => this.props.navigation.push('ValidationTelephone')}
+            onPress={() => this.props.navigation.navigate('ValidationTelephone')}
           >
             <View style={styles.invitationCodeWrapper}>
               <Text style={styles.invitationCode}>{'忘记密码？'}</Text>

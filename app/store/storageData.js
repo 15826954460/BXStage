@@ -21,7 +21,8 @@ export default class StorageData {
           return resolve(JSON.parse(result))
         } else {
           window.console.log(`获取信息---【${key}】----失败，失败信息为【${error}】!!!!!!`)
-          return reject(error)
+          return resolve({})
+          // return reject(error)
         }
       })
     });

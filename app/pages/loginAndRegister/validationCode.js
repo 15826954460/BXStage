@@ -30,22 +30,21 @@ export default class ValidationCode extends Component {
 
   constructor(props) {
     super(props);
-    this.titleText = '输入验证码'
+    let {params} = props.navigation.state
     this.state = {
       validationCode: '',
       disabled: true,
       getDisabled: false,
-      defaultText: '获取'
+      defaultText: '获取',
+      titleText: params && params.title
     };
   }
 
-  componentWillMount() {}
+  componentWillMount() {
+
+  }
 
   componentDidMount() {
-    if (this.props.navigation.state.params) {
-      const {title} = this.props.navigation.state.params
-      this.titleText = title
-    }
   }
 
   componentWillUnmount() {
@@ -74,7 +73,13 @@ export default class ValidationCode extends Component {
 
     if (validateLegal) {
       Keyboard.dismiss()
-      this.props.navigation.navigate('SettingLoginPassword')
+      if (this.props.navigation.state.params.from === 'settingPassword') {
+        this.props.navigation.navigate('SettingLoginPassword') // 跳转到设置密码页
+      }
+      else {
+        this.props.navigation.navigate('validationIdCard') // 跳转到验证身份页
+      }
+
       /** 页面进行跳转之后，对数据和状态进行重置 */
       this.setState({defaultText: '获取', getDisabled: false, disabled: true})
       clearInterval(this._timer)
@@ -82,7 +87,7 @@ export default class ValidationCode extends Component {
       this._count = 60;
       this._isAllowPress = true;
       this.state.validationCode = ''
-      this._inputInstance._inputInstance.clear()
+      this._inputInstance._clear()
       return
     }
 
@@ -127,12 +132,12 @@ export default class ValidationCode extends Component {
                     keyboardDismissMode={'on-drag'}
                     keyboardShouldPersistTaps={'handled'}>
 
-          {StaticPages.validationAndSetting(this.titleText, '验证码已发送到手机158****4460')}
+          {StaticPages.validationAndSetting(this.state.titleText, '验证码已发送到手机158****4460')}
 
           <View style={{flex: 1, ...Layout.layout.ccc,}}>
 
             <BXTextInput
-              ref = {ref => this._inputInstance = ref}
+              getRef = {ref => this._inputInstance = ref}
               maxLength={4}
               isButton={true}
               placeholder={'请输入验证码'}

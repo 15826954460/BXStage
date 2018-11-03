@@ -141,6 +141,7 @@ const Util = {
   },
   /** 身份证的有效性验证 */
   idCardIsLegal(idCardNum) {
+    console.log(111116666, idCardNum)
     return IdCardUtils.validateIdCard(idCardNum)
   }
 }

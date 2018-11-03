@@ -21,7 +21,7 @@ const {width, height} = Dimensions.get('window');
 const TRANSLATE_Y = Util.isIPhoneX() ? 84 : 60;
 const
   NOTICE_DURATION = 400, // notice 动画执行时间为 0.4 秒
-  NOTICE_WAIT = 2500; // notice 动画停留时间为 2.5 秒
+  NOTICE_WAIT = 1500; // notice 动画停留时间为 2.5 秒
 const
   WARN_BACKGROUND_COLOR = '#ff6446',
   SUCCESS_BACKGROUND_COLOR = '#41c557';

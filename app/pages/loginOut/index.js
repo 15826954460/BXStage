@@ -19,13 +19,14 @@ import CGradientButton from '../../components/CGradientButton';
 /** 工具方法的引用 */
 import {Util} from '../../utils/util';
 import StorageData from '../../store/storageData';
+import {Routers} from '../../store/routes';
 import {bouncedUtils} from '../../utils/bouncedUtils';
+import {StackActions, NavigationActions} from 'react-navigation';
 
 export default class LoginOut extends Component {
 
   constructor(props) {
     super(props);
-    this._password = '',
     this.state = {
       secureTextEntry: true,
       disabled: true,
@@ -66,14 +67,10 @@ export default class LoginOut extends Component {
   /** 登陆验证 */
   _loginValidation = () => {
     StorageData.getData('userInfo').then(res => {
-      if (res) {
-        // console.log(11113333,res)
-        console.log(1111444, res.passWord, this.state.password)
-        this._password = res.passWord
-        this._judgePassword(this.state.password, this._password)
-      } else {
-        // 错误提示就不再赘述了
-      }
+      let {passWord} = res
+      this._judgePassword(this.state.password, passWord)
+    }).catch((res)=> {
+      /** **/
     })
   }
 
@@ -82,6 +79,9 @@ export default class LoginOut extends Component {
     if (password === storePassword) {
       /** 跳转到首页,是否需要清空用户上次的输入信息，根据实际自行补充 */
       this.props.navigation.navigate('InstalmentPage')
+
+      StorageData.mergeData('userInfo', {hasLogin: true})
+
       bouncedUtils.notices.show({
         type: 'success', content: '欢迎回来'
       })
@@ -94,6 +94,18 @@ export default class LoginOut extends Component {
     }
   }
 
+  /** 重置路由跳转到注册页 */
+  _goToRegister=()=> {
+    Routers.stackRoots.dispatch(
+      StackActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({routeName: 'LoginAndRegister', params: {initPage: 'register'}}),
+        ]
+      })
+    )
+  }
+
   render() {
     return (
       <CNavigation
@@ -101,6 +113,7 @@ export default class LoginOut extends Component {
         rightButton={{
           isShowTitle: true,
           title: '注册',
+          handle: this._goToRegister,
         }}
       >
         <ScrollView
@@ -136,7 +149,7 @@ export default class LoginOut extends Component {
             handle={this._onChangeText}
           />
 
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('ValidationTelephone')}>
             <View style={styles.forgetSecretWrapper}>
               <Text style={styles.forgetSecret}>{'忘记密码？'}</Text>
             </View>
@@ -153,6 +166,9 @@ export default class LoginOut extends Component {
         </ScrollView>
 
         <BottomText
+          handle={() => this.props.navigation.navigate('LoginAndRegister', {
+            initialPage: 'login'
+          })}
           clickText={'切换账号'}
         />
       </CNavigation>

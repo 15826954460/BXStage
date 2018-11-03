@@ -75,7 +75,7 @@ export default class Vue2 extends Component {
       this.props.navigation.navigate('InstalmentPage')
 
       /** 储存用户登陆密码，到达这里，用户已经注册成功 */
-      StorageData.mergeData('userInfo', {passWord: this.state.password, hasRegister: true})
+      StorageData.mergeData('userInfo', {passWord: this.state.password, hasRegister: true, hasLogin: true})
 
       /** 重置数据状态进行重置 */
       // this._inputInstance._inputInstance.clear()
