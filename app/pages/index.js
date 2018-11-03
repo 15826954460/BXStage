@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, View,
+  StyleSheet, View, AppState
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -72,14 +72,20 @@ export default class Vue2 extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      appState: AppState.currentState // 保存当前app的状态
+    };
     StatusBarUtil.initialStatusBar() // 初始化装填栏的样式
   }
 
   componentWillMount() {
+
   }
 
   componentDidMount() {
+    /** 添加app状态改变事件监听 */
+    AppState.addEventListener('change', this._handleAppStateChange);
+
     Routers.stackRoots = this._stackRoots
     /** 根据用户的状态判断进入那个页面, 实际开发中比这些要复杂
      *  请根据请求接口自行配置和处理
@@ -105,6 +111,18 @@ export default class Vue2 extends Component {
 
 
     SplashScreen.hide() // 隐藏白屏
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    /** app 从后台切换到前台运行 */
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      StatusBarUtil.initialStatusBar() // 初始化状态栏
+      /**
+       * 这里根据实际业务需求进行 一些数据的初始化或者数据跟新
+       * 可以通过 mobx 或者事件 监听来刷新数据
+       * */
+    }
+    this.state.appState = nextAppState;
   }
 
   componentWillUnmount() {
