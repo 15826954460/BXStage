@@ -99,7 +99,7 @@ class Login extends Component {
         bouncedUtils.notices.show({
           type: 'success', content: '欢迎回来'
         })
-        this.props.navigation.navigate('InstallmentMainPage')
+        this.props.navigation.navigate('MainStack')
         this._clearData()
         return
       }

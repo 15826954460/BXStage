@@ -63,8 +63,8 @@ const Layout = {
     green_itembg: '#83de8b',
     black: '#000000',
 
-    orange_gradient_start: '#ff684a',//橙色渐变块渐变色起始色
-    orange_gradient_end: '#f94133',//橙色渐变块渐变色结束色
+    // orange_gradient_start: '#ff684a',//橙色渐变块渐变色起始色
+    // orange_gradient_end: '#f94133',//橙色渐变块渐变色结束色
 
     /**app按钮色**/
     // btno_start: '#ffaf0a',//橙色按钮普通状态渐变色起始色

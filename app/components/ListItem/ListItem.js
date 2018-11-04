@@ -3,9 +3,10 @@ import React, {Component} from "react";
 import {
   StyleSheet, Text, View, Dimensions, Image,
 } from "react-native";
-import {Layout} from "../../styles/layout";
 
 /** 全局样式的引用 */
+import {Layout} from "../../styles/layout";
+import {Size} from '../../styles/size';
 
 /** 第三方依赖库的引用 */
 import PropTypes from 'prop-types';
@@ -32,7 +33,8 @@ export default class ListItem extends Component {
     isService: false,
     wrapperStyle: {
       height: 50,
-      paddingHorizontal: 14
+      paddingHorizontal: 14,
+      marginTop: 0,
     },
     leftText: '',
     rightText: '',
@@ -167,13 +169,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   circleStyle: {
-    width: 20, height: 20,
+    width: 20,
+    height: 20,
     backgroundColor: Layout.color.circle,
     borderRadius: 10,
     marginHorizontal: 10
   },
   borderBottomLine: {
-    borderBottomWidth: 1,
+    borderBottomWidth: Size.screen.pixel,
     borderBottomColor: Layout.color.gray_line,
     position: 'absolute',
     bottom: 0,

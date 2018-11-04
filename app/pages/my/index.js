@@ -10,31 +10,46 @@ import {Layout} from '../../styles/layout';
 
 /** 自定义组建的引用 */
 import CNavigation from '../../components/CNavigation';
+import CTouchableWithoutFeedback from '../../components/CTouchableWithoutFeedback';
 import ListItem from '../../components/ListItem/ListItem';
+
 
 /** 全局工具方法的引用 */
 import {Util} from "../../utils/util";
+import StorageData from "../../store/storageData";
 
 /** 声明常量 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
 
-export default class Vue2 extends Component {
+export default class Main extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      noteName: '这个骚年很懒，没有备注名', // 备注名
+      tel: '' // 手机号
+    };
   }
 
   componentDidMount() {
     StatusBar.setBarStyle('light-content', true)
+    /** 为了演示效果，这里获取本地数据
+     * 实际开发中根据接口返回的用户信息进行配置
+     * */
+    StorageData.getData('userInfo').then(res => {
+      if (res) {
+        let {tel, noteName} = res
+        this.setState({
+          tel: tel, noteName: noteName || this.state.noteName
+        })
+      }
+    })
   }
 
   componentWillMount() {
-
   }
 
   componentWillUnmount() {
-
   }
 
   render() {
@@ -44,67 +59,70 @@ export default class Vue2 extends Component {
         leftButton={{
           isShowIcon: true,
           isShowTitle: false,
+          theme: 'light'
         }}
         isPaddingTop={false}
         isSafeArea={false}
+        navBackgroundColor={'transparent'}
       >
-        <ScrollView style={styles.container}
-        >
+        <ScrollView style={styles.container}>
 
+            <ImageBackground
+              resizeMode={'stretch'}
+              fadeDuration={0}
+              style={[
+                {width: width, marginBottom: 15},
+                {height: Util.isIPhoneX() ? width * 609 / 1125 : width * 358 / 750},
+              ]}
+              source={Util.isAndroid() ? require('../../images/me/me_img_bg.png') : require('../../images/me/me_img_bg_iPX.png')}
+            >
+              <View style={styles.userInfoWrapper}>
+                <View style={{flex: 1, justifyContent: 'flex-end'}}>
+                  <Text
+                    numberOfLines={1}
+                    style={{
+                      fontSize: 30,
+                      fontFamily: 'PingFangSC-Medium',
+                      color: Layout.color.white_bg
+                    }}>
+                    {this.state.noteName}
+                  </Text>
+                  <Text style={{fontSize: 14, color: Layout.color.white_bg}}>
+                    {Util.takeSensitive(this.state.tel)}
+                  </Text>
+                </View>
 
-          <ImageBackground
-            resizeMode={'stretch'}
-            fadeDuration={0}
-            style={[
-              {width: width, marginBottom: 15},
-              {height: Util.isIPhoneX() ? width * 609 / 1125 : width * 358 / 750},
-            ]}
-            source={Util.isAndroid() ? require('../../images/me/me_img_bg.png') : require('../../images/me/me_img_bg_iPX.png')}
-          >
-            <View style={styles.userInfoWrapper}>
-              <View style={{flex: 1, justifyContent: 'flex-end'}}>
-                <Text
-                  numberOfLines={1}
-                  style={{
-                    fontSize: 30,
-                    fontFamily: 'PingFangSC-Medium',
-                    color: Layout.color.white_bg
+                <CTouchableWithoutFeedback
+                  handle={() => this.props.navigation.navigate('UserInfo')}>
+                  <View style={{
+                    width: 116, height: 116,
+                    position: 'relative',
+                    marginLeft: 23,
+                    justifyContent: 'flex-end'
                   }}>
-                  {'柏运送fsdfhfdsfdsfdsfdsfdsfds'}
-                </Text>
-                <Text style={{fontSize: 14, color: Layout.color.white_bg}}>
-                  {'158****4460'}
-                </Text>
-              </View>
-
-              <View style={{
-                width: 116, height: 116,
-                position: 'relative',
-                marginLeft: 23,
-                justifyContent: 'flex-end'
-              }}>
-                <ImageBackground
-                  fadeDuration={0}
-                  style={[styles.avatarbg, styles.imgPos]}
-                  source={require('../../images/common/common_shadow_abatar.png')}>
-                  <View style={styles.avatarbg_ar_wrap}>
-                    <Image
+                    <ImageBackground
                       fadeDuration={0}
-                      style={[styles.avatarbg_ar, {borderRadius: 50}]}
-                      source={require('../../images/me/index_icon_bixia.png')}/>
-                  </View>
-                </ImageBackground>
+                      style={[styles.avatarbg, styles.imgPos]}
+                      source={require('../../images/common/common_shadow_abatar.png')}>
+                      <View style={styles.avatarbg_ar_wrap}>
+                        <Image
+                          fadeDuration={0}
+                          style={[styles.avatarbg_ar, {borderRadius: 50}]}
+                          source={require('../../images/me/index_icon_bixia.png')}/>
+                      </View>
+                    </ImageBackground>
 
-                <ImageBackground
-                  fadeDuration={0}
-                  style={[styles.imgPos, styles.avatarbg,]}
-                  source={require('../../images/me/me_img_headmask.png')}
-                >
-                </ImageBackground>
+                    <ImageBackground
+                      fadeDuration={0}
+                      style={[styles.imgPos, styles.avatarbg,]}
+                      source={require('../../images/me/me_img_headmask.png')}
+                    >
+                    </ImageBackground>
+                  </View>
+                </CTouchableWithoutFeedback>
 
               </View>
-            </View>
-          </ImageBackground>
+            </ImageBackground>
 
           <ListItem
             iconType={'MIB'}
@@ -121,22 +139,23 @@ export default class Vue2 extends Component {
           <ListItem
             iconType={'MIC'}
             leftText={'联系客服'}
+            rightText={'工作日9:00-18:00'}
           />
           <ListItem
             iconType={'MIF'}
             leftText={'用户反馈'}
             isService={true}
+            rightText={'客服回复你啦'}
           />
           <ListItem
             iconType={'MIA'}
             leftText={'关于币下分期'}
+            rightText={'0.1.0'}
           />
           <ListItem
             iconType={'MIS'}
             leftText={'设置'}
           />
-
-
 
         </ScrollView>
       </CNavigation>
@@ -146,8 +165,6 @@ export default class Vue2 extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // borderWidth: 1,
-    // borderColor: 'red'
   },
   userInfoWrapper: {
     width: width,

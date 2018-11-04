@@ -16,7 +16,8 @@ import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
 
 /** 一些常量的声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽高
-const LEFT_ICON = require('../images/common/navig_img_back_black.png');
+const LEFT_ICON_BLACK = require('../images/common/navig_img_back_black.png');
+const LEFT_ICON_WHITE = require('../images/common/navig_img_back_white.png');
 const RIGHT_ICON = require('../images/common/common_img_arrow.png');
 
 class LeftButtonItem extends Component {
@@ -28,6 +29,7 @@ class LeftButtonItem extends Component {
       isShowIcon: PropTypes.bool,
       iconStyle: PropTypes.object,
       handle: PropTypes.func,
+      theme:  PropTypes.oneOf(['dark', 'light']),
     }),
   }
 
@@ -46,6 +48,7 @@ class LeftButtonItem extends Component {
         width: 23,
         height: 23,
       }, // 默认icon样式
+      theme: 'dark', // 导航的主题颜色
     };
     this.state = {};
   }
@@ -66,14 +69,14 @@ class LeftButtonItem extends Component {
   }
 
   render() {
-    const {isShowTitle, title, titleStyle, iconStyle, isShowIcon} = Object.assign(this.defaultLeftButton, this.props.leftButton)
+    const {isShowTitle, title, titleStyle, iconStyle, isShowIcon, theme} = Object.assign(this.defaultLeftButton, this.props.leftButton)
     return (
       <CTouchableWithoutFeedback handle={this._navigate}>
         <View style={styles.btn}>
           {
             isShowTitle ? <Text style={titleStyle}
                                 numberOfLines={1}> {title} </Text> : isShowIcon ?
-              <Image source={LEFT_ICON} style={iconStyle}/>
+              <Image source={theme === 'dark' ? LEFT_ICON_BLACK : LEFT_ICON_WHITE} style={iconStyle}/>
               : null
           }
         </View>
@@ -93,6 +96,7 @@ class RightButtonItem extends Component {
       isShowIcon: PropTypes.bool,
       iconStyle: PropTypes.object,
       handle: PropTypes.func,
+      theme:  PropTypes.oneOf(['dark', 'light']),
     }),
   }
 
@@ -111,6 +115,7 @@ class RightButtonItem extends Component {
         width: 23,
         height: 23,
       }, // 默认icon样式
+      theme: 'dark', // 导航的主题颜色
     };
     this.state = {};
   }
@@ -124,14 +129,14 @@ class RightButtonItem extends Component {
   }
 
   render() {
-    const {isShowTitle, title, titleStyle, iconStyle, isShowIcon} = Object.assign(this.defaultRightButton, this.props.rightButton)
+    const {isShowTitle, title, titleStyle, iconStyle, isShowIcon, theme} = Object.assign(this.defaultRightButton, this.props.rightButton)
     return (
       <CTouchableWithoutFeedback handle={this._navigate}>
         <View style={[styles.btn, {justifyContent: 'flex-end',}]}>
           {
             isShowTitle ? <Text style={titleStyle}
                                 numberOfLines={1}> {title} </Text> : isShowIcon ?
-              <Image source={RIGHT_ICON} style={iconStyle}/> : null
+              <Image source={theme === 'dark' ? RIGHT_ICON : RIGHT_ICON} style={iconStyle}/> : null
           }
         </View>
       </CTouchableWithoutFeedback>
@@ -221,7 +226,7 @@ class CNavigation extends Component {
         }]}>
 
         <View style={[styles.container, {paddingTop: isPaddingTop ? 44 : 0}]}>
-          <View style={[styles.navContainer, {backgroundColor: navBackgroundColor}]}>
+          <View style={[styles.navContainer, {backgroundColor: navBackgroundColor}, {top: isPaddingTop ? 0 : 44}]}>
             <View style={styles.buttonWrapper}>
               {
                 LeftOrRight === 'left' || 'all' ? <LeftButtonItem {...this.props}/> : <View/>
@@ -252,9 +257,9 @@ const styles = StyleSheet.create({
   },
   navContainer: {
     position: 'absolute',
-    top: 0,
     width: width,
     height: 44,
+    zIndex: 10000,
     paddingHorizontal: Layout.gap.gap_edge,
   },
   buttonWrapper: {

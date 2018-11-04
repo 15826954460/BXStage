@@ -78,7 +78,7 @@ export default class LoginOut extends Component {
   _judgePassword = (password, storePassword) => {
     if (password === storePassword) {
 
-      this.props.navigation.navigate('InstallmentMainPage')
+      this.props.navigation.navigate('MainStack')
 
       StorageData.mergeData('userInfo', {hasLogin: true})
 

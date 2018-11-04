@@ -20,13 +20,17 @@ import SettingLoginPassword from './loginAndRegister/settingLoginPassword'; // �
 import ValidationTelephone from './loginAndRegister/validationTelephone'; // 手机号验证(忘记密码后需要跳转到的页面)
 import validationIdCard from './loginAndRegister/validationIdCard'; // 身份证验证
 import BXWebView from './bxWebView';
-import InstalmentPage from './instalment/index'; // 分期还款
-import MyPage from './my/index'; // 分期还款
 import LoginOutPage from './loginOut/index'; // 退出登陆
 import SettingPage from './setting/index'; // 设置
 import MorePerson from './errorPage/morePerson'; // 人数较多的提示页面
 import EmptyPage from './errorPage/empty'; // 人数较多的提示页面
 import NetErrorPage from './errorPage/netError'; // 人数较多的提示页面
+
+import InstalmentPage from './instalment/index'; // 分期还款
+
+import My from './my'; // 我
+import UserInfo from './my/userInfo'; // 用户信息
+
 
 /** 工具类的引用 */
 import {StatusBarUtil} from '../utils/statusBar';
@@ -35,14 +39,36 @@ import {Routers} from '../store/routes';
 import StorageData from '../store/storageData';
 import {Layout} from "../styles/layout";
 
-/** 币下分期栈 */
-const InstallmentMainStack = createBottomTabNavigator(
+/** 我的页面栈 */
+const MyStack = createStackNavigator(
+  {
+    My: {screen: My},
+    // UserInfo: {screen: UserInfo},
+  },
+  {
+    initialRouteName: 'My',
+    headerMode: 'none',
+    mode: 'none',
+    navigationOptions: {
+      gesturesEnabled: true, // 默认不启用滑动手势(ios手机默认启用，android手机默认关闭)
+    },
+    /** 路由动画相关，可以获取当前路由栈以及当前路由 */
+    onTransitionStart: (transitionProps, prevTransitionProps) => {
+      // console.log(4444, transitionProps, prevTransitionProps)
+    },
+    /** 动画配置 */
+    transitionConfig: Horizontal_RToL_TranslateX,
+  }
+)
+
+/** 主页面信息栈 */
+const MainStack = createBottomTabNavigator(
   {
     '分期': {
       screen: InstalmentPage,
     },
     '我': {
-      screen: MyPage
+      screen: MyStack
     },
   },
   {
@@ -95,15 +121,15 @@ const Stack = createStackNavigator(
     validationIdCard: {screen: validationIdCard},
     BXWebView: {screen: BXWebView},
     LoginOutPage: {screen: LoginOutPage},
-    InstallmentMainPage: {screen: InstallmentMainStack},
-    MyPage: {screen: MyPage},
+    MainStack: {screen: MainStack},
     SettingPage: {screen: SettingPage},
     MorePerson: {screen: MorePerson},
     EmptyPage: {screen: EmptyPage},
     NetErrorPage: {screen: NetErrorPage},
+    UserInfo: {screen: UserInfo},
   },
   {
-    initialRouteName: 'InstallmentMainPage',
+    initialRouteName: 'AuthStatus',
     headerMode: 'none',
     mode: 'none',
     navigationOptions: {
@@ -144,24 +170,24 @@ export default class InitStack extends Component {
      *      是否超过过期时间需重新登录
      *      版本是否有升级，是否清空本地缓存等等实际业逻辑这里就不再过多赘述
      * */
-    // StorageData.getData('userInfo').then((res) => {
-    //   if (res) {
-    //     let {hasLogin} = res
-    //     let _initPage = hasLogin ? 'login' : 'register'
-    //     /** 路由栈的重置 */
-    //     this._stackRoots.dispatch(
-    //       StackActions.reset({
-    //         index: 0,
-    //         actions: [
-    //           NavigationActions.navigate({
-    //             routeName: 'LoginAndRegister',
-    //             params: {initPage: _initPage}
-    //           }),
-    //         ]
-    //       })
-    //     )
-    //   }
-    // })
+    StorageData.getData('userInfo').then((res) => {
+      if (res) {
+        let {hasLogin} = res
+        let _initPage = hasLogin ? 'login' : 'register'
+        /** 路由栈的重置 */
+        this._stackRoots.dispatch(
+          StackActions.reset({
+            index: 0,
+            actions: [
+              NavigationActions.navigate({
+                routeName: 'LoginAndRegister',
+                params: {initPage: _initPage}
+              }),
+            ]
+          })
+        )
+      }
+    })
 
     SplashScreen.hide() // 隐藏白屏
   }
