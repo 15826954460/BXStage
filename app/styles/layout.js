@@ -83,7 +83,8 @@ const Layout = {
     wwhite_alpha: 'rgba(255,255,255,.65)',
     wred: '#f85f30',
     worange: '#ffa015',
-    wgreen: '#41c557'
+    wgreen: '#41c557',
+    circle: '#F93C0A',
   },
 
   /** 间距规范 **/

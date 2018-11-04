@@ -17,7 +17,7 @@ import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
 /** 一些常量的声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽高
 const LEFT_ICON = require('../images/common/navig_img_back_black.png');
-const RIGHT_ICON = require('../images/common/navig_img_back_black.png');
+const RIGHT_ICON = require('../images/common/common_img_arrow.png');
 
 class LeftButtonItem extends Component {
   static propTypes = {
@@ -185,12 +185,16 @@ class CNavigation extends Component {
     LeftOrRight: PropTypes.string,
     commonBackgroundColor: PropTypes.string,
     navBackgroundColor: PropTypes.string,
+    isPaddingTop: PropTypes.bool,
+    isSafeArea: PropTypes.bool,
   }
 
   static defaultProps = {
     commonBackgroundColor: Layout.color.white_bg,
     navBackgroundColor: Layout.color.white_bg,
-    LeftOrRight: 'all'
+    LeftOrRight: 'all',
+    isPaddingTop: true,
+    isSafeArea: true, // 是否设置安全区域
   }
 
   constructor(props) {
@@ -208,24 +212,28 @@ class CNavigation extends Component {
   }
 
   render() {
-    const {LeftOrRight, commonBackgroundColor, navBackgroundColor} = this.props
+    const {LeftOrRight, commonBackgroundColor, navBackgroundColor, isPaddingTop, isSafeArea} = this.props
     return (
-      <SafeAreaView style={[{flex: 1, backgroundColor: commonBackgroundColor}]}>
+      <SafeAreaView
+        forceInset={{top: isSafeArea ? 'always' : 'never'}}
+        style={[{
+          flex: 1, backgroundColor: commonBackgroundColor
+        }]}>
 
-        <View style={styles.container}>
+        <View style={[styles.container, {paddingTop: isPaddingTop ? 44 : 0}]}>
           <View style={[styles.navContainer, {backgroundColor: navBackgroundColor}]}>
-              <View style={styles.buttonWrapper}>
-                {
-                  LeftOrRight === 'left' || 'all' ? <LeftButtonItem {...this.props}/> : <View/>
-                }
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                  <TitleItem {...this.props}/>
-                </View>
-                {
-                  LeftOrRight === 'right' || 'all' ? <RightButtonItem {...this.props}/> : <View/>
-                }
+            <View style={styles.buttonWrapper}>
+              {
+                LeftOrRight === 'left' || 'all' ? <LeftButtonItem {...this.props}/> : <View/>
+              }
+              <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <TitleItem {...this.props}/>
               </View>
+              {
+                LeftOrRight === 'right' || 'all' ? <RightButtonItem {...this.props}/> : <View/>
+              }
             </View>
+          </View>
 
           {this.props.children}
 
@@ -241,7 +249,6 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     flex: 1,
-    paddingTop: 44,
   },
   navContainer: {
     position: 'absolute',

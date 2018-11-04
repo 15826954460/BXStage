@@ -46,6 +46,7 @@ const InstallmentMainStack = createBottomTabNavigator(
     },
   },
   {
+    initialRouteName: '我',
     /** 配置导航的相关参数(这里针对全局配置，也可以放在单独配置) */
     tabBarOptions: {
       activeTintColor: Layout.color.red_main, // 文字激活的颜色
@@ -69,8 +70,8 @@ const InstallmentMainStack = createBottomTabNavigator(
       tabBarIcon: ({focused, horizontal, tintColor}) => {
         return <CTabIcon
           focused={focused}
-          focusImage={require('../res/index_icon_bixia.png')}
-          blurImage={require('../res/index_shadow_avatar.png')}
+          focusImage={require('../images/me/index_icon_bixia.png')}
+          blurImage={require('../images/me/me_img_headmask.png')}
         />;
       },
     }),
