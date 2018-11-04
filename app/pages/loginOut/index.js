@@ -77,8 +77,8 @@ export default class LoginOut extends Component {
   /** 将用户的输入的密码和存储在本地的做比较 */
   _judgePassword = (password, storePassword) => {
     if (password === storePassword) {
-      /** 跳转到首页,是否需要清空用户上次的输入信息，根据实际自行补充 */
-      this.props.navigation.navigate('InstalmentPage')
+
+      this.props.navigation.navigate('InstallmentMainPage')
 
       StorageData.mergeData('userInfo', {hasLogin: true})
 
@@ -92,6 +92,8 @@ export default class LoginOut extends Component {
         type: 'warning', content: '密码错误，请重新输入'
       })
     }
+
+    /** 跳转到首页,是否需要清空用户上次的输入信息，根据实际自行补充 */
   }
 
   /** 重置路由跳转到注册页 */

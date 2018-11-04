@@ -2,7 +2,7 @@
  * 2018-08-23
  * react-native 组件的引用
  */
-import {Platform, StatusBar, PixelRatio, Dimensions} from "react-native";
+import {Platform, StatusBar, PixelRatio, Dimensions, StyleSheet} from "react-native";
 /**
  * 2018-08-23
  * baiyunsong
@@ -34,12 +34,21 @@ const size = (function countScreenSize() {
 
 const isIPhoneX = Platform.OS === 'ios' && (DeviceInfo.getDeviceId() === 'iPhone10,6' || DeviceInfo.getDeviceId() === 'iPhone10,3');
 
+// 获取当前平台最细的线标准
+const pixel = (function () {
+  if (minPixel > 2 && minPixel < 3 && Platform.OS === 'android') {
+    return 0.5
+  }
+  return StyleSheet.hairlineWidth
+})()
+
 const Size = {
   // 和屏幕相关的信息
   screen: {
     size: size,
     width: width,
     height: height,
+    pixel: pixel,
     apiLevel: Platform.OS === 'android' ? Number(getAPILevel()) : -1,// android level >= 21 （安卓5.0） 则支持沉浸式状态栏
     translucentLevel: 21,// 安卓 >=5.0（APILevel === 21）
     iphoneXStatusBarHeight: 44,// iPhoneX 刘海状态栏高度

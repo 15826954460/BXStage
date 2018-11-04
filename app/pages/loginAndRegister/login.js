@@ -56,7 +56,7 @@ class Login extends Component {
   _getTel = (val) => {
     const {password} = this.state
     this.state.telephoneNumber = val
-    if (password.length > 6 && val.length >= 11) {
+    if (password.length >= 6 && val.length >= 11) {
       this.setState({disabled: false})
     }
     else if (password.length < 6 || val.length < 11) {
@@ -99,7 +99,7 @@ class Login extends Component {
         bouncedUtils.notices.show({
           type: 'success', content: '欢迎回来'
         })
-        this.props.navigation.push('InstalmentPage')
+        this.props.navigation.navigate('InstallmentMainPage')
         this._clearData()
         return
       }

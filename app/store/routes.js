@@ -1,3 +1,3 @@
 export const Routers = {
-  stackRoots: ''
+  stackRoots: null, // 登陆注册栈
 }

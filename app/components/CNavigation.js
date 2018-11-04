@@ -213,22 +213,19 @@ class CNavigation extends Component {
       <SafeAreaView style={[{flex: 1, backgroundColor: commonBackgroundColor}]}>
 
         <View style={styles.container}>
-
           <View style={[styles.navContainer, {backgroundColor: navBackgroundColor}]}>
-
-            <View style={styles.buttonWrapper}>
-              {
-                LeftOrRight === 'left' || 'all' ? <LeftButtonItem {...this.props}/> : <View/>
-              }
-              <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <TitleItem {...this.props}/>
+              <View style={styles.buttonWrapper}>
+                {
+                  LeftOrRight === 'left' || 'all' ? <LeftButtonItem {...this.props}/> : <View/>
+                }
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                  <TitleItem {...this.props}/>
+                </View>
+                {
+                  LeftOrRight === 'right' || 'all' ? <RightButtonItem {...this.props}/> : <View/>
+                }
               </View>
-              {
-                LeftOrRight === 'right' || 'all' ? <RightButtonItem {...this.props}/> : <View/>
-              }
             </View>
-
-          </View>
 
           {this.props.children}
 
@@ -237,6 +234,7 @@ class CNavigation extends Component {
     );
   }
 }
+
 export default withNavigation(CNavigation)
 
 const styles = StyleSheet.create({

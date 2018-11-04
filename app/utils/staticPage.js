@@ -28,10 +28,10 @@ export default class StaticPages {
   // 验证码和设置密码的头部
   static validationAndSetting = (title, text) => {
     return <View style={styles.entryWrapper}>
-      <Text style={{fontSize: 30, marginBottom: 4, color: '#000', fontFamily: 'PingFangSC-Semibold'}}>
+      <Text style={{fontSize: 30, marginBottom: 4, color: Layout.color.wblack, fontFamily: 'PingFangSC-Semibold'}}>
         {title}
       </Text>
-      <Text style={{fontSize: 14, color: '#B8B8B8'}}>
+      <Text style={{fontSize: 14, color: Layout.color.wgray_main}}>
         {text}
       </Text>
     </View>
