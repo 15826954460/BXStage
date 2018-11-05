@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { View } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 
-export default function HOCNavigationFocus(Component, mutableStatusBar) {
+export default function withFocus(TargetComponent) {
   class ComponentWithFocus extends Component {
 
     _componentWillFocus(res) {
@@ -20,15 +20,14 @@ export default function HOCNavigationFocus(Component, mutableStatusBar) {
     }
     render() {
       return (
+        /** 你可以在这里做一些事件拦截处理，甚至修改父组件的props属性 */
         <View style={{flex:1}}>
           <NavigationEvents
             onWillFocus={payload => this._componentWillFocus(payload)}
             onDidFocus={payload => this._componentDidFocus(payload)}
             onWillBlur={payload => this._componentWillBlur(payload)}
             onDidBlur={payload => this._componentDidBlur(payload)}/>
-          {
-            super.render()
-          }
+          <TargetComponent {...this.props} />
         </View>
       );
     }

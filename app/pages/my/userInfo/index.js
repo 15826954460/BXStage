@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View,StatusBar,
+  StyleSheet, Text, View, StatusBar,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -26,7 +26,6 @@ export default class Vue2 extends Component {
   }
 
   componentDidMount() {
-    StatusBar.setBarStyle('dark-content', true)
   }
 
   componentWillMount() {

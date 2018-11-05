@@ -100,7 +100,7 @@ export default class LoginAndRegister extends Component {
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View style={{flex: 1, position: 'relative'}}>
           {/*注册页*/}
           <Animated.View
@@ -143,7 +143,7 @@ export default class LoginAndRegister extends Component {
           </Animated.View>
         </View>
 
-      </SafeAreaView>
+      </View>
     );
   }
 }

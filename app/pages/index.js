@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  View, AppState, Image
+  View, AppState,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -33,33 +33,10 @@ import UserInfo from './my/userInfo'; // 用户信息
 
 
 /** 工具类的引用 */
-import {StatusBarUtil} from '../utils/statusBar';
 import {Horizontal_RToL_TranslateX, IOS_Default} from "../utils/transitionconfig";
 import {Routers} from '../store/routes';
 import StorageData from '../store/storageData';
 import {Layout} from "../styles/layout";
-
-/** 我的页面栈 */
-const MyStack = createStackNavigator(
-  {
-    My: {screen: My},
-    // UserInfo: {screen: UserInfo},
-  },
-  {
-    initialRouteName: 'My',
-    headerMode: 'none',
-    mode: 'none',
-    navigationOptions: {
-      gesturesEnabled: true, // 默认不启用滑动手势(ios手机默认启用，android手机默认关闭)
-    },
-    /** 路由动画相关，可以获取当前路由栈以及当前路由 */
-    onTransitionStart: (transitionProps, prevTransitionProps) => {
-      // console.log(4444, transitionProps, prevTransitionProps)
-    },
-    /** 动画配置 */
-    transitionConfig: Horizontal_RToL_TranslateX,
-  }
-)
 
 /** 主页面信息栈 */
 const MainStack = createBottomTabNavigator(
@@ -68,7 +45,7 @@ const MainStack = createBottomTabNavigator(
       screen: InstalmentPage,
     },
     '我': {
-      screen: MyStack
+      screen: My
     },
   },
   {
@@ -152,7 +129,6 @@ export default class InitStack extends Component {
     this.state = {
       appState: AppState.currentState // 保存当前app的状态
     };
-    StatusBarUtil.initialStatusBar() // 初始化装填栏的样式
   }
 
   componentWillMount() {
@@ -195,7 +171,6 @@ export default class InitStack extends Component {
   _handleAppStateChange = (nextAppState) => {
     /** app 从后台切换到前台运行 */
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-      StatusBarUtil.initialStatusBar() // 初始化状态栏
       /**
        * 这里根据实际业务需求进行 一些数据的初始化或者数据跟新
        * 可以通过 mobx 或者事件 监听来刷新数据

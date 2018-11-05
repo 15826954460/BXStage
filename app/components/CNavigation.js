@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Dimensions, TouchableWithoutFeedback, Text, View, Image,
+  StyleSheet, Dimensions, Text, View, Image,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -13,6 +13,10 @@ import PropTypes from 'prop-types';
 
 /** 自定义组建的引用 */
 import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
+import CStatusBar from './CStatusBar';
+
+/** 自定义工具方法的引用 */
+import {StatusBarUtil} from '../utils/statusBar';
 
 /** 一些常量的声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽高
@@ -22,6 +26,7 @@ const RIGHT_ICON = require('../images/common/common_img_arrow.png');
 
 class LeftButtonItem extends Component {
   static propTypes = {
+    theme: PropTypes.oneOf(['dark', 'light', 'variable']),
     leftButton: PropTypes.shape({
       isShowTitle: PropTypes.bool,
       title: PropTypes.string,
@@ -29,8 +34,11 @@ class LeftButtonItem extends Component {
       isShowIcon: PropTypes.bool,
       iconStyle: PropTypes.object,
       handle: PropTypes.func,
-      theme:  PropTypes.oneOf(['dark', 'light']),
     }),
+  }
+
+  static defaultProps = {
+    theme: 'dark', // 导航的主题颜色
   }
 
   constructor(props) {
@@ -48,7 +56,6 @@ class LeftButtonItem extends Component {
         width: 23,
         height: 23,
       }, // 默认icon样式
-      theme: 'dark', // 导航的主题颜色
     };
     this.state = {};
   }
@@ -69,7 +76,8 @@ class LeftButtonItem extends Component {
   }
 
   render() {
-    const {isShowTitle, title, titleStyle, iconStyle, isShowIcon, theme} = Object.assign(this.defaultLeftButton, this.props.leftButton)
+    const {isShowTitle, title, titleStyle, iconStyle, isShowIcon} = Object.assign(this.defaultLeftButton, this.props.leftButton)
+    const {theme} = this.props
     return (
       <CTouchableWithoutFeedback handle={this._navigate}>
         <View style={styles.btn}>
@@ -89,6 +97,7 @@ withNavigation(LeftButtonItem)
 
 class RightButtonItem extends Component {
   static propTypes = {
+    theme: PropTypes.oneOf(['dark', 'light', 'variable']),
     rightButton: PropTypes.shape({
       isShowTitle: PropTypes.bool,
       title: PropTypes.string,
@@ -96,8 +105,11 @@ class RightButtonItem extends Component {
       isShowIcon: PropTypes.bool,
       iconStyle: PropTypes.object,
       handle: PropTypes.func,
-      theme:  PropTypes.oneOf(['dark', 'light']),
     }),
+  }
+
+  static defaultProps = {
+    theme: 'dark', // 导航的主题颜色
   }
 
   constructor(props) {
@@ -115,7 +127,6 @@ class RightButtonItem extends Component {
         width: 23,
         height: 23,
       }, // 默认icon样式
-      theme: 'dark', // 导航的主题颜色
     };
     this.state = {};
   }
@@ -129,7 +140,8 @@ class RightButtonItem extends Component {
   }
 
   render() {
-    const {isShowTitle, title, titleStyle, iconStyle, isShowIcon, theme} = Object.assign(this.defaultRightButton, this.props.rightButton)
+    const {isShowTitle, title, titleStyle, iconStyle, isShowIcon} = Object.assign(this.defaultRightButton, this.props.rightButton)
+    const {theme} = this.props
     return (
       <CTouchableWithoutFeedback handle={this._navigate}>
         <View style={[styles.btn, {justifyContent: 'flex-end',}]}>
@@ -192,19 +204,26 @@ class CNavigation extends Component {
     navBackgroundColor: PropTypes.string,
     isPaddingTop: PropTypes.bool,
     isSafeArea: PropTypes.bool,
+    isNavContent: PropTypes.bool,
+    theme: PropTypes.oneOf(['dark', 'light', 'variable']),
+    barStyle: PropTypes.string,
   }
 
   static defaultProps = {
-    commonBackgroundColor: Layout.color.white_bg,
-    navBackgroundColor: Layout.color.white_bg,
+    commonBackgroundColor: Layout.color.white_bg, // 视图的背景颜色
+    navBackgroundColor: Layout.color.white_bg, // 导航的背景颜色
     LeftOrRight: 'all',
-    isPaddingTop: true,
+    isPaddingTop: true, // 默认有paddingTop
     isSafeArea: true, // 是否设置安全区域
+    isNavContent: true, // 是否需要导航
+    theme: 'dark', // 导航的主题颜色
+    barStyle: 'dark-content',
   }
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
 
   componentDidMount() {
@@ -217,7 +236,7 @@ class CNavigation extends Component {
   }
 
   render() {
-    const {LeftOrRight, commonBackgroundColor, navBackgroundColor, isPaddingTop, isSafeArea} = this.props
+    const {LeftOrRight, commonBackgroundColor, navBackgroundColor, isPaddingTop, isSafeArea, isNavContent, theme} = this.props
     return (
       <SafeAreaView
         forceInset={{top: isSafeArea ? 'always' : 'never'}}
@@ -225,20 +244,28 @@ class CNavigation extends Component {
           flex: 1, backgroundColor: commonBackgroundColor
         }]}>
 
+        <CStatusBar {...this.props}/>
+
         <View style={[styles.container, {paddingTop: isPaddingTop ? 44 : 0}]}>
-          <View style={[styles.navContainer, {backgroundColor: navBackgroundColor}, {top: isPaddingTop ? 0 : 44}]}>
-            <View style={styles.buttonWrapper}>
-              {
-                LeftOrRight === 'left' || 'all' ? <LeftButtonItem {...this.props}/> : <View/>
-              }
-              <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <TitleItem {...this.props}/>
+          {
+            isNavContent ? <View style={[
+              styles.navContainer,
+              {backgroundColor: theme === 'light' ? 'transparent' : navBackgroundColor},
+              {top: isPaddingTop ? 0 : 44}
+            ]}>
+              <View style={styles.buttonWrapper}>
+                {
+                  LeftOrRight === 'left' || 'all' ? <LeftButtonItem {...this.props}/> : <View/>
+                }
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                  <TitleItem {...this.props}/>
+                </View>
+                {
+                  LeftOrRight === 'right' || 'all' ? <RightButtonItem {...this.props}/> : <View/>
+                }
               </View>
-              {
-                LeftOrRight === 'right' || 'all' ? <RightButtonItem {...this.props}/> : <View/>
-              }
-            </View>
-          </View>
+            </View> : null
+          }
 
           {this.props.children}
 
@@ -254,6 +281,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     flex: 1,
+    // borderWidth: 1,
   },
   navContainer: {
     position: 'absolute',

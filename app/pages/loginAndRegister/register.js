@@ -23,6 +23,7 @@ const {width, height} = Dimensions.get('window');//屏幕宽度
 import BXTextInput from '../../components/CTextInput';
 import BottomText from '../../components/BottomText/BottomText';
 import CGradientButton from '../../components/CGradientButton';
+import CNavigation from '../../components/CNavigation';
 
 /** 高阶组件的引用 */
 // import HOCNavigationFocus from '../../components/HOC/HOCNavigationEvents';
@@ -86,7 +87,7 @@ class Register extends Component {
   }
 
   /** 清空数据 */
-  _clearData=() => {
+  _clearData = () => {
     this.setState({
       secureTextEntry: true,
       disabled: true,
@@ -152,7 +153,11 @@ class Register extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <CNavigation
+        isNavContent={false}
+        isPaddingTop={false}
+      >
+        {/*<View style={styles.container}>*/}
         <ScrollView
           style={styles.scrollViewStyle}
           keyboardDismissMode={'on-drag'}
@@ -162,7 +167,7 @@ class Register extends Component {
           {StaticPages.LoginAndRegisterHeader('注册账号')}
 
           <BXTextInput
-            getRef = {ref => this._telInputInstance = ref}
+            getRef={ref => this._telInputInstance = ref}
             placeholder={'请输入手机号'}
             keyboardType={'numeric'}
             maxLength={11}
@@ -171,7 +176,7 @@ class Register extends Component {
           />
 
           <BXTextInput
-            getRef = {ref => this._invitationCodeInstance = ref}
+            getRef={ref => this._invitationCodeInstance = ref}
             placeholder={'请输入邀请码'}
             keyboardType={'numeric'}
             maxLength={6}
@@ -227,7 +232,8 @@ class Register extends Component {
           handle={this.props.switchToLogin}
         />
 
-      </View>
+        {/*</View>*/}
+      </CNavigation>
     );
   }
 }

@@ -25,6 +25,7 @@ export default class StaticPages {
       <Text style={styles.title}>{text}</Text>
     </View>
   }
+
   // 验证码和设置密码的头部
   static validationAndSetting = (title, text) => {
     return <View style={styles.entryWrapper}>
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
     height: 32,
     marginRight: 10,
   },
+
   title: {
     fontSize: Layout.font.Title1,
     color: Layout.color.wblack,

@@ -61,7 +61,7 @@ export default class BottomText extends Component {
 }
 const styles = StyleSheet.create({
   bottomTextWrapper: {
-    position: 'absolute',
+    // position: 'absolute',
     bottom: 23,
     width: width,
     ...Layout.layout.rcc,

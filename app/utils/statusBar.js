@@ -11,7 +11,7 @@ import {
 /** 自定义组建的引用 */
 class StatusBarUtil {
   // 初始化状态栏
-  static initialStatusBar = (hideStatusBar = false) => {
+  static initialStatusBar = (theme = 'dark-content') => {
     /**
      * 指定状态栏是否透明。设置为true时，应用会在状态栏之下绘制（即所谓“沉浸式”——被状态栏遮住一部分）。
      * 常和带有半透明背景色的状态栏搭配使用。
@@ -28,13 +28,13 @@ class StatusBarUtil {
      * style（StatusBarStyle） - 将要设置的状态栏样式
      * [animated]（布尔类型） - 是否启用过渡动画
      */
-    StatusBar.setBarStyle('dark-content', true)
+    StatusBar.setBarStyle(theme, true)
     /**
      * 显示／隐藏状态栏
      * hidden（布尔类型） - 是否隐藏状态栏
      * [animation]（StatusBarAnimation） - 改变状态栏显示状态的动画过渡效果
      */
-    StatusBar.setHidden(hideStatusBar, false)
+    StatusBar.setHidden(false, false)
   }
 }
 export {StatusBarUtil}
