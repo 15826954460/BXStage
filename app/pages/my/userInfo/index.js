@@ -18,7 +18,7 @@ import CNavigation from '../../../components/CNavigation';
 
 /** 常量声明 */
 
-export default class Vue2 extends Component {
+export default class UserInfo extends Component {
 
   constructor(props) {
     super(props);
@@ -57,6 +57,7 @@ export default class Vue2 extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -7,12 +7,31 @@ import {
 /** 全局样式的引用 */
 
 /** 第三方依赖库的引用 */
-import {withHandlers, compose} from 'recompact';
+import {withHandlers, compose} from 'recompact'; // 高阶组件的第三方库
+import hoistStatics from 'hoist-non-react-statics'; // 获取上下文静态方法的组件
+
+/**
+ * 自定义组件以及高阶组件的引用
+ */
+import {Consumer} from './HOCcontext';
 
 /** 常量声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
 
-export default function withOnScroll(TargetComponent) {
+/** 通过 Consumer 获取 Provider 传递过来的导航的实例 */
+const withScrollComponent = (ScrollComponent) => {
+
+  const ComponentWithNav = <Consumer>
+    {
+      (getNav) => <TargetComponent getNav={getNav}/>
+    }
+  </Consumer>
+
+  return hoistStatics(ComponentWithNav, ScrollComponent);
+}
+
+/** 返回加工后的onScroll组件，其实就是抽离出了 onScroll 方法 */
+export default function withOnScroll(ScrollComponent) {
 
   const onScrollWithHandler = withHandlers({
     onScroll: props => e => {
@@ -23,11 +42,14 @@ export default function withOnScroll(TargetComponent) {
       maxOffsetY <= 0 && (maxOffsetY = height * 0.1)
       let alpha = (y / maxOffsetY).toFixed(2)
       let nav = props.getNav()
-      nav && nav.fadeInBottomLine(alpha)
-      let statusBar = props.getStatusBar()
-      statusBar && !statusBar.isStaticStyle() && statusBar.setBarStyle(alpha >= 0.8 ? STATUS_BAR_DARK_STYLE : STATUS_BAR_LIGHT_STYLE)
+      nav && nav._fadeInBottomLine(alpha)
     }
   })
 
-  return compose(onScrollWithHandler)(Component)
+  /**
+   * compose(onScrollWithHandler)(ScrollComponent)
+   * 将onScroll方法绑定到 onScroll 组件中，通过 withScrollComponent 获取导航组件的实例
+   * */
+
+  return withScrollComponent(compose(onScrollWithHandler)(ScrollComponent))
 }

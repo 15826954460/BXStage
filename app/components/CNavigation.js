@@ -16,7 +16,6 @@ import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
 import CStatusBar from './CStatusBar';
 
 /** 自定义工具方法的引用 */
-import {StatusBarUtil} from '../utils/statusBar';
 
 /** 一些常量的声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽高
@@ -222,8 +221,7 @@ class CNavigation extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -235,10 +233,16 @@ class CNavigation extends Component {
   componentWillUnmount() {
   }
 
+  _fadeInBottomLine = () => {
+
+  }
+
   render() {
     const {LeftOrRight, commonBackgroundColor, navBackgroundColor, isPaddingTop, isSafeArea, isNavContent, theme} = this.props
     return (
+
       <SafeAreaView
+        ref={ref => this._CNavInstance = ref}
         forceInset={{top: isSafeArea ? 'always' : 'never'}}
         style={[{
           flex: 1, backgroundColor: commonBackgroundColor
@@ -271,6 +275,7 @@ class CNavigation extends Component {
 
         </View>
       </SafeAreaView>
+
     );
   }
 }
