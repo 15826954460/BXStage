@@ -37,14 +37,7 @@ export default class Main extends Component {
   }
 
   componentWillMount() {
-  }
-
-  componentDidFocus() {
-    console.log(11111, '------获取焦点-------')
-  }
-
-  componentWillBlur() {
-    console.log(11111, '------失去焦点-------')
+    console.log(222222, this.state)
   }
 
   componentDidMount() {
@@ -65,7 +58,7 @@ export default class Main extends Component {
   componentWillUnmount() {
   }
 
-  _onScroll = (e) => {
+  _onScroll = e => {
     /** 计算导航的透明度 */
     let {y} = e.nativeEvent.contentOffset
     let {contentSize, layoutMeasurement} = e.nativeEvent
@@ -73,14 +66,14 @@ export default class Main extends Component {
     maxOffsetY = Math.min(Math.floor(maxOffsetY), height * 0.1);
     maxOffsetY <= 0 && (maxOffsetY = height * 0.1)
     let alpha = (y / maxOffsetY).toFixed(2)
-    this._cnavInstance._fadeInBottomLine(alpha)
-    // console.log(111111, e.nativeEvent)
+    this._navInstance._fadeInBottomLine(alpha)
+    // console.log(22222333, this._navInstance.state, alpha)
   }
 
   render() {
     return (
       <CNavigation
-        ref={ref => this._cnavInstance = ref}
+        getRef={ref => this._navInstance = ref}
         LeftOrRight={'left'}
         leftButton={{
           isShowIcon: true,
@@ -104,6 +97,7 @@ export default class Main extends Component {
             source={Util.isAndroid() ? require('../../images/me/me_img_bg.png') : require('../../images/me/me_img_bg_iPX.png')}
           >
             <View style={styles.userInfoWrapper}>
+
               <View style={{flex: 1, justifyContent: 'flex-end'}}>
                 <Text
                   numberOfLines={1}
@@ -125,7 +119,7 @@ export default class Main extends Component {
                   width: 116, height: 116,
                   position: 'relative',
                   marginLeft: 23,
-                  justifyContent: 'flex-end'
+                  justifyContent: 'flex-end',
                 }}>
                   <ImageBackground
                     fadeDuration={0}
@@ -151,73 +145,75 @@ export default class Main extends Component {
             </View>
           </ImageBackground>
 
-          <ListItem
-            iconType={'MIB'}
-            leftText={'我的借款'}
-          />
-          <ListItem
-            iconType={'MIT'}
-            leftText={'交易记录'}
-          />
-          <ListItem
-            iconType={'MIQ'}
-            leftText={'常见问题'}
-          />
-          <ListItem
-            iconType={'MIC'}
-            leftText={'联系客服'}
-            rightText={'工作日9:00-18:00'}
-          />
-          <ListItem
-            iconType={'MIF'}
-            leftText={'用户反馈'}
-            isService={true}
-            rightText={'客服回复你啦'}
-          />
-          <ListItem
-            iconType={'MIA'}
-            leftText={'关于币下分期'}
-            rightText={'0.1.0'}
-          />
-          <ListItem
-            iconType={'MIS'}
-            leftText={'设置'}
-          />
+          <View>
+            <ListItem
+              iconType={'MIB'}
+              leftText={'我的借款'}
+            />
+            <ListItem
+              iconType={'MIT'}
+              leftText={'交易记录'}
+            />
+            <ListItem
+              iconType={'MIQ'}
+              leftText={'常见问题'}
+            />
+            <ListItem
+              iconType={'MIC'}
+              leftText={'联系客服'}
+              rightText={'工作日9:00-18:00'}
+            />
+            <ListItem
+              iconType={'MIF'}
+              leftText={'用户反馈'}
+              isService={true}
+              rightText={'客服回复你啦'}
+            />
+            <ListItem
+              iconType={'MIA'}
+              leftText={'关于币下分期'}
+              rightText={'0.1.0'}
+            />
+            <ListItem
+              iconType={'MIS'}
+              leftText={'设置'}
+            />
 
 
-          {/*测试列表*/}
-          <ListItem
-            iconType={'MIB'}
-            leftText={'我的借款'}
-          />
-          <ListItem
-            iconType={'MIT'}
-            leftText={'交易记录'}
-          />
-          <ListItem
-            iconType={'MIQ'}
-            leftText={'常见问题'}
-          />
-          <ListItem
-            iconType={'MIC'}
-            leftText={'联系客服'}
-            rightText={'工作日9:00-18:00'}
-          />
-          <ListItem
-            iconType={'MIF'}
-            leftText={'用户反馈'}
-            isService={true}
-            rightText={'客服回复你啦'}
-          />
-          <ListItem
-            iconType={'MIA'}
-            leftText={'关于币下分期'}
-            rightText={'0.1.0'}
-          />
-          <ListItem
-            iconType={'MIS'}
-            leftText={'设置'}
-          />
+            {/*测试列表*/}
+            <ListItem
+              iconType={'MIB'}
+              leftText={'我的借款'}
+            />
+            <ListItem
+              iconType={'MIT'}
+              leftText={'交易记录'}
+            />
+            <ListItem
+              iconType={'MIQ'}
+              leftText={'常见问题'}
+            />
+            <ListItem
+              iconType={'MIC'}
+              leftText={'联系客服'}
+              rightText={'工作日9:00-18:00'}
+            />
+            <ListItem
+              iconType={'MIF'}
+              leftText={'用户反馈'}
+              isService={true}
+              rightText={'客服回复你啦'}
+            />
+            <ListItem
+              iconType={'MIA'}
+              leftText={'关于币下分期'}
+              rightText={'0.1.0'}
+            />
+            <ListItem
+              iconType={'MIS'}
+              leftText={'设置'}
+            />
+          </View>
         </ScrollView>
       </CNavigation>
     );
@@ -233,7 +229,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: 88,
+    paddingTop: Util.isIPhoneX() ? 88 :44,
   },
   avatarbg: {
     width: 116,

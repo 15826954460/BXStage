@@ -49,14 +49,12 @@ const Size = {
     width: width,
     height: height,
     pixel: pixel,
-    apiLevel: Platform.OS === 'android' ? Number(getAPILevel()) : -1,// android level >= 21 （安卓5.0） 则支持沉浸式状态栏
+    // 状态栏高度，iOS=20，安卓如果是沉浸式状态栏则为0，否则通过 StatusBar 获取, 安卓手机 Level 大于 1 的时候才有状态栏
+    statusBarHeight: (Platform.OS === 'android' ? (Number(DeviceInfo.getAPILevel()) >= 21 ? StatusBar.currentHeight : 0) : (isIPhoneX ? 44 : 20)),
+    apiLevel: Platform.OS === 'android' ? Number(DeviceInfo.getAPILevel()) : -1,// android level >= 21 （安卓5.0） 则支持沉浸式状态栏
     translucentLevel: 21,// 安卓 >=5.0（APILevel === 21）
     iphoneXStatusBarHeight: 44,// iPhoneX 刘海状态栏高度
     iPhoneXHomeIndicatorAreaHeight: 34,// iPhoneX 底部 Home Indicator 横条安全区域高度
-  },
-  // 状态栏高度，iOS=20，安卓如果是沉浸式状态栏则为0，否则通过 StatusBar 获取, 安卓手机 Level 大于 1 的时候才有状态栏
-  statusBar: {
-    height: (Platform.OS === 'android' ? (Number(getAPILevel()) >= 21 ? StatusBar.currentHeight : 0) : (isIPhoneX ? 44 : 20))
   },
   // 机型的模板
   phoneModel: (model) => {

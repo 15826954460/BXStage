@@ -118,9 +118,9 @@ class Login extends Component {
         isNavContent={false}
         isPaddingTop={false}
       >
-        {/*<View style={styles.container}>*/}
         <ScrollView style={styles.scrollViewStyle}
-                    keyboardDismissMode={"on-drag"} keyboardShouldPersistTaps={"handled"}
+                    keyboardDismissMode={"on-drag"}
+                    keyboardShouldPersistTaps={"handled"}
                     showsVerticalScrollIndicator={false}>
 
           {StaticPages.LoginAndRegisterHeader("欢迎回来")}
@@ -140,7 +140,7 @@ class Login extends Component {
             keyboardType={"default"}
             maxLength={16}
             isShowPasswordIcon={true}
-            secureTextEntry={this.state.secureTextEntry}
+            secureTextEntry={this.state.secureTextEntry}fegn
             changeSecureTextEntry={() => this.setState({secureTextEntry: !this.state.secureTextEntry})}
             clearInputValue={() => this.setState({password: "", disabled: true})}
             handle={this._getPassword}
@@ -157,7 +157,6 @@ class Login extends Component {
         </ScrollView>
 
         <BottomText normalText={"还没有账号？"} clickText={"注册"} handle={this.props.switchToRegister}/>
-        {/*</View>*/}
       </CNavigation>
     );
   }
