@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Dimensions, Text, View, Image,
+  StyleSheet, Dimensions, Text, View, Image,Platform,StatusBar,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -10,11 +10,13 @@ import {Layout} from "../styles/layout";
 /** 第三方依赖库的引用 */
 import {SafeAreaView, withNavigation} from 'react-navigation';
 import PropTypes from 'prop-types';
+import DeviceInfo from "react-native-device-info";
 
 /** 自定义组建的引用 */
 import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
 import CStatusBar from './CStatusBar';
 import {Size} from "../styles/size";
+import {Util} from "../utils/util";
 
 /** 自定义工具方法的引用 */
 
@@ -257,30 +259,21 @@ class CNavigation extends Component {
   componentWillUnmount() {
   }
 
-  /** 修改导航以及状态栏的样式 */
+  /** 根据滚动动态修改导航以及状态栏的样式 */
   _fadeInBottomLine = (p) => {
     const {theme} = this.props
     let _navBackgroundColor, _barStyle, _theme
     if (theme === 'variable') {
       _navBackgroundColor = p ? ( p >= 0.8 ? `rgba(255,255,255,${p})` : 'transparent') : 'transparent'
-      _barStyle = (p >= 0.8) ? 'light-content' : 'dark-content'
-      _theme = (p >= 0.8) ? 'transparent' : '#fff'
+      _barStyle = (p >= 0.8) ? 'dark-content' : 'light-content'
+      _theme = (p >= 0.8) ? 'dark' : 'light'
+      // this._statusBarInstance.setBarStyle(_navBackgroundColor, false)
+      this.setState({
+        navBackgroundColor: _navBackgroundColor,
+        barStyle: _barStyle,
+        theme: _theme,
+      })
     }
-    else if (theme === 'light') {
-      _navBackgroundColor = 'transparent'
-      _barStyle = 'light-content'
-      _theme='light'
-    }
-    else {
-      _navBackgroundColor = WHITE_COLOR
-      _barStyle = 'dark-content'
-      _theme='dark'
-    }
-    this.setState({
-      navBackgroundColor: _navBackgroundColor,
-      barStyle: _barStyle,
-      theme: _theme,
-    })
   }
 
   render() {
@@ -302,6 +295,7 @@ class CNavigation extends Component {
           {
             isNavContent ? <View style={[
               styles.navContainer,
+              {height: isSafeArea ? (Util.isIPhoneX() ? 88 : (Number(DeviceInfo.getAPILevel()) >= 21 ? 64 : 44)) : 44},
               {backgroundColor: navBackgroundColor},
             ]}>
               <View style={styles.buttonWrapper}>
@@ -337,10 +331,10 @@ const styles = StyleSheet.create({
   navContainer: {
     position: 'absolute',
     width: width,
-    height: 44,
     zIndex: 10000,
     paddingHorizontal: Layout.gap.gap_edge,
-    top: Size.screen.statusBarHeight
+    top: 0,
+    paddingTop: (Platform.OS === 'android' ? (Number(DeviceInfo.getAPILevel()) >= 21 ? StatusBar.currentHeight : 0) : (Util.isIPhoneX() ? 24 : 0)),
   },
   buttonWrapper: {
     flex: 1,

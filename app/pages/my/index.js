@@ -37,7 +37,6 @@ export default class Main extends Component {
   }
 
   componentWillMount() {
-    console.log(222222, this.state)
   }
 
   componentDidMount() {
@@ -67,7 +66,6 @@ export default class Main extends Component {
     maxOffsetY <= 0 && (maxOffsetY = height * 0.1)
     let alpha = (y / maxOffsetY).toFixed(2)
     this._navInstance._fadeInBottomLine(alpha)
-    // console.log(22222333, this._navInstance.state, alpha)
   }
 
   render() {
@@ -79,12 +77,13 @@ export default class Main extends Component {
           isShowIcon: true,
           isShowTitle: false,
         }}
-        theme={'light'}
+        theme={'variable'}
         barStyle={STATUS_BAR_LIGHT_THEME}
         isPaddingTop={false}
         isSafeArea={false}
       >
         <ScrollView style={styles.container}
+                    scrollEventThrottle={16}
                     onScroll={this._onScroll}
         >
           <ImageBackground
@@ -180,7 +179,39 @@ export default class Main extends Component {
             />
 
 
-            {/*测试列表*/}
+            {/*以下为测试数据，为了可以使用视图滚动改变状态栏透明度演示效果*/}
+            <ListItem
+              iconType={'MIB'}
+              leftText={'我的借款'}
+            />
+            <ListItem
+              iconType={'MIT'}
+              leftText={'交易记录'}
+            />
+            <ListItem
+              iconType={'MIQ'}
+              leftText={'常见问题'}
+            />
+            <ListItem
+              iconType={'MIC'}
+              leftText={'联系客服'}
+              rightText={'工作日9:00-18:00'}
+            />
+            <ListItem
+              iconType={'MIF'}
+              leftText={'用户反馈'}
+              isService={true}
+              rightText={'客服回复你啦'}
+            />
+            <ListItem
+              iconType={'MIA'}
+              leftText={'关于币下分期'}
+              rightText={'0.1.0'}
+            />
+            <ListItem
+              iconType={'MIS'}
+              leftText={'设置'}
+            />
             <ListItem
               iconType={'MIB'}
               leftText={'我的借款'}
