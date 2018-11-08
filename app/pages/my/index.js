@@ -84,6 +84,9 @@ export default class Main extends Component {
       >
         <ScrollView style={styles.container}
                     scrollEventThrottle={16}
+                    keyboardDismissMode={"on-drag"}
+                    keyboardShouldPersistTaps={"handled"}
+                    showsVerticalScrollIndicator={false}
                     onScroll={this._onScroll}
         >
           <ImageBackground
@@ -113,7 +116,7 @@ export default class Main extends Component {
               </View>
 
               <CTouchableWithoutFeedback
-                handle={() => this.props.navigation.navigate('UserInfo')}>
+                handle={() => this.props.navigation.navigate('AccountInfo')}>
                 <View style={{
                   width: 116, height: 116,
                   position: 'relative',
@@ -149,6 +152,7 @@ export default class Main extends Component {
               leftIconType={'MIB'}
               leftText={'我的借款'}
               hasBottomLine={true}
+              handle={() => this.props.navigation.navigate('MyLoan')}
             />
             <ListItem
               leftIconType={'MIT'}

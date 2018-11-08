@@ -26,6 +26,7 @@ export default class ListItem extends Component {
     isDot: PropTypes.bool, // 红点提示
     wrapperStyle: PropTypes.object, // 样式
     leftText: PropTypes.string, // 左边文案
+    leftTextBottom: PropTypes.string, // 左边文案
     rightText: PropTypes.string, // 右边文案
     leftIconType: PropTypes.string, // icon 标识
     isShowUserImg: PropTypes.bool, // 是否显示用户头像
@@ -39,9 +40,11 @@ export default class ListItem extends Component {
     wrapperStyle: {
       height: 50,
       marginTop: 0,
+      backgroundColor: '#fff'
     },
     leftIconType: '',
     leftText: '',
+    leftTextBottom: '',
     rightText: '',
     isShowUserImg: false,
     isShowRightIcon: true,
@@ -90,12 +93,12 @@ export default class ListItem extends Component {
     return actions.get(type)()
   }
 
-  _onPress=() => {
+  _onPress = () => {
     this.props.handle instanceof Function && this.props.handle()
   }
 
   render() {
-    const {isDot, leftText, rightText, leftIconType, isShowUserImg, isShowRightIcon, hasBottomLine, specialIconType, wrapperStyle} = this.props
+    const {isDot, leftText, rightText, leftIconType, isShowUserImg, isShowRightIcon, hasBottomLine, specialIconType, wrapperStyle, leftTextBottom} = this.props
     return (
       <CTouchableWithoutFeedback handle={this._onPress}>
         <View style={[styles.container, wrapperStyle]}>
@@ -107,11 +110,19 @@ export default class ListItem extends Component {
                 source={this._getLeftIconPath(leftIconType)}
               /> : null
             }
-            {
-              leftText ? <Text style={styles.leftText}>
-                {leftText}
-              </Text> : null
-            }
+            <View style={styles.leftTextWrapper}>
+              {
+                leftText ? <Text style={styles.leftText}>
+                  {leftText}
+                </Text> : null
+              }
+              {
+                leftTextBottom ? <Text style={styles.leftTextBottom}>
+                  {leftTextBottom}
+                </Text> : null
+              }
+            </View>
+
           </View>
 
           <View style={[styles.iconAndTextWrapper]}>
@@ -150,7 +161,7 @@ export default class ListItem extends Component {
           </View>
 
           {
-            hasBottomLine ? <View style={styles.borderBottomLine}>
+            hasBottomLine ? <View style={[styles.borderBottomLine, styles.BottomLine]}>
             </View> : null
           }
 
@@ -194,12 +205,24 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 10
   },
-  borderBottomLine: {
+  BottomLine: {
     borderBottomWidth: Size.screen.pixel,
     borderBottomColor: Layout.color.gray_line,
     position: 'absolute',
     bottom: 0,
     right: 0,
+  },
+  borderBottomLine: {
     width: width * 331 / 375
-  }
+  },
+  borderAllBottomLine: {
+    width: width
+  },
+  leftTextWrapper: {
+    flexDirection: 'column',
+  },
+  leftTextBottom: {
+    fontSize: 14,
+    color: Layout.color.wgray_main,
+  },
 });

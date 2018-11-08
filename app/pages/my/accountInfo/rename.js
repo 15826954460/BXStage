@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, TextInput, Image,
+  StyleSheet, Text, View, TextInput, Image, ScrollView,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -17,7 +17,7 @@ import CTouchableWithoutFeedback from '../../../components/CTouchableWithoutFeed
 
 /** 常量声明 */
 
-export default class Vue2 extends Component {
+export default class ReName extends Component {
 
   constructor(props) {
     super(props);
@@ -56,7 +56,7 @@ export default class Vue2 extends Component {
     this._inputInstance.clear()
     this.setState({
       isShowClearIcon: false,
-      inputValue : ''
+      inputValue: ''
     })
   }
 
@@ -83,7 +83,10 @@ export default class Vue2 extends Component {
           fontFamily: ' PingFangSC-Medium',
         }}
       >
-        <View style={styles.container}>
+        <ScrollView style={styles.container}
+                    keyboardDismissMode={"on-drag"}
+                    keyboardShouldPersistTaps={"handled"}
+                    showsVerticalScrollIndicator={false}>
 
           <View style={styles.inputWrapper}>
             <TextInput
@@ -105,12 +108,10 @@ export default class Vue2 extends Component {
                        source={require('../../../images/login/login_img_clear.png')}/>
               </CTouchableWithoutFeedback> : null
             }
-
-
           </View>
 
+        </ScrollView>
 
-        </View>
       </CNavigation>
     );
   }
@@ -118,7 +119,7 @@ export default class Vue2 extends Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: Layout.color.gray_line,
+      backgroundColor: Layout.color.light_gray,
     },
     inputWrapper: {
       width: '100%',

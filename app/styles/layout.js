@@ -85,6 +85,7 @@ const Layout = {
     worange: '#ffa015',
     wgreen: '#41c557',
     circle: '#F93C0A',
+    light_gray: 'rgb(247,247,247)'
   },
 
   /** 间距规范 **/

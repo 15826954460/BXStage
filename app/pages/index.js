@@ -29,8 +29,11 @@ import NetErrorPage from './errorPage/netError'; // 人数较多的提示页面
 import InstalmentPage from './instalment/index'; // 分期还款
 
 import My from './my'; // 我
-import UserInfo from './my/userInfo'; // 用户信息
-import ReName from './my/reName'; // 修改昵称
+import AccountInfo from './my/accountInfo'; // 用户信息
+import ReName from './my/accountInfo/rename'; // 修改昵称
+import MyLoan from './my/myLoan'; // 我的借款
+import LoanDetail from './my/myLoan/loanDetail'; // 借款详情
+import MoreDetail from './my/myLoan/moreDetail'; // 更多详情
 
 
 /** 工具类的引用 */
@@ -104,8 +107,11 @@ const Stack = createStackNavigator(
     MorePerson: {screen: MorePerson},
     EmptyPage: {screen: EmptyPage},
     NetErrorPage: {screen: NetErrorPage},
-    UserInfo: {screen: UserInfo},
+    AccountInfo: {screen: AccountInfo},
     ReName: {screen: ReName},
+    MyLoan: {screen: MyLoan},
+    LoanDetail: {screen: LoanDetail},
+    MoreDetail: {screen: MoreDetail},
   },
   {
     initialRouteName: 'AuthStatus',

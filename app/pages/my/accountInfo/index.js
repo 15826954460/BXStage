@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, StatusBar,
+  StyleSheet, Text, View, StatusBar,ScrollView,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -19,7 +19,7 @@ import ListItem from '../../../components/ListItem/ListItem';
 
 /** 常量声明 */
 
-export default class UserInfo extends Component {
+export default class AccountInfo extends Component {
 
   constructor(props) {
     super(props);
@@ -59,7 +59,10 @@ export default class UserInfo extends Component {
           fontFamily: ' PingFangSC-Medium',
         }}
       >
-        <View style={styles.container}>
+        <ScrollView style={styles.container}
+                    scrollEventThrottle={16}
+                    showsVerticalScrollIndicator={false}
+        >
           <ListItem
             leftText={'头像'}
             isShowUserImg={true}
@@ -126,7 +129,7 @@ export default class UserInfo extends Component {
             rightText={'招商银行(尾号9401)'}
             specialIconType={'ZSYH'}
           />
-        </View>
+        </ScrollView>
       </CNavigation>
     );
   }
@@ -135,6 +138,6 @@ export default class UserInfo extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:Layout.color.gray_line,
+    backgroundColor:Layout.color.light_gray,
   }
 });

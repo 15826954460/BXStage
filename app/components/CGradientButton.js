@@ -11,6 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 /** 全局样式的引用 */
 
 /** 第三方依赖库的引用 */
+import {Util} from '../utils/util';
 
 /** 自定义组建的引用 */
 import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
@@ -34,8 +35,8 @@ const
 const BUTTON_STYLE = {
   btn_bottom: {
     width: width,
-    // height: 44 + (CommonSize.isIPhoneX ? CommonSize.screen.iPhoneXHomeIndicatorAreaHeight:0),
-    // paddingBottom: CommonSize.isIPhoneX ? CommonSize.screen.iPhoneXHomeIndicatorAreaHeight:0,
+    height: 44 + (Util.isIPhoneX()? 34 : 0),
+    paddingBottom: Util.isIPhoneX() ? 34 : 0,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -102,6 +103,7 @@ export default class CGradientButton extends Component {
     colorsDisableArray: PropTypes.array, // 父组件传进来的按钮的禁用颜色数组
     textStyle: PropTypes.object, // 按钮文字的样式
     contentText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // 按钮的文字
+    contentTextStyle: PropTypes.object,
     disabled: PropTypes.bool, // 是否禁用
     start: PropTypes.object, // 关于渐变动画开始的初始值
     end: PropTypes.object, // 关于渐变动画开始的初始值
@@ -119,6 +121,7 @@ export default class CGradientButton extends Component {
     locations: [0, 1.0], // 关于渐变动画的初始值（location 要和 colors 长度对应）
     numberOfLines: 0,
     additionalStyle: {}, // 默认特殊按钮的样式为空对象，防止页面运行报错
+    contentTextStyle: {},
   };
 
   constructor(props) {
@@ -143,7 +146,7 @@ export default class CGradientButton extends Component {
 
   render() {
     const {pressDown} = this.state
-    const {contentText, disabled, start, end, locations, numberOfLines, gradientType, textStyle, isGradientButton, additionalStyle} = this.props
+    const {contentText, disabled, start, end, locations, numberOfLines, gradientType, textStyle, isGradientButton, additionalStyle, contentTextStyle} = this.props
     const {colorsArray, colorsPressArray, colorsDisableArray, onPress} = this.props
     return (
       <CTouchableWithoutFeedback
@@ -160,7 +163,7 @@ export default class CGradientButton extends Component {
           }
           locations={locations}
           style={[BUTTON_STYLE[gradientType], additionalStyle]}>
-          <Text style={textStyle}
+          <Text style={[textStyle, contentTextStyle]}
                 numberOfLines={numberOfLines}>
             {contentText}
           </Text>

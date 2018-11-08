@@ -168,10 +168,10 @@ withNavigation(RightButtonItem)
 
 class TitleItem extends Component {
   static propTypes = {
-    titleStyle: PropTypes.object,
     centerTitle: PropTypes.shape({
       title: PropTypes.string,
       handle: PropTypes.func,
+      titleStyle: PropTypes.object,
     })
   }
 
@@ -181,7 +181,7 @@ class TitleItem extends Component {
       handle: null,
       title: '',
       titleStyle: {
-        color: '#000',
+        color: '#fff',
       }, // 导航文字样式
     };
     this.state = {};
@@ -215,6 +215,7 @@ class CNavigation extends Component {
     navBackgroundColor: PropTypes.string,
     isPaddingTop: PropTypes.bool,
     isSafeArea: PropTypes.bool,
+    isSafeAreaBottom: PropTypes.bool,
     isNavContent: PropTypes.bool,
     theme: PropTypes.oneOf(['dark', 'light', 'variable']),
     barStyle: PropTypes.string,
@@ -227,6 +228,7 @@ class CNavigation extends Component {
     LeftOrRight: 'all',
     isPaddingTop: true, // 默认有paddingTop
     isSafeArea: true, // 是否设置安全区域
+    isSafeAreaBottom: true, // 是否设置安全区域
     isNavContent: true, // 是否需要导航
     theme: 'dark', // 导航的主题颜色
     barStyle: 'dark-content',
@@ -274,15 +276,16 @@ class CNavigation extends Component {
   }
 
   render() {
-    const {LeftOrRight, commonBackgroundColor, isPaddingTop, isSafeArea, isNavContent} = this.props
+    const {LeftOrRight, commonBackgroundColor, isPaddingTop, isSafeArea, isNavContent, isSafeAreaBottom} = this.props
     const {barStyle, navBackgroundColor, theme} = this.state
     return (
 
       <SafeAreaView
         ref={ref => this._CNavInstance = ref}
-        forceInset={{top: isSafeArea ? 'always' : 'never'}}
+        forceInset={{top: isSafeArea ? 'always' : 'never', bottom: isSafeAreaBottom ? 'always' : 'never'}}
         style={[{
-          flex: 1, backgroundColor: commonBackgroundColor
+          flex: 1, backgroundColor: commonBackgroundColor,
+          position: 'relative'
         }]}>
 
         <CStatusBar ref={ref => this._statusBarInstance = ref}
