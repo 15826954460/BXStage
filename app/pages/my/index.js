@@ -146,103 +146,124 @@ export default class Main extends Component {
 
           <View>
             <ListItem
-              iconType={'MIB'}
+              leftIconType={'MIB'}
               leftText={'我的借款'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIT'}
+              leftIconType={'MIT'}
               leftText={'交易记录'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIQ'}
+              leftIconType={'MIQ'}
               leftText={'常见问题'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIC'}
+              leftIconType={'MIC'}
               leftText={'联系客服'}
               rightText={'工作日9:00-18:00'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIF'}
+              leftIconType={'MIF'}
               leftText={'用户反馈'}
-              isService={true}
+              isDot={true}
               rightText={'客服回复你啦'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIA'}
+              leftIconType={'MIA'}
               leftText={'关于币下分期'}
               rightText={'0.1.0'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIS'}
+              leftIconType={'MIS'}
               leftText={'设置'}
+              hasBottomLine={true}
             />
 
 
             {/*以下为测试数据，为了可以使用视图滚动改变状态栏透明度演示效果*/}
             <ListItem
-              iconType={'MIB'}
+              leftIconType={'MIB'}
               leftText={'我的借款'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIT'}
+              leftIconType={'MIT'}
               leftText={'交易记录'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIQ'}
+              leftIconType={'MIQ'}
               leftText={'常见问题'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIC'}
+              leftIconType={'MIC'}
               leftText={'联系客服'}
               rightText={'工作日9:00-18:00'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIF'}
+              leftIconType={'MIF'}
               leftText={'用户反馈'}
               isService={true}
               rightText={'客服回复你啦'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIA'}
+              leftIconType={'MIA'}
               leftText={'关于币下分期'}
+              hasBottomLine={true}
               rightText={'0.1.0'}
             />
             <ListItem
-              iconType={'MIS'}
+              leftIconType={'MIS'}
               leftText={'设置'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIB'}
+              leftIconType={'MIB'}
               leftText={'我的借款'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIT'}
+              leftIconType={'MIT'}
               leftText={'交易记录'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIQ'}
+              leftIconType={'MIQ'}
               leftText={'常见问题'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIC'}
+              leftIconType={'MIC'}
               leftText={'联系客服'}
               rightText={'工作日9:00-18:00'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIF'}
+              leftIconType={'MIF'}
               leftText={'用户反馈'}
               isService={true}
               rightText={'客服回复你啦'}
+              hasBottomLine={true}
             />
             <ListItem
-              iconType={'MIA'}
+              leftIconType={'MIA'}
               leftText={'关于币下分期'}
+              hasBottomLine={true}
               rightText={'0.1.0'}
             />
             <ListItem
-              iconType={'MIS'}
+              leftIconType={'MIS'}
               leftText={'设置'}
+              hasBottomLine={true}
             />
           </View>
         </ScrollView>

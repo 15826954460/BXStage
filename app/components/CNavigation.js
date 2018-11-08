@@ -43,7 +43,7 @@ class LeftButtonItem extends Component {
   }
 
   static defaultProps = {
-    theme: 'dark', // 导航的主题颜色
+    theme: 'dark',
   }
 
   constructor(props) {
@@ -87,7 +87,7 @@ class LeftButtonItem extends Component {
         <View style={styles.btn}>
           {
             isShowTitle ? <Text
-                style={[titleStyle, {color: theme === 'light' ? WHITE_COLOR : BLACK_COLOR}]}
+                style={[titleStyle,{color: theme === 'variable' ? (theme === 'light' ? WHITE_COLOR : BLACK_COLOR) : titleStyle.color}]}
                 numberOfLines={1}> {title} </Text>
               : isShowIcon ?
               <Image source={theme === 'dark' ? LEFT_ICON_BLACK : LEFT_ICON_WHITE} style={iconStyle}/> : null
@@ -102,7 +102,7 @@ withNavigation(LeftButtonItem)
 
 class RightButtonItem extends Component {
   static propTypes = {
-    // theme: PropTypes.oneOf(['dark', 'light', 'variable']),
+    theme: PropTypes.oneOf(['dark', 'light', 'variable']),
     rightButton: PropTypes.shape({
       isShowTitle: PropTypes.bool,
       title: PropTypes.string,
@@ -112,11 +112,9 @@ class RightButtonItem extends Component {
       titleStyle: PropTypes.object,
     }),
   }
-
   static defaultProps = {
-    // theme: 'dark', // 导航的主题颜色
+    theme: 'dark',
   }
-
   constructor(props) {
     super(props);
     this.defaultRightButton = {
@@ -145,13 +143,17 @@ class RightButtonItem extends Component {
 
   render() {
     const {isShowTitle, title, titleStyle, iconStyle, isShowIcon} = Object.assign(this.defaultRightButton, this.props.rightButton)
+    if (this.props.rightButton && this.props.rightButton.titleStyle) {
+      console.log(titleStyle, this.props.rightButton.titleStyle)
+      console.log(Object.assign(this.defaultRightButton, this.props.rightButton))
+    }
     const {theme} = this.props
     return (
       <CTouchableWithoutFeedback handle={this._navigate}>
         <View style={[styles.btn, {justifyContent: 'flex-end',}]}>
           {
             isShowTitle ? <Text
-                style={[titleStyle, {color: theme === 'light' ? WHITE_COLOR : BLACK_COLOR}]}
+                style={[titleStyle, {color: theme === 'variable' ? (theme === 'light' ? WHITE_COLOR : BLACK_COLOR) : titleStyle.color}]}
                 numberOfLines={1}> {title} </Text>
               : isShowIcon ?
               <Image source={theme === 'dark' ? RIGHT_ICON : RIGHT_ICON} style={iconStyle}/> : null
@@ -166,16 +168,11 @@ withNavigation(RightButtonItem)
 
 class TitleItem extends Component {
   static propTypes = {
-    // theme: PropTypes.toString,
     titleStyle: PropTypes.object,
     centerTitle: PropTypes.shape({
       title: PropTypes.string,
       handle: PropTypes.func,
     })
-  }
-
-  static defaultProps = {
-    // theme: 'dark'
   }
 
   constructor(props) {
@@ -197,7 +194,7 @@ class TitleItem extends Component {
       <CTouchableWithoutFeedback onPress={handle}>
         <View>
           <Text
-            style={[titleStyle, {color: theme === 'light' ? WHITE_COLOR : BLACK_COLOR}]}
+            style={[titleStyle, {color: theme === 'variable' ? (theme === 'light' ? WHITE_COLOR : BLACK_COLOR) : titleStyle.color}]}
             numberOfLines={1}>
             {title ? title : null}
           </Text>
@@ -264,9 +261,9 @@ class CNavigation extends Component {
     const {theme} = this.props
     let _navBackgroundColor, _barStyle, _theme
     if (theme === 'variable') {
-      _navBackgroundColor = p ? ( p >= 0.8 ? `rgba(255,255,255,${p})` : 'transparent') : 'transparent'
-      _barStyle = (p >= 0.8) ? 'dark-content' : 'light-content'
-      _theme = (p >= 0.8) ? 'dark' : 'light'
+      _navBackgroundColor = p ? ( p >= 0.5 ? `rgba(255,255,255,${p})` : 'transparent') : 'transparent'
+      _barStyle = (p >= 0.5) ? 'dark-content' : 'light-content'
+      _theme = (p >= 0.5) ? 'dark' : 'light'
       // this._statusBarInstance.setBarStyle(_navBackgroundColor, false)
       this.setState({
         navBackgroundColor: _navBackgroundColor,
@@ -295,7 +292,8 @@ class CNavigation extends Component {
           {
             isNavContent ? <View style={[
               styles.navContainer,
-              {height: isSafeArea ? (Util.isIPhoneX() ? 88 : (Number(DeviceInfo.getAPILevel()) >= 21 ? 64 : 44)) : 44},
+              {height: !isSafeArea ? (Util.isIPhoneX() ? 88 : (Number(DeviceInfo.getAPILevel()) >= 21 ? 64 : 44)) : 44},
+              {paddingTop: !isSafeArea ? (Platform.OS === 'android' ? (Number(DeviceInfo.getAPILevel()) >= 21 ? StatusBar.currentHeight : 0) : (Util.isIPhoneX() ? 24 : 0)) : 0},
               {backgroundColor: navBackgroundColor},
             ]}>
               <View style={styles.buttonWrapper}>
@@ -334,7 +332,6 @@ const styles = StyleSheet.create({
     zIndex: 10000,
     paddingHorizontal: Layout.gap.gap_edge,
     top: 0,
-    paddingTop: (Platform.OS === 'android' ? (Number(DeviceInfo.getAPILevel()) >= 21 ? StatusBar.currentHeight : 0) : (Util.isIPhoneX() ? 24 : 0)),
   },
   buttonWrapper: {
     flex: 1,

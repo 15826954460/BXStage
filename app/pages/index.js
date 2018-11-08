@@ -30,6 +30,7 @@ import InstalmentPage from './instalment/index'; // 分期还款
 
 import My from './my'; // 我
 import UserInfo from './my/userInfo'; // 用户信息
+import ReName from './my/reName'; // 修改昵称
 
 
 /** 工具类的引用 */
@@ -104,6 +105,7 @@ const Stack = createStackNavigator(
     EmptyPage: {screen: EmptyPage},
     NetErrorPage: {screen: NetErrorPage},
     UserInfo: {screen: UserInfo},
+    ReName: {screen: ReName},
   },
   {
     initialRouteName: 'AuthStatus',

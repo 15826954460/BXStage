@@ -12,6 +12,7 @@ import {Size} from '../../styles/size';
 import PropTypes from 'prop-types';
 
 /** 自定义组建的引用 */
+import CTouchableWithoutFeedback from '../../components/CTouchableWithoutFeedback';
 
 /** 工具类的引用 */
 
@@ -22,22 +23,30 @@ const RIGHT_ICON = require('../../images/common/common_img_arrow.png');
 export default class ListItem extends Component {
 
   static propTypes = {
-    isService: PropTypes.bool,
-    wrapperStyle: PropTypes.object,
-    leftText: PropTypes.string,
-    rightText: PropTypes.string,
-    iconType: PropTypes.string.isRequired,
+    isDot: PropTypes.bool, // 红点提示
+    wrapperStyle: PropTypes.object, // 样式
+    leftText: PropTypes.string, // 左边文案
+    rightText: PropTypes.string, // 右边文案
+    leftIconType: PropTypes.string, // icon 标识
+    isShowUserImg: PropTypes.bool, // 是否显示用户头像
+    isShowRightIcon: PropTypes.bool, // 是否显示右边icon
+    hasBottomLine: PropTypes.bool, // 是否有底部线
+    specialIconType: PropTypes.string, // 一些特殊用途的logo
   }
 
   static defaultProps = {
-    isService: false,
+    isDot: false,
     wrapperStyle: {
       height: 50,
-      paddingHorizontal: 14,
       marginTop: 0,
     },
+    leftIconType: '',
     leftText: '',
     rightText: '',
+    isShowUserImg: false,
+    isShowRightIcon: true,
+    hasBottomLine: false,
+    specialIconType: '',
   }
 
   constructor(props) {
@@ -61,83 +70,92 @@ export default class ListItem extends Component {
     return true
   }
 
-  _getImagePath(res) {
-    let path = null
-    switch (res) {
-      // 我的借款
-      case 'MIB':
-        path = require('../../images/me/me_img_borrowing.png')
-        break
-      // 交易记录
-      case 'MIT':
-        path = require('../../images/me/me_img_transaction.png')
-        break
-      // 常见问题
-      case 'MIQ':
-        path = require('../../images/me/me_img_qa.png')
-        break
-      // 联系客服
-      case 'MIC':
-        path = require('../../images/me/me_img_customer.png')
-        break
-      // 用户反馈
-      case 'MIF':
-        path = require('../../images/me/me_img_feedback.png')
-        break
-      // 关于币下分期
-      case 'MIA':
-        path = require('../../images/me/me_img_about.png')
-        break
-      // 设置
-      case 'MIS':
-        path = require('../../images/me/me_img_setting.png')
-        break
+  _getLeftIconPath(type) {
+    let actions = new Map([
+      ['MIB', () => require('../../images/me/me_img_borrowing.png')],
+      ['MIT', () => require('../../images/me/me_img_transaction.png')],
+      ['MIQ', () => require('../../images/me/me_img_qa.png')],
+      ['MIC', () => require('../../images/me/me_img_customer.png')],
+      ['MIF', () => require('../../images/me/me_img_feedback.png')],
+      ['MIA', () => require('../../images/me/me_img_about.png')],
+      ['MIS', () => require('../../images/me/me_img_setting.png')],
+    ])
+    return actions.get(type)()
+  }
 
-    }
-    return path;
+  _getSpecialIconPath(type) {
+    let actions = new Map([
+      ['ZSYH', () => require('../../images/me/accountInfo/bank_img_default.png')],
+    ])
+    return actions.get(type)()
+  }
+
+  _onPress=() => {
+    this.props.handle instanceof Function && this.props.handle()
   }
 
   render() {
-    const {isService, wrapperStyle, leftText, rightText, iconType} = this.props
+    const {isDot, leftText, rightText, leftIconType, isShowUserImg, isShowRightIcon, hasBottomLine, specialIconType, wrapperStyle} = this.props
     return (
-      <View style={[styles.container, wrapperStyle]}>
-        <View style={[styles.iconAndTextWrapper]}>
-          <Image
-            style={styles.leftIconStyle}
-            source={this._getImagePath(iconType)}
-          />
-          <Text
-            style={styles.leftText}
-          >
-            {leftText}
-          </Text>
-        </View>
+      <CTouchableWithoutFeedback handle={this._onPress}>
+        <View style={[styles.container, wrapperStyle]}>
 
-        <View style={[styles.iconAndTextWrapper]}>
-          <Text
-            style={styles.rightText}
-          >
-            {rightText}
-          </Text>
+          <View style={[styles.iconAndTextWrapper]}>
+            {
+              leftIconType ? <Image
+                style={styles.leftIconStyle}
+                source={this._getLeftIconPath(leftIconType)}
+              /> : null
+            }
+            {
+              leftText ? <Text style={styles.leftText}>
+                {leftText}
+              </Text> : null
+            }
+          </View>
+
+          <View style={[styles.iconAndTextWrapper]}>
+            {
+              specialIconType ? <Image
+                style={{width: 22, height: 22, borderRadius: 11,}}
+                source={this._getSpecialIconPath(specialIconType)}
+              /> : null
+            }
+            {
+              rightText ? <Text style={styles.rightText}>
+                {rightText}
+              </Text> : null
+            }
+            {
+              isDot ? <View style={[
+                styles.circleStyle,
+                Layout.layout.rcc
+              ]}>
+                <Text style={{fontSize: 12, color: Layout.color.white_bg}}>{'1'}</Text>
+              </View> : null
+            }
+            {
+              isShowUserImg ? <Image
+                style={{width: 60, height: 60, borderRadius: 30,}}
+                source={require('../../images/me/index_icon_bixia.png')}
+              /> : null
+            }
+            {
+              isShowRightIcon ? <Image
+                style={styles.rightIconStyle}
+                source={RIGHT_ICON}
+              /> : null
+            }
+
+          </View>
+
           {
-            isService ? <View style={[
-              styles.circleStyle,
-              Layout.layout.rcc
-            ]}>
-              <Text style={{fontSize: 12, color: Layout.color.white_bg}}>{'1'}</Text>
+            hasBottomLine ? <View style={styles.borderBottomLine}>
             </View> : null
           }
 
-          <Image
-            style={styles.rightIconStyle}
-            source={RIGHT_ICON}
-          />
         </View>
-
-        <View style={styles.borderBottomLine}>
-
-        </View>
-      </View>
+      </CTouchableWithoutFeedback>
     );
   }
 }
@@ -145,7 +163,8 @@ const styles = StyleSheet.create({
   container: {
     width: width,
     ...Layout.layout.rsbc,
-    position: 'relative'
+    position: 'relative',
+    paddingHorizontal: 14,
   },
   iconAndTextWrapper: {
     flexDirection: 'row',

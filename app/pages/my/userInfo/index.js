@@ -11,6 +11,7 @@ import {Layout} from "../../../styles/layout";
 
 /** 自定义组建的引用 */
 import CNavigation from '../../../components/CNavigation';
+import ListItem from '../../../components/ListItem/ListItem';
 
 /** 页面的引入 */
 
@@ -49,9 +50,82 @@ export default class UserInfo extends Component {
           isShowIcon: true,
         }}
         LeftOrRight={'left'}
+        centerTitle={{
+          title: '账户信息'
+        }}
+        titleStyle={{
+          fontSize: 18,
+          color: '#000',
+          fontFamily: ' PingFangSC-Medium',
+        }}
       >
         <View style={styles.container}>
-          <Text>Vue2.0</Text>
+          <ListItem
+            leftText={'头像'}
+            isShowUserImg={true}
+            wrapperStyle={{
+              height: 80,
+              marginTop: 15,
+              backgroundColor: Layout.color.white_bg,
+            }}
+            hasBottomLine={true}
+          />
+
+          <ListItem
+            handle={() => this.props.navigation.navigate('ReName')}
+            leftText={'昵称'}
+            wrapperStyle={{
+              backgroundColor: Layout.color.white_bg,
+              height: 50,
+            }}
+            rightText={'*娜'}
+          />
+
+          <Text style={{color: Layout.color.wgray_main, fontSize: 14, marginTop:15, marginBottom: 6, paddingHorizontal:14}}>{'真实姓名'}</Text>
+
+          <ListItem
+            leftText={'姓名'}
+            isShowRightIcon={false}
+            wrapperStyle={{
+              backgroundColor: Layout.color.white_bg,
+              height: 50,
+            }}
+            rightText={'*娜'}
+            hasBottomLine={true}
+          />
+
+          <ListItem
+            leftText={'省份证号'}
+            isShowRightIcon={false}
+            wrapperStyle={{
+              backgroundColor: Layout.color.white_bg,
+              height: 50,
+            }}
+            rightText={'423423423******534534'}
+            hasBottomLine={true}
+          />
+
+          <ListItem
+            leftText={'手机号'}
+            isShowRightIcon={false}
+            wrapperStyle={{
+              backgroundColor: Layout.color.white_bg,
+              height: 50,
+            }}
+            rightText={'423******534534'}
+            hasBottomLine={true}
+          />
+
+          <ListItem
+            leftText={'银行卡'}
+            isShowRightIcon={false}
+            wrapperStyle={{
+              backgroundColor: Layout.color.white_bg,
+              height: 50,
+            }}
+            rightText={'招商银行(尾号9401)'}
+            specialIconType={'ZSYH'}
+          />
         </View>
       </CNavigation>
     );
@@ -61,6 +135,6 @@ export default class UserInfo extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    ...Layout.layout.ccc,
+    backgroundColor:Layout.color.gray_line,
   }
 });

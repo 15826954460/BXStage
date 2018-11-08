@@ -144,7 +144,7 @@ export function getFetch(url, params, interfaceKey, cancel) {
       }
     }).catch((error) => {
       /** 这里可以配置一些关于操作失败的提示信息：比如获取数据失败等等*/
-      reject(error)
+      reject(`请求接口出错，错误信息为 -----【${error}】---------`)
     })
   })
 }
@@ -172,8 +172,10 @@ export function postFetch(url, params, interfaceKey, cancel) {
         /** 这里的数据处理请根据实际业务来操作 */
       }
     }).catch(error => {
-      /** 这里可以配置一些关于操作失败的提示信息：比如获取数据失败等等*/
-      reject(error)
+      /** 这里可以配置一些关于操作失败的提示信息：比如获取数据失败等等
+       * reject 方法的参数会传到外部的catch方法，建议关于提示信息统一封装在这里处理，不要放到业务层
+       * */
+      reject(`请求接口出错，错误信息为 -----【${error}】---------`)
     })
   })
 }
