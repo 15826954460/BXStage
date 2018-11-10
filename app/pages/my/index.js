@@ -158,6 +158,7 @@ export default class Main extends Component {
               leftIconType={'MIT'}
               leftText={'交易记录'}
               hasBottomLine={true}
+              handle={() => this.props.navigation.navigate('TradeRecord')}
             />
             <ListItem
               leftIconType={'MIQ'}

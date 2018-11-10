@@ -285,7 +285,7 @@ class CNavigation extends Component {
         forceInset={{top: isSafeArea ? 'always' : 'never', bottom: isSafeAreaBottom ? 'always' : 'never'}}
         style={[{
           flex: 1, backgroundColor: commonBackgroundColor,
-          position: 'relative'
+          position: 'relative',
         }]}>
 
         <CStatusBar ref={ref => this._statusBarInstance = ref}

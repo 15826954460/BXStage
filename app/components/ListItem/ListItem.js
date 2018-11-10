@@ -32,6 +32,7 @@ export default class ListItem extends Component {
     isShowUserImg: PropTypes.bool, // 是否显示用户头像
     isShowRightIcon: PropTypes.bool, // 是否显示右边icon
     hasBottomLine: PropTypes.bool, // 是否有底部线
+    hasAllBottomLine: PropTypes.bool, // 是否有完整的底部线
     specialIconType: PropTypes.string, // 一些特殊用途的logo
   }
 
@@ -50,6 +51,7 @@ export default class ListItem extends Component {
     isShowRightIcon: true,
     hasBottomLine: false,
     specialIconType: '',
+    hasAllBottomLine: false,
   }
 
   constructor(props) {
@@ -98,7 +100,7 @@ export default class ListItem extends Component {
   }
 
   render() {
-    const {isDot, leftText, rightText, leftIconType, isShowUserImg, isShowRightIcon, hasBottomLine, specialIconType, wrapperStyle, leftTextBottom} = this.props
+    const {isDot, leftText, rightText, leftIconType, isShowUserImg, isShowRightIcon, hasBottomLine, specialIconType, wrapperStyle, leftTextBottom, hasAllBottomLine} = this.props
     return (
       <CTouchableWithoutFeedback handle={this._onPress}>
         <View style={[styles.container, wrapperStyle]}>
@@ -112,7 +114,7 @@ export default class ListItem extends Component {
             }
             <View style={styles.leftTextWrapper}>
               {
-                leftText ? <Text style={styles.leftText}>
+                leftText ? <Text style={[styles.leftText, {marginBottom: leftTextBottom ? 3 : 0}]}>
                   {leftText}
                 </Text> : null
               }
@@ -161,10 +163,13 @@ export default class ListItem extends Component {
           </View>
 
           {
-            hasBottomLine ? <View style={[styles.borderBottomLine, styles.BottomLine]}>
+            hasBottomLine ? <View style={[styles.borderBottomLine, styles.bottomLine]}>
             </View> : null
           }
 
+          {
+            hasAllBottomLine ? <View style={[styles.borderAllBottomLine, styles.bottomLine]}></View> : null
+          }
         </View>
       </CTouchableWithoutFeedback>
     );
@@ -205,7 +210,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 10
   },
-  BottomLine: {
+  bottomLine: {
     borderBottomWidth: Size.screen.pixel,
     borderBottomColor: Layout.color.gray_line,
     position: 'absolute',

@@ -21,7 +21,7 @@ import ValidationTelephone from './loginAndRegister/validationTelephone'; // 手
 import validationIdCard from './loginAndRegister/validationIdCard'; // 身份证验证
 import BXWebView from './bxWebView';
 import LoginOutPage from './loginOut/index'; // 退出登陆
-import SettingPage from './setting/index'; // 设置
+import SettingPage from './my/setting/index'; // 设置
 import MorePerson from './errorPage/morePerson'; // 人数较多的提示页面
 import EmptyPage from './errorPage/empty'; // 人数较多的提示页面
 import NetErrorPage from './errorPage/netError'; // 人数较多的提示页面
@@ -34,6 +34,7 @@ import ReName from './my/accountInfo/rename'; // 修改昵称
 import MyLoan from './my/myLoan'; // 我的借款
 import LoanDetail from './my/myLoan/loanDetail'; // 借款详情
 import MoreDetail from './my/myLoan/moreDetail'; // 更多详情
+import TradeRecord from './my/tradeRecord'; // 交易记录
 
 
 /** 工具类的引用 */
@@ -112,6 +113,7 @@ const Stack = createStackNavigator(
     MyLoan: {screen: MyLoan},
     LoanDetail: {screen: LoanDetail},
     MoreDetail: {screen: MoreDetail},
+    TradeRecord: {screen: TradeRecord},
   },
   {
     initialRouteName: 'AuthStatus',
