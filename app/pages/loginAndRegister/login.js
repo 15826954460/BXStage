@@ -30,7 +30,7 @@ class Login extends Component {
     this.state = {
       secureTextEntry: true,
       telephoneNumber: "",
-      password: "",
+      passWord: "",
       disabled: true
     };
   }
@@ -49,11 +49,11 @@ class Login extends Component {
 
   /** 输入手机号 */
   _getTel = val => {
-    const {password} = this.state;
+    const {passWord} = this.state;
     this.state.telephoneNumber = val;
-    if (password.length >= 6 && val.length >= 11) {
+    if (passWord.length >= 6 && val.length >= 11) {
       this.setState({disabled: false});
-    } else if (password.length < 6 || val.length < 11) {
+    } else if (passWord.length < 6 || val.length < 11) {
       this.setState({disabled: true});
     }
   };
@@ -61,7 +61,7 @@ class Login extends Component {
   /** 输入密码 */
   _getPassword = val => {
     const {telephoneNumber} = this.state;
-    this.state.password = val;
+    this.state.passWord = val;
     if (telephoneNumber.length >= 11 && val.length >= 6) {
       this.setState({disabled: false});
     } else if (telephoneNumber.length < 11 || val.length < 6) {
@@ -76,7 +76,7 @@ class Login extends Component {
       disabled: true
     });
     this.state.telephoneNumber = "";
-    this.state.password = "";
+    this.state.passWord = "";
     this.isShowIcon = false;
     this._telInputInstance._clear();
     this._passWordInputInstance._clear();
@@ -85,21 +85,17 @@ class Login extends Component {
   /** 输入验证 */
   _validation = () => {
     /** 获取本地的用户信息进行验证 */
-    StorageData.getData("userInfo")
+    StorageData.getData("registerInfo")
       .then(res => {
-        let {tel, passWord} = res;
-        let {password, telephoneNumber} = this.state;
-        if (password === passWord && telephoneNumber === tel) {
-          bouncedUtils.notices.show({
-            type: "success",
-            content: "欢迎回来"
-          });
+        let {phoneNumber, password} = res;
+        let {passWord, telephoneNumber} = this.state;
+        if (passWord === password && telephoneNumber === phoneNumber) {
           this.props.navigation.navigate("MainStack");
           this._clearData();
           return;
         }
 
-        if (password !== passWord || telephoneNumber !== tel) {
+        if (passWord !== password || telephoneNumber !== phoneNumber) {
           bouncedUtils.notices.show({
             type: "warning",
             content: "手机号或邀请码错误，请重新输入"
@@ -142,7 +138,7 @@ class Login extends Component {
             isShowPasswordIcon={true}
             secureTextEntry={this.state.secureTextEntry}fegn
             changeSecureTextEntry={() => this.setState({secureTextEntry: !this.state.secureTextEntry})}
-            clearInputValue={() => this.setState({password: "", disabled: true})}
+            clearInputValue={() => this.setState({passWord: "", disabled: true})}
             handle={this._getPassword}
           />
 

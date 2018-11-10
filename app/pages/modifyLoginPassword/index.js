@@ -8,6 +8,7 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
+import {Layout} from '../../styles/layout';
 
 /** 第三方依赖库的引用 */
 
@@ -15,19 +16,17 @@ import {
 import CNavigation from '../../components/CNavigation';
 import BXTextInput from '../../components/CTextInput';
 import CGradientButton from '../../components/CGradientButton';
+import CTouchableWithoutFeedback from '../../components/CTouchableWithoutFeedback';
 
 /** 获取自定义的静态方法 */
 import StaticPages from '../../utils/staticPage';
 import StorageData from '../../store/storageData';
-import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
 
 export default class Vue2 extends Component {
 
   constructor(props) {
     super(props);
-    let {params} = props.navigation.state
-    this.from = params && params.from || ''
     this.state = {
       password: '',
       disabled: true,
@@ -65,44 +64,20 @@ export default class Vue2 extends Component {
 
   /** 验证验证码, 实际开发中自行获取接口, 这里为了演示效果还是前端来做校验  */
   _validationPassword = () => {
-    let passwordLegal = Util.checkPassword(this.state.password)
-
-    if (passwordLegal) {
-      Keyboard.dismiss()
-      !this.from ?  bouncedUtils.notices.show({
-        type: 'success', content: '注册成功'
-      }) : bouncedUtils.notices.show({
-        type: 'success', content: '修改成功'
-      })
-
-
-      /** 跳转到首页,是否需要清空用户上次的输入信息，根据实际自行补充 */
-      this.props.navigation.navigate('MainStack')
-
-      /** 储存用户登陆密码，到达这里，用户已经注册成功 */
-      StorageData.mergeData('registerInfo', {
-        password: this.state.password,
-        hasRegister: true,
-        hasLogin: true,
-        ...this.props.navigation.state.params,
-      })
-
-      /** 重置数据状态进行重置 */
-      // this._inputInstance._inputInstance.clear()
-      // this.state.password = ''
-      // this.setState({
-      //   disabled: true,
-      //   secureTextEntry: true,
-      // })
-
-      return
-    }
-
-    if (!passwordLegal) {
+    Keyboard.dismiss()
+    StorageData.getData('registerInfo').then(res => {
+      let {password} = res
+      if (password === this.state.password) {
+        /** 跳转设置登陆密码页面 */
+        this.props.navigation.navigate('SettingLoginPassword', {
+          from: 'resetPassword'
+        })
+        return
+      }
       bouncedUtils.notices.show({
-        type: 'warning', content: '请输入数字、字母组合密码'
+        type: 'warning', content: '密码错误请重新输入'
       })
-    }
+    })
   }
 
   render() {
@@ -119,11 +94,11 @@ export default class Vue2 extends Component {
                     keyboardDismissMode={'on-drag'}
                     keyboardShouldPersistTaps={'handled'}>
 
-          {StaticPages.validationAndSetting('设置登陆密码', '请设置6~16位数字、字母组合密码')}
+          {StaticPages.validationAndSetting('输入旧密码', '需输入原登录密码后才能修改')}
 
           <BXTextInput
             ref={ref => this._inputInstance = ref}
-            placeholder={'请设置登陆密码'}
+            placeholder={'请属于原登录密码'}
             keyboardType={'default'}
             maxLength={16}
             isShowPasswordIcon={true}
@@ -133,10 +108,17 @@ export default class Vue2 extends Component {
             handle={this._onChangeText}
           />
 
+
+          <CTouchableWithoutFeedback handle={() => this.props.navigation.navigate("ValidationTelephone")}>
+            <View style={styles.invitationCodeWrapper}>
+              <Text style={styles.invitationCode}>{"忘记密码？"}</Text>
+            </View>
+          </CTouchableWithoutFeedback>
+
           <View style={{marginTop: 40}}>
             <CGradientButton
               gradientType={'btn_l'}
-              contentText={'确定'}
+              contentText={'下一步'}
               textStyle={styles.buttonStyle}
               disabled={this.state.disabled}
               onPress={this._validationPassword}
@@ -159,5 +141,15 @@ const styles = StyleSheet.create({
   buttonStyle: {
     fontSize: 17,
     color: '#fff'
+  },
+  invitationCodeWrapper: {
+    marginTop: 16,
+    marginBottom: 30,
+    flex: 1,
+    ...Layout.layout.rfefe
+  },
+  invitationCode: {
+    fontSize: 14,
+    color: Layout.color.worange
   },
 });

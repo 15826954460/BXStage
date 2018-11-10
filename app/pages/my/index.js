@@ -19,6 +19,7 @@ import ListItem from '../../components/ListItem/ListItem';
 /** 全局工具方法的引用 */
 import {Util} from "../../utils/util";
 import StorageData from "../../store/storageData";
+import {bouncedUtils} from "../../utils/bouncedUtils";
 
 /** 声明常量 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
@@ -32,7 +33,7 @@ export default class Main extends Component {
     super(props);
     this.state = {
       noteName: '这个骚年很懒，没有备注名', // 备注名
-      tel: '' // 手机号
+      phoneNumber: '' // 手机号
     };
   }
 
@@ -44,11 +45,11 @@ export default class Main extends Component {
      * 为了演示效果，这里获取本地数据
      * 实际开发中根据接口返回的用户信息进行配置
      * */
-    StorageData.getData('userInfo').then(res => {
+    StorageData.getData('registerInfo').then(res => {
       if (res) {
-        let {tel, noteName} = res
+        let {phoneNumber, noteName} = res
         this.setState({
-          tel: tel, noteName: noteName || this.state.noteName
+          phoneNumber: phoneNumber, noteName: noteName || this.state.noteName
         })
       }
     })
@@ -81,6 +82,7 @@ export default class Main extends Component {
         barStyle={STATUS_BAR_LIGHT_THEME}
         isPaddingTop={false}
         isSafeArea={false}
+        isSafeAreaBottom={false}
       >
         <ScrollView style={styles.container}
                     scrollEventThrottle={16}
@@ -111,7 +113,7 @@ export default class Main extends Component {
                   {this.state.noteName}
                 </Text>
                 <Text style={{fontSize: 14, color: Layout.color.white_bg}}>
-                  {Util.takeSensitive(this.state.tel)}
+                  {Util.takeSensitive(this.state.phoneNumber)}
                 </Text>
               </View>
 
@@ -188,6 +190,7 @@ export default class Main extends Component {
               leftIconType={'MIS'}
               leftText={'设置'}
               hasBottomLine={true}
+              handle={() => this.props.navigation.navigate('SettingPage')}
             />
 
 

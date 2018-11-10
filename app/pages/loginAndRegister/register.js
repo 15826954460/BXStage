@@ -103,12 +103,14 @@ class Register extends Component {
   /** 输入验证 */
   _validation = () => {
     /** 这里会根据用户的操作进行一些本地数据的保存，方便后面做交互验证 */
-    let codeLegal = Util.checkPureNumber(this.state.code)
+    let codeLegal = /^\d{6}$/.test(Number(this.state.code))
     let telephoneLegal = Util.checkMobile(this.state.telephoneNumber)
 
+    console.log(1111, codeLegal, telephoneLegal,Number(this.state.code))
     /** 判断用户是否已经注册 */
-    StorageData.getData('userInfo').then(res => {
+    StorageData.getData('registerInfo').then(res => {
       let {hasRegister} = res
+      /** 判断是否登陆 */
       if (hasRegister) {
         Keyboard.dismiss()
         bouncedUtils.notices.show({
@@ -117,14 +119,14 @@ class Register extends Component {
         this._clearData()
         return
       }
+      /** 检验手机号、验证码、以及是否同意协议并跳转到下一页*/
       if (codeLegal && telephoneLegal && this.state.agreement) {
         Keyboard.dismiss()
         this.props.navigation.navigate('ValidationCodePage', {
-          title: '输入验证码', from: 'settingPassword'
-        })
-        /** 储存用户信息 */
-        StorageData.saveData('userInfo', {
-          tel: this.state.telephoneNumber,
+          title: '输入验证码',
+          from: 'settingPassword',
+          phoneNumber: this.state.telephoneNumber,
+          inviteCode: this.state.code,
         })
         return
       }
@@ -177,7 +179,7 @@ class Register extends Component {
 
           <BXTextInput
             getRef={ref => this._invitationCodeInstance = ref}
-            placeholder={'请输入邀请码'}
+            placeholder={'请输入邀请码(6为数字即可)'}
             keyboardType={'numeric'}
             maxLength={6}
             isShowPasswordIcon={true}

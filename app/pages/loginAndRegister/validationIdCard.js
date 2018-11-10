@@ -75,7 +75,9 @@ export default class Vue2 extends Component {
     }
     /** 跳转到登陆页 */
     if (idCardLegal) {
-      this.props.navigation.navigate('SettingLoginPassword')
+      this.props.navigation.navigate('SettingLoginPassword', {
+        idCard: this.state.idCode
+      })
     }
   }
 

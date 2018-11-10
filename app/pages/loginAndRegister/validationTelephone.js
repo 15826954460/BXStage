@@ -49,10 +49,9 @@ export default class Vue2 extends Component {
   /** 验证手机号 */
   _validationTelephoneNumber = () => {
     Keyboard.dismiss()
-    StorageData.getData('userInfo').then(res => {
-      console.log(1111, res.tel, this.state.telephoneNumber)
-      let {tel} = res
-      if (tel !== this.state.telephoneNumber) {
+    StorageData.getData('registerInfo').then(res => {
+      let {phoneNumber} = res
+      if (phoneNumber !== this.state.telephoneNumber) {
         bouncedUtils.notices.show({
           type: 'warning', content: '手机号输入有误，请重新输入'
         })

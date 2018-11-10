@@ -20,31 +20,19 @@ const userInfo = {
   }
 }
 
-const defaultRegisterInfo = {
-  'phoneNumber': '17886521983', // 默认注册手机号
-  'inviteCode': '085396', // 默认注册邀请码
-}
-
-/** 注册相关的提示信息 */
-const register = {
-  // 输入错误提示
-  errorCode: {
-    "code": "1001",
-    "message": "手机号或邀请码错误，请重新输入",
-    "body": null
-  },
-  // 已经注册提示
-  hasRegister:
-    {
-      "code": "1003",
-      "message": "您已注册，请登录",
-      "body": null
-    }
+const registerInfo = {
+  'phoneNumber': '', // 手机号 有效手机号即可
+  'inviteCode': '', // 邀请码 6位数字即可
+  'validationCode': '', // 验证码 4位有效数字
+  'hasRegister': false, // 默认没有注册
+  'password': '', // 密码 有效密码即可 6~16位数字、字母组合
+  'idCard': '', // 有效身份证号即可
+  'hasLogin': true
 }
 
 
 // 首页数据结构
-const loanCardInfo ={
+const loanCardInfo = {
   "code": "0000",
   "message": "请求成功",
   "body": {
@@ -602,7 +590,7 @@ const appConfig =
     "body": {
       "repayInfoH5": "http://www.baidu.com", // 网银转账H5展示页
       "serviceContract": "http://www.baidu.com", // 服务协议地址H5地址
-      "howToGetCode":"http://www.baidu.com", // 如何获得邀请码H5地址
-      "toLoan":"http://www.baidu.com", // 去借款H5地址
+      "howToGetCode": "http://www.baidu.com", // 如何获得邀请码H5地址
+      "toLoan": "http://www.baidu.com", // 去借款H5地址
     }
   }

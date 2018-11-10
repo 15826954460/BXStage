@@ -19,9 +19,9 @@ import ValidationCodePage from './loginAndRegister/validationCode'; // 获取验
 import SettingLoginPassword from './loginAndRegister/settingLoginPassword'; // 设置登陆密码
 import ValidationTelephone from './loginAndRegister/validationTelephone'; // 手机号验证(忘记密码后需要跳转到的页面)
 import validationIdCard from './loginAndRegister/validationIdCard'; // 身份证验证
+import ModifyLoginPassword from './modifyLoginPassword'; // 重置密码
 import BXWebView from './bxWebView';
 import LoginOutPage from './loginOut/index'; // 退出登陆
-import SettingPage from './my/setting/index'; // 设置
 import MorePerson from './errorPage/morePerson'; // 人数较多的提示页面
 import EmptyPage from './errorPage/empty'; // 人数较多的提示页面
 import NetErrorPage from './errorPage/netError'; // 人数较多的提示页面
@@ -35,6 +35,10 @@ import MyLoan from './my/myLoan'; // 我的借款
 import LoanDetail from './my/myLoan/loanDetail'; // 借款详情
 import MoreDetail from './my/myLoan/moreDetail'; // 更多详情
 import TradeRecord from './my/tradeRecord'; // 交易记录
+import SettingPage from './my/setting/index'; // 设置
+
+
+
 
 
 /** 工具类的引用 */
@@ -101,10 +105,10 @@ const Stack = createStackNavigator(
     SettingLoginPassword: {screen: SettingLoginPassword},
     ValidationTelephone: {screen: ValidationTelephone},
     validationIdCard: {screen: validationIdCard},
+    ModifyLoginPassword: {screen: ModifyLoginPassword},
     BXWebView: {screen: BXWebView},
     LoginOutPage: {screen: LoginOutPage},
     MainStack: {screen: MainStack},
-    SettingPage: {screen: SettingPage},
     MorePerson: {screen: MorePerson},
     EmptyPage: {screen: EmptyPage},
     NetErrorPage: {screen: NetErrorPage},
@@ -114,6 +118,7 @@ const Stack = createStackNavigator(
     LoanDetail: {screen: LoanDetail},
     MoreDetail: {screen: MoreDetail},
     TradeRecord: {screen: TradeRecord},
+    SettingPage: {screen: SettingPage},
   },
   {
     initialRouteName: 'AuthStatus',
@@ -124,7 +129,7 @@ const Stack = createStackNavigator(
     },
     /** 路由动画相关，可以获取当前路由栈以及当前路由 */
     onTransitionStart: (transitionProps, prevTransitionProps) => {
-      // console.log(4444, transitionProps, prevTransitionProps)
+      console.log(transitionProps, prevTransitionProps)
     },
     /** 动画配置 */
     transitionConfig: Horizontal_RToL_TranslateX,
@@ -142,7 +147,7 @@ export default class InitStack extends Component {
   }
 
   componentWillMount() {
-
+    // StorageData.removeData('registerInfo')
   }
 
   componentDidMount() {
@@ -155,11 +160,14 @@ export default class InitStack extends Component {
      *  eg: 判断是不是前后台运行来获取最新数据
      *      是否超过过期时间需重新登录
      *      版本是否有升级，是否清空本地缓存等等实际业逻辑这里就不再过多赘述
+     *
+     *  演示效果仅仅判断用户是否已经注册
      * */
-    StorageData.getData('userInfo').then((res) => {
+    StorageData.getData('registerInfo').then((res) => {
       if (res) {
-        let {hasLogin} = res
-        let _initPage = hasLogin ? 'login' : 'register'
+        let {hasRegister} = res
+        // 已经注册就到登陆，否则到注册页面
+        let _initPage = hasRegister ? 'login' : 'register';
         /** 路由栈的重置 */
         this._stackRoots.dispatch(
           StackActions.reset({

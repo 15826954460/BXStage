@@ -106,10 +106,9 @@ const Util = {
     }
     return null
   },
-  /** baiyunsong 检测手机号 */
+  /** 检测手机号 */
   checkMobile: (mobile) => {
-  // ^1(3[0-9]|4[57]|5[0-35-9]|7[0135678]|8[0-9])\d{8}$
-    return /^1[345678]\d{9}$/.test(Number(mobile));
+    return /^1(3[0-9]|4[57]|5[0-35-9]|7[0135678]|8[0-9])\d{8}$/.test(Number(mobile));
   },
   /**  验证纯数字 */
   checkPureNumber: (num) => {

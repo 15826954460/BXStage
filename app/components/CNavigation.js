@@ -181,7 +181,7 @@ class TitleItem extends Component {
       handle: null,
       title: '',
       titleStyle: {
-        color: '#fff',
+        color: '#000',
       }, // 导航文字样式
     };
     this.state = {};

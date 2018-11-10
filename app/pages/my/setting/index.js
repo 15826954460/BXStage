@@ -13,6 +13,9 @@ import {Layout} from "../../../styles/layout";
 
 /** 自定义组建的引用 */
 import CNavigation from '../../../components/CNavigation';
+import ListItem from '../../../components/ListItem/ListItem';
+import CTouchableWithoutFeedback from '../../../components/CTouchableWithoutFeedback';
+
 
 export default class Setting extends Component {
 
@@ -36,16 +39,34 @@ export default class Setting extends Component {
   render() {
     return (
       <CNavigation
-        rightButton={{
-          isShowTitle: true,
-          title: '注册'
+        leftButton={{
+          isShowTitle: false,
+          isShowIcon: true,
+        }}
+        centerTitle={{
+          title: '设置',
+          titleStyle: {
+            fontSize: 18,
+            fontWeight: 'bold'
+          },
         }}
       >
         <ScrollView style={styles.scrollViewWrapper}>
 
-          <View>
-            <Text>6666</Text>
-          </View>
+            <View style={{marginTop: 15}}>
+              <ListItem
+                leftText={'修改登录密码'}
+                handle={()=> this.props.navigation.navigate('ModifyLoginPassword')}
+              />
+            </View>
+
+          <CTouchableWithoutFeedback
+            handle={()=> this.props.navigation.navigate('LoginOutPage')}
+          >
+            <View style={[Layout.layout.ccc, {height: 44, backgroundColor: Layout.color.white_bg, marginTop: 15,}]}>
+              <Text style={{color: Layout.color.black, fontSize: 16}}>{'退出登录'}</Text>
+            </View>
+          </CTouchableWithoutFeedback>
 
         </ScrollView>
 
@@ -59,7 +80,7 @@ const styles = StyleSheet.create({
   },
   scrollViewWrapper: {
     flex: 1,
-    backgroundColor: 'red'
+    backgroundColor: Layout.color.light_gray,
   },
 
 });

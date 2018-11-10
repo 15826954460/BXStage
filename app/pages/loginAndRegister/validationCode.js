@@ -36,7 +36,7 @@ export default class ValidationCode extends Component {
       disabled: true,
       getDisabled: false,
       defaultText: '获取',
-      titleText: params && params.title
+      titleText: params && params.title,
     };
   }
 
@@ -69,15 +69,21 @@ export default class ValidationCode extends Component {
 
   /** 验证验证码, 实际开发中自行获取接口, 这里为了演示效果还是前端来做校验  */
   _validationCode = () => {
-    let validateLegal = Util.checkPureNumber(this.state.validationCode)
+    let validateLegal =  /^\d{4}$/.test(Number(this.state.validationCode))
 
     if (validateLegal) {
       Keyboard.dismiss()
       if (this.props.navigation.state.params.from === 'settingPassword') {
-        this.props.navigation.navigate('SettingLoginPassword') // 跳转到设置密码页
+        this.props.navigation.navigate('SettingLoginPassword', {
+          phoneNumber: this.props.navigation.getParam('phoneNumber'),
+          inviteCode: this.props.navigation.getParam('inviteCode'),
+          validationCode: this.props.navigation.getParam('validationCode'),
+        }) // 跳转到设置密码页
       }
       else {
-        this.props.navigation.navigate('validationIdCard') // 跳转到验证身份页
+        this.props.navigation.navigate('validationIdCard', {
+          validationCode: this.props.navigation.getParam('validationCode'),
+        }) // 跳转到验证身份页
       }
 
       /** 页面进行跳转之后，对数据和状态进行重置 */
@@ -140,7 +146,8 @@ export default class ValidationCode extends Component {
               getRef = {ref => this._inputInstance = ref}
               maxLength={4}
               isButton={true}
-              placeholder={'请输入验证码'}
+              editable={this.state.editable}
+              placeholder={'请输入4位数字验证码'}
               keyboardType={'numeric'}
               handle={this._onChangeText}
             />

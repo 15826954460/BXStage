@@ -37,7 +37,7 @@ export default class LoginOut extends Component {
 
   componentDidMount() {
     /** 获取本地的用户信息 */
-    StorageData.getData('userInfo').then((res) => {
+    StorageData.getData('registerInfo').then((res) => {
       if (res) {
         this.setState({userInfo: res})
       }
@@ -66,9 +66,9 @@ export default class LoginOut extends Component {
 
   /** 登陆验证 */
   _loginValidation = () => {
-    StorageData.getData('userInfo').then(res => {
-      let {passWord} = res
-      this._judgePassword(this.state.password, passWord)
+    StorageData.getData('registerInfo').then(res => {
+      let {password} = res
+      this._judgePassword(this.state.password, password)
     }).catch((res) => {
       /** **/
     })
@@ -78,13 +78,18 @@ export default class LoginOut extends Component {
   _judgePassword = (password, storePassword) => {
     if (password === storePassword) {
 
-      this.props.navigation.navigate('MainStack')
+      // this.props.navigation.navigate('MainStack')
+      Routers.stackRoots.dispatch(
+        StackActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({routeName: 'MainStack'})
+          ]
+        })
+      )
 
-      StorageData.mergeData('userInfo', {hasLogin: true})
+      StorageData.mergeData('registerInfo', {hasLogin: true})
 
-      bouncedUtils.notices.show({
-        type: 'success', content: '欢迎回来'
-      })
       return
     }
     if (password !== storePassword) {
@@ -102,9 +107,7 @@ export default class LoginOut extends Component {
       StackActions.reset({
         index: 0,
         actions: [
-          NavigationActions.navigate({
-            routeName: 'LoginAndRegister', params: {initPage: page}
-          }),
+          NavigationActions.navigate({routeName: 'LoginAndRegister', params: {initPage: page}}),
         ]
       })
     )
@@ -137,7 +140,7 @@ export default class LoginOut extends Component {
                 source={require('../../images/loginOut/sign_img_mask.png')}/>
             </View>
             <Text style={styles.phoneNum}>
-              {this.state.userInfo.tel ? Util.takeSensitive(this.state.userInfo.tel) : ''}
+              {this.state.userInfo.phoneNumber ? Util.takeSensitive(this.state.userInfo.phoneNumber) : ''}
             </Text>
 
           </View>
