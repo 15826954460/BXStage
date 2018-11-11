@@ -13,9 +13,12 @@ import {Size} from "../../../styles/size";
 import CNavigation from '../../../components/CNavigation';
 import ListItem from '../../../components/ListItem/ListItem';
 
+
 /** 页面的引入 */
 
 /** 工具类的引用 */
+import StorageData from "../../../store/storageData";
+import {Util} from '../../../utils/util';
 
 /** 常量声明 */
 
@@ -23,13 +26,22 @@ export default class MyLoan extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      myLoan: {
+        records: [],
+      },
+    };
   }
 
   componentDidMount() {
   }
 
   componentWillMount() {
+    StorageData.getData('myLoan').then(res => {
+      if (res) {
+        this.setState({myLoan: res})
+      }
+    })
   }
 
   componentWillUnmount() {
@@ -42,18 +54,34 @@ export default class MyLoan extends Component {
     return true
   }
 
+  _checkStatus = (status) => {
+    let actions = new Map([
+      ['1', () => '审批中'],
+      ['2', () => '已退回'],
+      ['3', () => '未通过'],
+      ['4', () => '放款中'],
+      ['5', () => '待还款'],
+      ['6', () => '逾期中'],
+      ['7', () => '已结清'],
+      ['8', () => '已关单'],
+    ])
+    return actions.get(status)()
+  }
+
   _renderItem = (item) => {
-    return <ListItem
-      leftText={item.leftText}
-      leftTextBottom={item.leftTextBottom}
-      rightText={item.rightText}
-      wrapperStyle={{
-        height: 60,
-        marginTop: 0,
-        backgroundColor: '#fff'
-      }}
-      handle={() => this.props.navigation.navigate('LoanDetail')}
-    />
+    return (
+      <ListItem
+        leftText={Util.toThousands(item.amount)}
+        leftTextBottom={Util.formatDate(item.loanTime, 'm月d日 HH:MM:ss')}
+        rightText={this._checkStatus(String(item.status))}
+        wrapperStyle={{
+          height: 60,
+          marginTop: 0,
+          backgroundColor: '#fff'
+        }}
+        handle={() => this.props.navigation.navigate('LoanDetail')}
+      />
+    )
   }
 
   _bottomLine = () => {
@@ -71,6 +99,7 @@ export default class MyLoan extends Component {
   _keyExtractor = (item, index) => index + '';
 
   render() {
+    const {myLoan} = this.state
     return (
       <CNavigation
         leftButton={{
@@ -83,19 +112,16 @@ export default class MyLoan extends Component {
                     showsVerticalScrollIndicator={false}
         >
           <View style={styles.top}>
-            <Text style={{fontFamily: 'PingFangSC-Semibold', fontSize: 30, marginBottom: 5}}>{'我的借款'}</Text>
-            <Text style={{fontSize: 14, color: Layout.color.wgray_bar}}>{'累计借款4次，共12500.00元'}</Text>
+            <Text style={{fontFamily: 'PingFangSC-Semibold', fontSize: 30, marginBottom: 5}}>
+              {'我的借款'}
+            </Text>
+            <Text style={{fontSize: 14, color: Layout.color.wgray_bar}}>
+              {`累计借款${myLoan.loanTimes}次，共${Util.toThousands(myLoan.loanAmount)}元`}
+            </Text>
           </View>
 
           <FlatList
-            data={[
-              {leftText: '1,000.00', leftTextBottom: '2018-05-13', rightText: '3期待还款'},
-              {leftText: '2,000.00', leftTextBottom: '2018-05-13', rightText: '3期待还款'},
-              {leftText: '3,000.00', leftTextBottom: '2018-05-13', rightText: '3期待还款'},
-              {leftText: '4,000.00', leftTextBottom: '2018-05-13', rightText: '3期待还款'},
-              {leftText: '5,000.00', leftTextBottom: '2018-05-13', rightText: '3期待还款'},
-              {leftText: '6,000.00', leftTextBottom: '2018-05-13', rightText: '3期待还款'},
-            ]}
+            data={myLoan.records}
             keyExtractor={this._keyExtractor}
             renderItem={({item}) => this._renderItem(item)}
             ItemSeparatorComponent={this._bottomLine}

@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, StatusBar,ScrollView,
+  StyleSheet, Text, View, StatusBar, ScrollView,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -12,24 +12,43 @@ import {Layout} from "../../../styles/layout";
 /** 自定义组建的引用 */
 import CNavigation from '../../../components/CNavigation';
 import ListItem from '../../../components/ListItem/ListItem';
+import withFocus from '../../../components/HOC/HOCNavigationEvents';
 
 /** 页面的引入 */
 
 /** 工具类的引用 */
+import StorageData from "../../../store/storageData";
+import {bankInfo} from "../../../store/data";
 
 /** 常量声明 */
 
-export default class AccountInfo extends Component {
+class AccountInfo extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      userInfo: props.navigation.state.params,
+      bankInfo: {}, // 银行卡信息
+    };
   }
 
   componentDidMount() {
   }
 
+  componentWillFocus() {
+    StorageData.getData('userInfo').then(res => {
+      if (res) {
+        this.setState({userInfo: res})
+      }
+    })
+  }
+
   componentWillMount() {
+    StorageData.getData('bankInfo').then(res => {
+      if (res) {
+        this.setState({bankInfo: res})
+      }
+    })
   }
 
   componentWillUnmount() {
@@ -43,6 +62,8 @@ export default class AccountInfo extends Component {
   }
 
   render() {
+    const {headPicture, realName, replyCount, hasFeedback, nickName, idCard, phoneNumber} = this.state.userInfo
+    const {bankCardNo, bankName, bankIcon} = this.state.bankInfo
     return (
       <CNavigation
         leftButton={{
@@ -51,13 +72,14 @@ export default class AccountInfo extends Component {
         }}
         LeftOrRight={'left'}
         centerTitle={{
-          title: '账户信息'
+          title: '账户信息',
+          titleStyle: {
+            fontSize: 18,
+            color: '#000',
+            fontWeight: 'bold',
+          }
         }}
-        titleStyle={{
-          fontSize: 18,
-          color: '#000',
-          fontFamily: ' PingFangSC-Medium',
-        }}
+
       >
         <ScrollView style={styles.container}
                     scrollEventThrottle={16}
@@ -66,6 +88,7 @@ export default class AccountInfo extends Component {
           <ListItem
             leftText={'头像'}
             isShowUserImg={true}
+            isShowRightIcon={false}
             wrapperStyle={{
               height: 80,
               marginTop: 15,
@@ -75,16 +98,27 @@ export default class AccountInfo extends Component {
           />
 
           <ListItem
-            handle={() => this.props.navigation.navigate('ReName')}
+            handle={() => this.props.navigation.navigate('ReName', {nickName: nickName})}
             leftText={'昵称'}
             wrapperStyle={{
               backgroundColor: Layout.color.white_bg,
               height: 50,
             }}
-            rightText={'*娜'}
+            rightText={nickName}
+            rightTextStyle={{
+              width: 100,
+              textAlign: 'right'
+            }}
+            numberOfLines={1}
           />
 
-          <Text style={{color: Layout.color.wgray_main, fontSize: 14, marginTop:15, marginBottom: 6, paddingHorizontal:14}}>{'真实姓名'}</Text>
+          <Text style={{
+            color: Layout.color.wgray_main,
+            fontSize: 14,
+            marginTop: 15,
+            marginBottom: 6,
+            paddingHorizontal: 14
+          }}>{'真实姓名'}</Text>
 
           <ListItem
             leftText={'姓名'}
@@ -93,7 +127,7 @@ export default class AccountInfo extends Component {
               backgroundColor: Layout.color.white_bg,
               height: 50,
             }}
-            rightText={'*娜'}
+            rightText={realName}
             hasBottomLine={true}
           />
 
@@ -104,7 +138,7 @@ export default class AccountInfo extends Component {
               backgroundColor: Layout.color.white_bg,
               height: 50,
             }}
-            rightText={'423423423******534534'}
+            rightText={idCard}
             hasBottomLine={true}
           />
 
@@ -115,7 +149,7 @@ export default class AccountInfo extends Component {
               backgroundColor: Layout.color.white_bg,
               height: 50,
             }}
-            rightText={'423******534534'}
+            rightText={phoneNumber}
             hasBottomLine={true}
           />
 
@@ -126,7 +160,7 @@ export default class AccountInfo extends Component {
               backgroundColor: Layout.color.white_bg,
               height: 50,
             }}
-            rightText={'招商银行(尾号9401)'}
+            rightText={`${bankName}(尾号)${bankCardNo}`}
             specialIconType={'ZSYH'}
           />
         </ScrollView>
@@ -135,9 +169,11 @@ export default class AccountInfo extends Component {
   }
 }
 
+export default withFocus(AccountInfo)
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:Layout.color.light_gray,
+    backgroundColor: Layout.color.light_gray,
   }
 });

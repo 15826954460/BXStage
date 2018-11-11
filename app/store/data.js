@@ -1,25 +1,22 @@
-// 用户信息
+// 账户信息
 const userInfo = {
-  "code": "0000",
-  "message": "请求成功",
-  "body": {
-    "userInfo": {
-      "headPicture": "http://bixiabtest.bixiaapp.com/headPicture/default/femaleavatar.png",
-      "realName": "童书文",
-      "replyCount": 0,
-      "hasFeedback": true,
-      "nickName": "**文",
-      "idCard": "34************2384",
-      "mobile": "17886521983"
-    },
-    "bankInfo": {
-      "bankCardNo": "4652",
-      "bankName": "招商银行",
-      "bankIcon": "http://bixiabtest.bixiaapp.com/bankIcon/bank_img_zsyh.png"
-    }
-  }
+  "headPicture": "",
+  "realName": "童书文",
+  "replyCount": 0,
+  "hasFeedback": true,
+  "nickName": "童书文",
+  "idCard": "34************2384",
+  "phoneNumber": ""
 }
 
+/** 银行卡信息 */
+const bankInfo = {
+  "bankCardNo": "4652",
+  "bankName": "招商银行",
+  "bankIcon": ""
+}
+
+/** 注册信息已经保存到了本地 */
 const registerInfo = {
   'phoneNumber': '', // 手机号 有效手机号即可
   'inviteCode': '', // 邀请码 6位数字即可
@@ -31,7 +28,7 @@ const registerInfo = {
 }
 
 
-// 首页数据结构
+// 数据结构
 const loanCardInfo = {
   "code": "0000",
   "message": "请求成功",
@@ -52,195 +49,219 @@ const loanCardInfo = {
   }
 }
 
-const login = {
-  // 登陆失败
-  errorLogin: {
-    "code": "1002",
-    "message": "账号或密码错误，请重新输入",
-    "body": null
-  },
+const loginSuccess = {
   // 登陆成功 => 获取分期页面数据
-  loginSuccess: {
-    "code": "0000",
-    "message": "请求成功",
-    "body": {
-      "loanInfo": {
-        "hasLoan": false,
-        "billName": null,
-        "dueDate": null,
-        "shouldRepayAmount": null,
-        "loanOrderNo": null,
-        "repaidTerm": null,
-        "term": null,
-        "overdueDays": null,
-        "overdueFee": null,
-        "creditAmount": 10000.00,
-        "loanTimes": 1,
-        "phaseId": null,
-        "onRepay": null
-      },
-      "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJqd3RJZFwiOlwiNDFmYWI0ZjktN2YwMS00NjI1LTlkNWUtOTkyYTczNjlhMWEwXCIsXCJvcGVuSWRcIjpcIjEwMjcwMDQyMjU0NjY1MzU5MzZcIn0iLCJvcGVuSWQiOiIxMDI3MDA0MjI1NDY2NTM1OTM2Iiwibmlja05hbWUiOm51bGwsImlzcyI6ImJpeGlhYXBwLmNvbSIsImV4cCI6MTU0MjM1OTA3OCwiaWF0IjoxNTQxNzU0Mjc4LCJqdGkiOiI0MWZhYjRmOS03ZjAxLTQ2MjUtOWQ1ZS05OTJhNzM2OWExYTAifQ.LiY9S5sIUuZsiV25sYWc-q7DA8o9XYQ5gGD82JD9QPc"
-    }
-  }
+  "loanInfo": {
+    "hasLoan": false,
+    "billName": null,
+    "dueDate": null,
+    "shouldRepayAmount": null,
+    "loanOrderNo": null,
+    "repaidTerm": null,
+    "term": null,
+    "overdueDays": null,
+    "overdueFee": null,
+    "creditAmount": 10000.00,
+    "loanTimes": 1,
+    "phaseId": null,
+    "onRepay": null
+  },
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJqd3RJZFwiOlwiNDFmYWI0ZjktN2YwMS00NjI1LTlkNWUtOTkyYTczNjlhMWEwXCIsXCJvcGVuSWRcIjpcIjEwMjcwMDQyMjU0NjY1MzU5MzZcIn0iLCJvcGVuSWQiOiIxMDI3MDA0MjI1NDY2NTM1OTM2Iiwibmlja05hbWUiOm51bGwsImlzcyI6ImJpeGlhYXBwLmNvbSIsImV4cCI6MTU0MjM1OTA3OCwiaWF0IjoxNTQxNzU0Mjc4LCJqdGkiOiI0MWZhYjRmOS03ZjAxLTQ2MjUtOWQ1ZS05OTJhNzM2OWExYTAifQ.LiY9S5sIUuZsiV25sYWc-q7DA8o9XYQ5gGD82JD9QPc"
 }
 
 // 我的借款
 const myLoan = {
-  "code": "0000",
-  "message": "请求成功",
-  "body": {
-    "totalpage": 1,
-    "totalrecord": 1,
-    "loanTimes": 1,
-    "records": [
-      {
-        "amount": 10000.00,
-        "loanTime": "2018-08-08T09:47:58",
-        "releaseTime": "2018-08-05T13:35:40",
-        "waitPayTerms": 0,
-        "loanOrderNo": "2018080820201000014",
-        "status": 7
-      }
-    ],
-    "currentpage": 1,
-    "pagecode": 10,
-    "loanAmount": 10000.00,
-    "maxresult": 20
-  }
+  "totalpage": 1,
+  "totalrecord": 1,
+  "loanTimes": 1,
+  "records": [
+    {
+      "amount": 10000.00,
+      "loanTime": "2018-08-08T09:47:58",
+      "releaseTime": "2018-08-05T13:35:40",
+      "waitPayTerms": 0,
+      "loanOrderNo": "2018080820201000014",
+      "status": 7
+    }
+  ],
+  "currentpage": 1,
+  "pagecode": 10,
+  "loanAmount": 10000.00,
+  "maxresult": 20
 }
 
 // 借款详情里面的数据
 const loanDetail = {
-  "code": "0000",
-  "message": "请求成功",
-  "body": {
-    "loanOrderNo": "2018080820201000014",
-    "amount": 10000.00,
-    "releaseTime": "2018-08-05T13:35:40",
-    "shouldRepayAmount": 10891.97,
-    "waitRepayAmount": 0.00,
-    "waitRepayTerm": 0,
-    "term": 6,
-    "principal": 10000.00,
-    "interest": 172.17,
-    "serviceFee": 698.51,
-    "overdueFee": 21.29,
-    "repaidAmount": 10839.16,
-    "remissionAmount": 52.81,
-    "loanTime": "2018-08-08T09:47:58",
-    "repaymentPlan": [
-      {
-        "shouldRepayAmount": 1657.61,
-        "repaidAmount": 1657.61,
-        "remissionAmount": 0.00, // 延期
-        "waitRepayAmount": 0.00,
-        "principal": 1547.92,
-        "interest": 21.39,
-        "serviceFee": 86.78,
-        "overdueFee": 1.52,
-        "overdueDays": 1,
-        "phaseNum": 1,
-        "dueDate": "2018-08-07T00:00:00",
-        "state": 2
-      }, {
-        "shouldRepayAmount": 1844.48,
-        "repaidAmount": 1844.48,
-        "remissionAmount": 0.00,
-        "waitRepayAmount": 0.00,
-        "principal": 1593.59,
-        "interest": 49.30,
-        "serviceFee": 200.03,
-        "overdueFee": 1.56,
-        "overdueDays": 1,
-        "phaseNum": 2,
-        "dueDate": "2018-08-07T00:00:00",
-        "state": 2
-      }, {
-        "shouldRepayAmount": 1844.53,
-        "repaidAmount": 1844.53,
-        "remissionAmount": 0.00,
-        "waitRepayAmount": 0.00,
-        "principal": 1640.59,
-        "interest": 40.01,
-        "serviceFee": 162.32,
-        "overdueFee": 1.61,
-        "overdueDays": 1,
-        "phaseNum": 3,
-        "dueDate": "2018-08-07T00:00:00",
-        "state": 2
-      }, {
-        "shouldRepayAmount": 1859.52,
-        "repaidAmount": 1859.52,
-        "remissionAmount": 0.00,
-        "waitRepayAmount": 0.00,
-        "principal": 1688.99,
-        "interest": 30.44,
-        "serviceFee": 123.49,
-        "overdueFee": 16.60,
-        "overdueDays": 10,
-        "phaseNum": 4,
-        "dueDate": "2018-08-07T00:00:00",
-        "state": 2
-      }, {
-        "shouldRepayAmount": 1842.92,
-        "repaidAmount": 1842.92,
-        "remissionAmount": 0.00,
-        "waitRepayAmount": 0.00,
-        "principal": 1738.81,
-        "interest": 20.59,
-        "serviceFee": 83.52,
-        "overdueFee": 0.00,
-        "overdueDays": 0,
-        "phaseNum": 5,
-        "dueDate": "2018-12-16T00:00:00",
-        "state": 2
-      }, {
-        "shouldRepayAmount": 1842.91,
-        "repaidAmount": 1790.10,
-        "remissionAmount": 52.81,
-        "waitRepayAmount": 0.00,
-        "principal": 1790.10,
-        "interest": 10.44,
-        "serviceFee": 42.37,
-        "overdueFee": 0.00,
-        "overdueDays": 0,
-        "phaseNum": 6,
-        "dueDate": "2019-01-16T00:00:00",
-        "state": 2
-      }
-    ]
-  }
+  "loanOrderNo": "2018080820201000014",
+  "amount": 10000.00,
+  "releaseTime": "2018-08-05T13:35:40",
+  "shouldRepayAmount": 10891.97,
+  "waitRepayAmount": 0.00,
+  "waitRepayTerm": 0,
+  "term": 6,
+  "principal": 10000.00,
+  "interest": 172.17,
+  "serviceFee": 698.51,
+  "overdueFee": 21.29,
+  "repaidAmount": 10839.16,
+  "remissionAmount": 52.81,
+  "loanTime": "2018-08-08T09:47:58",
+  "repaymentPlan": [
+    {
+      "shouldRepayAmount": 1657.61,
+      "repaidAmount": 1657.61,
+      "remissionAmount": 0.00, // 延期
+      "waitRepayAmount": 0.00,
+      "principal": 1547.92,
+      "interest": 21.39,
+      "serviceFee": 86.78,
+      "overdueFee": 1.52,
+      "overdueDays": 1,
+      "phaseNum": 1,
+      "dueDate": "2018-08-07T00:00:00",
+      "state": 2
+    }, {
+      "shouldRepayAmount": 1844.48,
+      "repaidAmount": 1844.48,
+      "remissionAmount": 0.00,
+      "waitRepayAmount": 0.00,
+      "principal": 1593.59,
+      "interest": 49.30,
+      "serviceFee": 200.03,
+      "overdueFee": 1.56,
+      "overdueDays": 1,
+      "phaseNum": 2,
+      "dueDate": "2018-08-07T00:00:00",
+      "state": 2
+    }, {
+      "shouldRepayAmount": 1844.53,
+      "repaidAmount": 1844.53,
+      "remissionAmount": 0.00,
+      "waitRepayAmount": 0.00,
+      "principal": 1640.59,
+      "interest": 40.01,
+      "serviceFee": 162.32,
+      "overdueFee": 1.61,
+      "overdueDays": 1,
+      "phaseNum": 3,
+      "dueDate": "2018-08-07T00:00:00",
+      "state": 2
+    }, {
+      "shouldRepayAmount": 1859.52,
+      "repaidAmount": 1859.52,
+      "remissionAmount": 0.00,
+      "waitRepayAmount": 0.00,
+      "principal": 1688.99,
+      "interest": 30.44,
+      "serviceFee": 123.49,
+      "overdueFee": 16.60,
+      "overdueDays": 10,
+      "phaseNum": 4,
+      "dueDate": "2018-08-07T00:00:00",
+      "state": 2
+    }, {
+      "shouldRepayAmount": 1842.92,
+      "repaidAmount": 1842.92,
+      "remissionAmount": 0.00,
+      "waitRepayAmount": 0.00,
+      "principal": 1738.81,
+      "interest": 20.59,
+      "serviceFee": 83.52,
+      "overdueFee": 0.00,
+      "overdueDays": 0,
+      "phaseNum": 5,
+      "dueDate": "2018-12-16T00:00:00",
+      "state": 2
+    }, {
+      "shouldRepayAmount": 1842.91,
+      "repaidAmount": 1790.10,
+      "remissionAmount": 52.81,
+      "waitRepayAmount": 0.00,
+      "principal": 1790.10,
+      "interest": 10.44,
+      "serviceFee": 42.37,
+      "overdueFee": 0.00,
+      "overdueDays": 0,
+      "phaseNum": 6,
+      "dueDate": "2019-01-16T00:00:00",
+      "state": 2
+    }
+  ]
 }
 
 // 更多详情数据
 const moreDetail = {
-  "code": "0000",
-  "message": "请求成功",
-  "body": {
-    "realName": "童书文",
-    "idCard": "34************2384",
-    "amount": 10000.00,
-    "term": 6,
-    "loanTime": "2018-08-08T09:47:58",
-    "releaseTime": "2018-08-05T13:35:40",
-    "dueDate": "2019-01-16T00:00:00",
-    "bankName": "招商银行",
-    "bankIcon": "http://bixiabtest.bixiaapp.com/bankIcon/bank_img_zsyh.png",
-    "bankNo": "4652",
-    "paymentMethod": 1,
-    "repaymentDate": 16,
-    "agreements": []
-  }
+  "realName": "童书文",
+  "idCard": "34************2384",
+  "amount": 10000.00,
+  "term": 6,
+  "loanTime": "2018-08-08T09:47:58",
+  "releaseTime": "2018-08-05T13:35:40",
+  "dueDate": "2019-01-16T00:00:00",
+  "bankName": "招商银行",
+  "bankIcon": "http://bixiabtest.bixiaapp.com/bankIcon/bank_img_zsyh.png",
+  "bankNo": "4652",
+  "paymentMethod": 1,
+  "repaymentDate": 16,
+  "agreements": []
 }
 
 // 交易记录数据
 const tradeRecode = {
-  "code": "0000",
-  "message": "请求成功",
-  "body": {
-    "totalpage": 1,
-    "totalrecord": 6,
-    "records": [{
+  "totalpage": 1,
+  "totalrecord": 6,
+  "records": [{
+    "amount": 52.81,
+    "tradTime": "2018-08-17T14:58:49",
+    "tradeOrderNo": "250201808172000138006",
+    "tradeType": 4
+  }, {
+    "amount": 5492.54,
+    "tradTime": "2018-08-17T14:58:49",
+    "tradeOrderNo": "230201808172000138005",
+    "tradeType": 2
+  }, {
+    "amount": 1844.53,
+    "tradTime": "2018-08-08T16:03:48",
+    "tradeOrderNo": "230201808081000000164",
+    "tradeType": 2
+  }, {
+    "amount": 1844.48,
+    "tradTime": "2018-08-08T14:44:20",
+    "tradeOrderNo": "240201808082000000105",
+    "tradeType": 3
+  }, {
+    "amount": 1657.61,
+    "tradTime": "2018-08-08T14:34:12",
+    "tradeOrderNo": "240201808082000000098",
+    "tradeType": 3
+  }, {
+    "amount": 52.81,
+    "tradTime": "2018-08-17T14:58:49",
+    "tradeOrderNo": "250201808172000138006",
+    "tradeType": 4
+  }, {
+    "amount": 5492.54,
+    "tradTime": "2018-08-17T14:58:49",
+    "tradeOrderNo": "230201808172000138005",
+    "tradeType": 2
+  }, {
+    "amount": 1844.53,
+    "tradTime": "2018-08-08T16:03:48",
+    "tradeOrderNo": "230201808081000000164",
+    "tradeType": 2
+  }, {
+    "amount": 1844.48,
+    "tradTime": "2018-08-08T14:44:20",
+    "tradeOrderNo": "240201808082000000105",
+    "tradeType": 3
+  }, {
+    "amount": 1657.61,
+    "tradTime": "2018-08-08T14:34:12",
+    "tradeOrderNo": "240201808082000000098",
+    "tradeType": 3
+  },
+    {
       "amount": 52.81,
       "tradTime": "2018-08-17T14:58:49",
       "tradeOrderNo": "250201808172000138006",
@@ -271,10 +292,9 @@ const tradeRecode = {
       "tradeOrderNo": "220201808082000000018",
       "tradeType": 1
     }],
-    "currentpage": 1,
-    "pagecode": 10,
-    "maxresult": 20
-  }
+  "currentpage": 1,
+  "pagecode": 10,
+  "maxresult": 20
 }
 
 // 常见问题
@@ -524,7 +544,6 @@ const commonProblem = {
   }
 }
 
-
 // 联系客服 是弹框
 
 // 用户反馈
@@ -583,14 +602,26 @@ const fetchSuccess = {
 }
 
 // app配置信息
-const appConfig =
-  {
-    "code": "0000",
-    "message": "请求成功",
-    "body": {
-      "repayInfoH5": "http://www.baidu.com", // 网银转账H5展示页
-      "serviceContract": "http://www.baidu.com", // 服务协议地址H5地址
-      "howToGetCode": "http://www.baidu.com", // 如何获得邀请码H5地址
-      "toLoan": "http://www.baidu.com", // 去借款H5地址
-    }
+const appConfig = {
+  "code": "0000",
+  "message": "请求成功",
+  "body": {
+    "repayInfoH5": "http://www.baidu.com", // 网银转账H5展示页
+    "serviceContract": "http://www.baidu.com", // 服务协议地址H5地址
+    "howToGetCode": "http://www.baidu.com", // 如何获得邀请码H5地址
+    "toLoan": "http://www.baidu.com", // 去借款H5地址
   }
+}
+
+export {
+  userInfo,
+  bankInfo,
+  loanCardInfo,
+  myLoan,
+  loanDetail,
+  moreDetail,
+  tradeRecode,
+  commonProblem,
+  userFeedBack,
+  appConfig
+}

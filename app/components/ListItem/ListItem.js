@@ -28,12 +28,14 @@ export default class ListItem extends Component {
     leftText: PropTypes.string, // 左边文案
     leftTextBottom: PropTypes.string, // 左边文案
     rightText: PropTypes.string, // 右边文案
+    rightTextStyle: PropTypes.object, // 右边文案
     leftIconType: PropTypes.string, // icon 标识
     isShowUserImg: PropTypes.bool, // 是否显示用户头像
     isShowRightIcon: PropTypes.bool, // 是否显示右边icon
     hasBottomLine: PropTypes.bool, // 是否有底部线
     hasAllBottomLine: PropTypes.bool, // 是否有完整的底部线
     specialIconType: PropTypes.string, // 一些特殊用途的logo
+    numberOfLines: PropTypes.number,
   }
 
   static defaultProps = {
@@ -52,6 +54,8 @@ export default class ListItem extends Component {
     hasBottomLine: false,
     specialIconType: '',
     hasAllBottomLine: false,
+    numberOfLines: 0,
+    rightTextStyle: {},
   }
 
   constructor(props) {
@@ -100,7 +104,7 @@ export default class ListItem extends Component {
   }
 
   render() {
-    const {isDot, leftText, rightText, leftIconType, isShowUserImg, isShowRightIcon, hasBottomLine, specialIconType, wrapperStyle, leftTextBottom, hasAllBottomLine} = this.props
+    const {isDot, leftText, rightText, leftIconType, isShowUserImg, isShowRightIcon, hasBottomLine, specialIconType, wrapperStyle, leftTextBottom, hasAllBottomLine, numberOfLines, rightTextStyle} = this.props
     return (
       <CTouchableWithoutFeedback handle={this._onPress}>
         <View style={[styles.container, wrapperStyle]}>
@@ -135,7 +139,7 @@ export default class ListItem extends Component {
               /> : null
             }
             {
-              rightText ? <Text style={styles.rightText}>
+              rightText ? <Text style={[styles.rightText, rightTextStyle]} numberOfLines={numberOfLines}>
                 {rightText}
               </Text> : null
             }
@@ -168,7 +172,8 @@ export default class ListItem extends Component {
           }
 
           {
-            hasAllBottomLine ? <View style={[styles.borderAllBottomLine, styles.bottomLine]}></View> : null
+            hasAllBottomLine ? <View style={[styles.borderAllBottomLine, styles.bottomLine]}>
+            </View> : null
           }
         </View>
       </CTouchableWithoutFeedback>

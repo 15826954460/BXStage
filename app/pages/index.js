@@ -37,9 +37,8 @@ import MoreDetail from './my/myLoan/moreDetail'; // 更多详情
 import TradeRecord from './my/tradeRecord'; // 交易记录
 import SettingPage from './my/setting/index'; // 设置
 
-
-
-
+/** 获取一些本地数据 **/
+import {userInfo, bankInfo, loanCardInfo, myLoan, loanDetail, moreDetail, tradeRecode, commonProblem,userFeedBack, appConfig} from '../store/data';
 
 /** 工具类的引用 */
 import {Horizontal_RToL_TranslateX, IOS_Default} from "../utils/transitionconfig";
@@ -129,7 +128,10 @@ const Stack = createStackNavigator(
     },
     /** 路由动画相关，可以获取当前路由栈以及当前路由 */
     onTransitionStart: (transitionProps, prevTransitionProps) => {
-      console.log(transitionProps, prevTransitionProps)
+      // console.log(transitionProps, prevTransitionProps)
+    },
+    onTransitionEnd: (transitionProps, prevTransitionProps) => {
+      // console.log(transitionProps)
     },
     /** 动画配置 */
     transitionConfig: Horizontal_RToL_TranslateX,
@@ -147,7 +149,21 @@ export default class InitStack extends Component {
   }
 
   componentWillMount() {
+    /** 向本地储存一些数据,方便数据后面的展示，各模块的数据结构参考
+     * store/data.js
+     * */
+    StorageData.saveData('userInfo', userInfo)
+    StorageData.saveData('bankInfo', bankInfo)
+    StorageData.saveData('loanCardInfo', loanCardInfo)
+    StorageData.saveData('myLoan', myLoan)
+    StorageData.saveData('loanDetail', loanDetail)
+    StorageData.saveData('moreDetail', moreDetail)
+    StorageData.saveData('tradeRecode', tradeRecode)
+    StorageData.saveData('commonProblem', commonProblem)
+    StorageData.saveData('userFeedBack', userFeedBack)
+    StorageData.saveData('appConfig', appConfig)
     // StorageData.removeData('registerInfo')
+    // StorageData.removeData('userInfo')
   }
 
   componentDidMount() {

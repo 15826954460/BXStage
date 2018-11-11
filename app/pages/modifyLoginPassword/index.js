@@ -70,7 +70,8 @@ export default class Vue2 extends Component {
       if (password === this.state.password) {
         /** 跳转设置登陆密码页面 */
         this.props.navigation.navigate('SettingLoginPassword', {
-          from: 'resetPassword'
+          from: 'resetPassword',
+          password: this.state.password
         })
         return
       }

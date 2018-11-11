@@ -14,6 +14,8 @@ import CTouchableWithoutFeedback from '../../../components/CTouchableWithoutFeed
 /** 页面的引入 */
 
 /** 工具类的引用 */
+import StorageData from "../../../store/storageData";
+import {bouncedUtils} from "../../../utils/bouncedUtils";
 
 /** 常量声明 */
 
@@ -60,7 +62,18 @@ export default class ReName extends Component {
     })
   }
 
+  _saveChange = () => {
+    if (this.state.inputValue) {
+      this.props.navigation.navigate('AccountInfo')
+      StorageData.mergeData('userInfo', {nickName: this.state.inputValue})
+    }
+    else {
+      bouncedUtils.notices.show({content : '请输入修改内容', type: 'warning'})
+    }
+  }
+
   render() {
+    const {nickName} = this.props.navigation.state.params
     return (
       <CNavigation
         leftButton={{
@@ -72,15 +85,16 @@ export default class ReName extends Component {
           title: '保存',
           titleStyle: {
             color: Layout.color.worange,
-          }
+          },
+          handle: this._saveChange
         }}
         centerTitle={{
-          title: '修改昵称'
-        }}
-        titleStyle={{
-          fontSize: 18,
-          color: '#000',
-          fontFamily: ' PingFangSC-Medium',
+          title: '修改昵称',
+          titleStyle: {
+            fontSize: 18,
+            color: '#000',
+            fontWeight: 'bold',
+          }
         }}
       >
         <ScrollView style={styles.container}
@@ -93,7 +107,7 @@ export default class ReName extends Component {
               ref={ref => this._inputInstance = ref}
               style={styles.input}
               value={this.state.inputValue}
-              placeholder={'***娜'}
+              placeholder={`**` + nickName.slice(nickName.length - 1)}
               underlineColorAndroid={'transparent'}
               keyboardType={'default'}
               maxLength={15}

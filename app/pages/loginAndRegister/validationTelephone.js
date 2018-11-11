@@ -15,7 +15,6 @@ import CGradientButton from '../../components/CGradientButton';
 
 /** 获取自定义的静态方法 */
 import StaticPages from '../../utils/staticPage';
-import {Util} from '../../utils/util';
 import StorageData from '../../store/storageData';
 import {bouncedUtils} from '../../utils/bouncedUtils';
 
@@ -58,7 +57,9 @@ export default class Vue2 extends Component {
       }
       else {
         this.props.navigation.navigate('ValidationCodePage',{
-          title: '安全验证', from: 'forgetPassword'
+          title: '安全验证',
+          from: 'forgetPassword',
+          telephoneNumber: this.state.telephoneNumber,
         })
       }
     }).catch(() => {

@@ -19,7 +19,6 @@ import ListItem from '../../components/ListItem/ListItem';
 /** 全局工具方法的引用 */
 import {Util} from "../../utils/util";
 import StorageData from "../../store/storageData";
-import {bouncedUtils} from "../../utils/bouncedUtils";
 
 /** 声明常量 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
@@ -33,11 +32,19 @@ export default class Main extends Component {
     super(props);
     this.state = {
       noteName: '这个骚年很懒，没有备注名', // 备注名
-      phoneNumber: '' // 手机号
+      phoneNumber: '', // 手机号
+      userInfo: {}, // 账户信息
     };
   }
 
   componentWillMount() {
+    StorageData.getData('userInfo').then(res => {
+      if (res) {
+        this.setState({
+          userInfo: res
+        })
+      }
+    })
   }
 
   componentDidMount() {
@@ -70,6 +77,7 @@ export default class Main extends Component {
   }
 
   render() {
+    const {headPicture} = this.state.userInfo
     return (
       <CNavigation
         getRef={ref => this._navInstance = ref}
@@ -118,7 +126,9 @@ export default class Main extends Component {
               </View>
 
               <CTouchableWithoutFeedback
-                handle={() => this.props.navigation.navigate('AccountInfo')}>
+                handle={() => {
+                  this.props.navigation.navigate('AccountInfo',this.state.userInfo)
+                }}>
                 <View style={{
                   width: 116, height: 116,
                   position: 'relative',
@@ -133,7 +143,7 @@ export default class Main extends Component {
                       <Image
                         fadeDuration={0}
                         style={[styles.avatarbg_ar, {borderRadius: 50}]}
-                        source={require('../../images/me/index_icon_bixia.png')}/>
+                        source={headPicture ? {uri: headPicture} : require('../../images/me/index_icon_bixia.png')}/>
                     </View>
                   </ImageBackground>
 
@@ -194,92 +204,93 @@ export default class Main extends Component {
             />
 
 
-            {/*以下为测试数据，为了可以使用视图滚动改变状态栏透明度演示效果*/}
-            <ListItem
-              leftIconType={'MIB'}
-              leftText={'我的借款'}
-              hasBottomLine={true}
-            />
-            <ListItem
-              leftIconType={'MIT'}
-              leftText={'交易记录'}
-              hasBottomLine={true}
-            />
-            <ListItem
-              leftIconType={'MIQ'}
-              leftText={'常见问题'}
-              hasBottomLine={true}
-            />
-            <ListItem
-              leftIconType={'MIC'}
-              leftText={'联系客服'}
-              rightText={'工作日9:00-18:00'}
-              hasBottomLine={true}
-            />
-            <ListItem
-              leftIconType={'MIF'}
-              leftText={'用户反馈'}
-              isService={true}
-              rightText={'客服回复你啦'}
-              hasBottomLine={true}
-            />
-            <ListItem
-              leftIconType={'MIA'}
-              leftText={'关于币下分期'}
-              hasBottomLine={true}
-              rightText={'0.1.0'}
-            />
-            <ListItem
-              leftIconType={'MIS'}
-              leftText={'设置'}
-              hasBottomLine={true}
-            />
-            <ListItem
-              leftIconType={'MIB'}
-              leftText={'我的借款'}
-              hasBottomLine={true}
-            />
-            <ListItem
-              leftIconType={'MIT'}
-              leftText={'交易记录'}
-              hasBottomLine={true}
-            />
-            <ListItem
-              leftIconType={'MIQ'}
-              leftText={'常见问题'}
-              hasBottomLine={true}
-            />
-            <ListItem
-              leftIconType={'MIC'}
-              leftText={'联系客服'}
-              rightText={'工作日9:00-18:00'}
-              hasBottomLine={true}
-            />
-            <ListItem
-              leftIconType={'MIF'}
-              leftText={'用户反馈'}
-              isService={true}
-              rightText={'客服回复你啦'}
-              hasBottomLine={true}
-            />
-            <ListItem
-              leftIconType={'MIA'}
-              leftText={'关于币下分期'}
-              hasBottomLine={true}
-              rightText={'0.1.0'}
-            />
-            <ListItem
-              leftIconType={'MIS'}
-              leftText={'设置'}
-              hasBottomLine={true}
-            />
+            <View>
+              {/*以下为测试数据，为了可以使用视图滚动改变状态栏透明度演示效果*/}
+              <ListItem
+                leftIconType={'MIB'}
+                leftText={'我的借款'}
+                hasBottomLine={true}
+              />
+              <ListItem
+                leftIconType={'MIT'}
+                leftText={'交易记录'}
+                hasBottomLine={true}
+              />
+              <ListItem
+                leftIconType={'MIQ'}
+                leftText={'常见问题'}
+                hasBottomLine={true}
+              />
+              <ListItem
+                leftIconType={'MIC'}
+                leftText={'联系客服'}
+                rightText={'工作日9:00-18:00'}
+                hasBottomLine={true}
+              />
+              <ListItem
+                leftIconType={'MIF'}
+                leftText={'用户反馈'}
+                isService={true}
+                rightText={'客服回复你啦'}
+                hasBottomLine={true}
+              />
+              <ListItem
+                leftIconType={'MIA'}
+                leftText={'关于币下分期'}
+                hasBottomLine={true}
+                rightText={'0.1.0'}
+              />
+              <ListItem
+                leftIconType={'MIS'}
+                leftText={'设置'}
+                hasBottomLine={true}
+              />
+              <ListItem
+                leftIconType={'MIB'}
+                leftText={'我的借款'}
+                hasBottomLine={true}
+              />
+              <ListItem
+                leftIconType={'MIT'}
+                leftText={'交易记录'}
+                hasBottomLine={true}
+              />
+              <ListItem
+                leftIconType={'MIQ'}
+                leftText={'常见问题'}
+                hasBottomLine={true}
+              />
+              <ListItem
+                leftIconType={'MIC'}
+                leftText={'联系客服'}
+                rightText={'工作日9:00-18:00'}
+                hasBottomLine={true}
+              />
+              <ListItem
+                leftIconType={'MIF'}
+                leftText={'用户反馈'}
+                isService={true}
+                rightText={'客服回复你啦'}
+                hasBottomLine={true}
+              />
+              <ListItem
+                leftIconType={'MIA'}
+                leftText={'关于币下分期'}
+                hasBottomLine={true}
+                rightText={'0.1.0'}
+              />
+              <ListItem
+                leftIconType={'MIS'}
+                leftText={'设置'}
+                hasBottomLine={true}
+              />
+            </View>
           </View>
         </ScrollView>
       </CNavigation>
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

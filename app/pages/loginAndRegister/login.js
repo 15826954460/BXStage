@@ -91,6 +91,9 @@ class Login extends Component {
         let {passWord, telephoneNumber} = this.state;
         if (passWord === password && telephoneNumber === phoneNumber) {
           this.props.navigation.navigate("MainStack");
+          StorageData.mergeData('userInfo', {
+            phoneNumber: telephoneNumber
+          })
           this._clearData();
           return;
         }
@@ -157,6 +160,7 @@ class Login extends Component {
     );
   }
 }
+
 
 export default withNavigation(Login);
 

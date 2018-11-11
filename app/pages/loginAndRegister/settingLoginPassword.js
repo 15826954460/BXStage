@@ -69,7 +69,7 @@ export default class Vue2 extends Component {
 
     if (passwordLegal) {
       Keyboard.dismiss()
-      !this.from ?  bouncedUtils.notices.show({
+      !this.from ? bouncedUtils.notices.show({
         type: 'success', content: '注册成功'
       }) : bouncedUtils.notices.show({
         type: 'success', content: '修改成功'
@@ -80,12 +80,26 @@ export default class Vue2 extends Component {
       this.props.navigation.navigate('MainStack')
 
       /** 储存用户登陆密码，到达这里，用户已经注册成功 */
-      StorageData.mergeData('registerInfo', {
-        password: this.state.password,
-        hasRegister: true,
-        hasLogin: true,
-        ...this.props.navigation.state.params,
-      })
+      if (!this.from) {
+        StorageData.mergeData('registerInfo', {
+          password: this.state.password,
+          hasRegister: true,
+          hasLogin: true,
+          ...this.props.navigation.state.params,
+        })
+      }
+      else if (this.from === 'resetPassword') {
+        StorageData.mergeData('registerInfo', {
+          password: this.state.password,
+        })
+      }
+      else {
+        StorageData.mergeData('registerInfo', {
+          phoneNumber: this.props.navigation.state.params.telephoneNumber,
+          password: this.state.password,
+        })
+      }
+
 
       /** 重置数据状态进行重置 */
       // this._inputInstance._inputInstance.clear()

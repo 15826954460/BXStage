@@ -83,6 +83,7 @@ export default class ValidationCode extends Component {
       else {
         this.props.navigation.navigate('validationIdCard', {
           validationCode: this.props.navigation.getParam('validationCode'),
+          telephoneNumber: this.props.navigation.state.params.telephoneNumber,
         }) // 跳转到验证身份页
       }
 

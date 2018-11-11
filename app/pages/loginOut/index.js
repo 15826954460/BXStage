@@ -88,6 +88,9 @@ export default class LoginOut extends Component {
         })
       )
 
+      StorageData.mergeData('userInfo', {
+        phoneNumber: this.state.userInfo.phoneNumber
+      })
       StorageData.mergeData('registerInfo', {hasLogin: true})
 
       return

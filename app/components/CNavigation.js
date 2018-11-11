@@ -143,10 +143,6 @@ class RightButtonItem extends Component {
 
   render() {
     const {isShowTitle, title, titleStyle, iconStyle, isShowIcon} = Object.assign(this.defaultRightButton, this.props.rightButton)
-    if (this.props.rightButton && this.props.rightButton.titleStyle) {
-      console.log(titleStyle, this.props.rightButton.titleStyle)
-      console.log(Object.assign(this.defaultRightButton, this.props.rightButton))
-    }
     const {theme} = this.props
     return (
       <CTouchableWithoutFeedback handle={this._navigate}>

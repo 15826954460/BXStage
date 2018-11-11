@@ -1,13 +1,12 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, ScrollView, Image,
+  StyleSheet, Text, View, ScrollView, Image, FlatList,
 } from "react-native";
 
 /** 全局样式的引用 */
 import {Layout} from "../../../styles/layout";
 import {Size} from "../../../styles/size";
-import {Util} from "../../../utils/util";
 
 /** 第三方依赖库的引用 */
 
@@ -19,16 +18,21 @@ import CGradientButton from '../../../components/CGradientButton';
 /** 页面的引入 */
 
 /** 工具类的引用 */
+import StorageData from '../../../store/storageData';
+import {Util} from '../../../utils/util';
 
 /** 常量声明 */
 
 class LoanDetailListItem extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      item: props.item
+    };
   }
 
   render() {
+    const {item} = this.state
     return (
       <View style={{
         backgroundColor: Layout.color.white_bg,
@@ -48,21 +52,40 @@ class LoanDetailListItem extends Component {
           height: '100%',
           width: 48,
         }}>
-          <View style={{backgroundColor: 'rgba(0,0,0,0.2)', width: 34, height: 34, borderRadius: 17, justifyContent: 'center', alignItems:'center'}}>
-            <Text style={{color: Layout.color.white_bg, fontSize: 14}}>{'1期'}</Text>
+          <View style={{
+            backgroundColor: 'rgba(0,0,0,0.2)',
+            width: 34,
+            height: 34,
+            borderRadius: 17,
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <Text style={{color: Layout.color.white_bg, fontSize: 14}}>
+              {`${item.phaseNum}期`}
+            </Text>
           </View>
 
         </View>
 
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flex: 1,paddingLeft: 12}}>
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flex: 1,
+          paddingLeft: 12
+        }}>
           <View>
-            <Text style={{color: Layout.color.wgray_main, fontSize: 16}}>{'¥186.77'}</Text>
-            <Text style={{color: Layout.color.wgray_main, fontSize: 14}}>{'已结清'}</Text>
+            <Text style={{color: Layout.color.wgray_main, fontSize: 16}}>
+              { `￥${Util.toThousands(item.repaidAmount)}`}
+              </Text>
+            <Text style={{color: Layout.color.wgray_main, fontSize: 14}}>
+              {item.state === 0 ? '待还款' : item.state === 1 ? '已逾期' + item.overdueDays + '天' : item.state === 2 ? '已结清' : '本期还款'}
+              </Text>
           </View>
           <View style={{flexDirection: 'row',}}>
-            <Text>{'5月13日'}</Text>
+            <Text>{Util.formatDate(item.dueDate ,'m月d日')}</Text>
             <Image style={{width: 14, height: 14}}
-              source={require('../../../images/common/common_img_arrow.png')}/>
+                   source={require('../../../images/common/common_img_arrow.png')}/>
           </View>
         </View>
 
@@ -75,13 +98,22 @@ export default class LoanDetail extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loanDetail: {
+        repaymentPlan: []
+      }
+    };
   }
 
   componentDidMount() {
   }
 
   componentWillMount() {
+    StorageData.getData('loanDetail').then(res => {
+      if (res) {
+        this.setState({loanDetail: res})
+      }
+    })
   }
 
   componentWillUnmount() {
@@ -94,7 +126,14 @@ export default class LoanDetail extends Component {
     return true
   }
 
+  _keyExtractor = (item, index) => index + '';
+
+  _renderItem = (item, index) => {
+    return <LoanDetailListItem item={item}/>
+  }
+
   render() {
+    let {loanDetail} = this.state
     return (
       <CNavigation
         leftButton={{
@@ -110,6 +149,7 @@ export default class LoanDetail extends Component {
           title: '借款详情',
           titleStyle: {
             fontSize: 18,
+            fontWeight: 'bold',
           }
         }}
         isSafeAreaBottom={false}
@@ -120,9 +160,11 @@ export default class LoanDetail extends Component {
                     showsVerticalScrollIndicator={false}
         >
           <View style={styles.headWrapper}>
-            <Text style={{fontSize: 13, color: Layout.color.wgray_bar}}>{'2018-05-13 借款(元)'}</Text>
+            <Text style={{fontSize: 13, color: Layout.color.wgray_bar}}>
+              {`${Util.formatDate(loanDetail.releaseTime, 'm月d日 HH:MM:ss')} 借款(元)`}
+            </Text>
             <Text style={{fontSize: 40, color: Layout.color.black,}}>
-              {'1,000.00'}
+              {Util.toThousands(loanDetail.amount)}
             </Text>
             <View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 33}}>
               <View style={{alignItems: 'center', flex: 1}}>
@@ -136,7 +178,9 @@ export default class LoanDetail extends Component {
                   <Image style={{width: 12, height: 12}}
                          source={require('../../../images/me/loan/loan_img_details.png')}/>
                 </View>
-                <Text style={{color: Layout.color.black, fontSize: 16}}>{'1120.67'}</Text>
+                <Text style={{color: Layout.color.black, fontSize: 16}}>
+                  {Util.toThousands(loanDetail.shouldRepayAmount)}
+                </Text>
               </View>
 
               <View style={{
@@ -155,7 +199,11 @@ export default class LoanDetail extends Component {
                     marginBottom: 3
                   }}>{'待还期数(期)'}</Text>
                 </View>
-                <Text style={{color: Layout.color.black, fontSize: 16}}>{'3 / 6'}</Text>
+                {
+                  <Text style={{color: Layout.color.black, fontSize: 16}}>
+                    {loanDetail.term}
+                  </Text>
+                }
               </View>
 
               <View style={{alignItems: 'center', flex: 1}}>
@@ -167,7 +215,9 @@ export default class LoanDetail extends Component {
                     marginBottom: 3
                   }}>{'待还合计(元)'}</Text>
                 </View>
-                <Text style={{color: Layout.color.black, fontSize: 16}}>{'560.31'}</Text>
+                <Text style={{color: Layout.color.black, fontSize: 16}}>
+                  {loanDetail.repaidAmount}
+                </Text>
               </View>
             </View>
           </View>
@@ -186,18 +236,14 @@ export default class LoanDetail extends Component {
             <Text style={{fontSize: 14, color: Layout.color.wgray_bar}}>{'你有逾期请尽快还款'}</Text>
           </View>
 
+          <FlatList
+            data={loanDetail.repaymentPlan}
+            keyExtractor={this._keyExtractor}
+            renderItem={({item}) => this._renderItem(item)}
+            onEndReachedThreshold={0.01}
+            onEndReached={this._onEndReached}
+          />
 
-          <LoanDetailListItem/>
-          <LoanDetailListItem/>
-          <LoanDetailListItem/>
-          <LoanDetailListItem/>
-          <LoanDetailListItem/>
-          <LoanDetailListItem/>
-          <LoanDetailListItem/>
-          <LoanDetailListItem/>
-          <LoanDetailListItem/>
-          <LoanDetailListItem/>
-          <LoanDetailListItem/>
         </ScrollView>
 
         <View style={{position: 'absolute', bottom: 0}}>
