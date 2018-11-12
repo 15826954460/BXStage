@@ -36,6 +36,9 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    bouncedUtils.toast.show({
+      content: "网络不给力"
+    });
   }
 
   componentWillMount() {

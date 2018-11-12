@@ -54,11 +54,6 @@ class CNotice extends Component {
     });
   }
 
-  /** 调用了 render() 更新完成界面之后，会调用  */
-  componentDidUpdate() {
-    // this._clearAndReHide()
-  }
-
   componentWillUnmount() {
     clearTimeout(this._waitTimer);
     this._waitTimer = null
@@ -163,7 +158,6 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: 0,
-    zIndex: 10000,
     width: width,
     flex: 1, // toast 弹框的颜色和底部阴影的颜色
   },

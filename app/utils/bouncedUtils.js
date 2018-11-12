@@ -1,5 +1,6 @@
 import SiblingsNotice from '../components/CNotice';
 import SiblingsAlert from '../components/CAlert';
+import SiblingsToast from '../components/CToast';
 const bouncedUtils = {
   /**
    * params 参数分别对应的 {content, type} 提示文案和提示类型
@@ -18,6 +19,14 @@ const bouncedUtils = {
   alert: {
     show: (params) => SiblingsAlert.showSiblings instanceof Function && SiblingsAlert.showSiblings(params),
     hide: () => SiblingsAlert.hideSiblings instanceof Function && SiblingsAlert.hideSiblings(),
+  },
+  /**
+   * params 格式如下
+   * eg: {content: '}
+   * */
+  toast: {
+    show: (params) => SiblingsToast.showSiblings instanceof Function && SiblingsToast.showSiblings(params),
+    hide: () => SiblingsToast.hideSiblings instanceof Function && SiblingsToast.hideSiblings(),
   }
 }
 export {bouncedUtils}

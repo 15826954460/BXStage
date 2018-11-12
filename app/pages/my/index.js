@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, ScrollView, Image, ImageBackground, Dimensions, StatusBar,
+  StyleSheet, Text, View, ScrollView, Image, ImageBackground, Dimensions,Linking,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -19,6 +19,9 @@ import ListItem from '../../components/ListItem/ListItem';
 /** 全局工具方法的引用 */
 import {Util} from "../../utils/util";
 import StorageData from "../../store/storageData";
+import {bouncedUtils} from "../../utils/bouncedUtils";
+
+import {configData} from '../../store/configData';
 
 /** 声明常量 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
@@ -76,6 +79,36 @@ export default class Main extends Component {
     this._navInstance._fadeInBottomLine(alpha)
   }
 
+  /** 版本检查【实际生产中调用后台接口】*/
+  _checkVersion = () => {
+    bouncedUtils.toast.show({content: '当前为最新版本'})
+  }
+
+  /** 调用打电话功能 */
+  _canOpenURL = () => {
+    let _url = 'tel: ' + configData.customNum;
+    Linking.canOpenURL(_url).then(supported => {
+      if (!supported) {
+        bouncedUtils.toast.show({content: '您的应用还不支持次功能'})
+      } else {
+        return Linking.openURL(_url);
+      }
+    }).catch(err => window.console.error(`An error occurred, 错误信息为-----【${err}】------- `));
+  }
+
+  _goToFeedBack = () => {
+    // 根据是否有反馈进行不同页面的跳转
+    StorageData.getData('userFeedBack').then(res => {
+      let {records} = res
+      if (records.length) {
+        this.props.navigation.navigate('HasFeedBack', {records: records})
+      }
+      else {
+        this.props.navigation.navigate('NoFeedBack', {records: records})
+      }
+    })
+  }
+
   render() {
     const {headPicture} = this.state.userInfo
     return (
@@ -127,7 +160,7 @@ export default class Main extends Component {
 
               <CTouchableWithoutFeedback
                 handle={() => {
-                  this.props.navigation.navigate('AccountInfo',this.state.userInfo)
+                  this.props.navigation.navigate('AccountInfo', this.state.userInfo)
                 }}>
                 <View style={{
                   width: 116, height: 116,
@@ -182,12 +215,14 @@ export default class Main extends Component {
               leftText={'联系客服'}
               rightText={'工作日9:00-18:00'}
               hasBottomLine={true}
+              handle={() => this._canOpenURL()}
             />
             <ListItem
               leftIconType={'MIF'}
               leftText={'用户反馈'}
               isDot={true}
-              rightText={'客服回复你啦'}
+              rightText={'想问啥就问啥'}
+              handle={this._goToFeedBack}
               hasBottomLine={true}
             />
             <ListItem
@@ -195,6 +230,7 @@ export default class Main extends Component {
               leftText={'关于币下分期'}
               rightText={'0.1.0'}
               hasBottomLine={true}
+              handle={this._checkVersion}
             />
             <ListItem
               leftIconType={'MIS'}
@@ -300,7 +336,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: Util.isIPhoneX() ? 88 :44,
+    paddingTop: Util.isIPhoneX() ? 88 : 44,
   },
   avatarbg: {
     width: 116,

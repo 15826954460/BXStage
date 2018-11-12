@@ -49,6 +49,7 @@ const loanCardInfo = {
   }
 }
 
+// 分期页面数据
 const loginSuccess = {
   // 登陆成功 => 获取分期页面数据
   "loanInfo": {
@@ -548,35 +549,31 @@ const commonProblem = {
 
 // 用户反馈
 const userFeedBack = {
-  "code": "0000",
-  "message": "请求成功",
-  "body": {
-    "records": [{
-      "id": 67,
-      "userId": 61,
-      "realName": "童书文",
-      "mobile": "17886521983",
-      "content": "工地呢sjjdidikdkdk",
-      "reply": null,
-      "state": 0,
-      "operatorId": null,
-      "operator": null,
-      "createTime": "2018-08-27T20:39:07",
-      "updateTime": "2018-08-27T20:39:07",
-      "feedbackImgs": [],
-      "feedbackContent": "工地呢sjjdidikdkdk",
-      "revert": null
-    }],
-    "pageindex": {
-      "startindex": 1,
-      "endindex": 1
-    },
-    "totalpage": 1,
-    "maxresult": 20,
-    "currentpage": 1,
-    "totalrecord": 1,
-    "pagecode": 10
-  }
+  "records": [{
+    "id": 67,
+    "userId": 61,
+    "realName": "童书文",
+    "mobile": "17886521983",
+    "content": "工地呢sjjdidikdkdk",
+    "reply": '感谢反馈，我们将继续优化功能，为您带来更好的体验，感谢您的支持',
+    "state": 0,
+    "operatorId": null,
+    "operator": null,
+    "createTime": "2018-08-27T20:39:07",
+    "updateTime": "2018-08-27T20:39:07",
+    "feedbackImgs": [],
+    "feedbackContent": "工地呢sjjdidikdkdk",
+    "revert": null
+  }],
+  "pageindex": {
+    "startindex": 1,
+    "endindex": 1
+  },
+  "totalpage": 1,
+  "maxresult": 20,
+  "currentpage": 1,
+  "totalrecord": 1,
+  "pagecode": 10
 }
 
 // 保存反馈

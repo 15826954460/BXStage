@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Dimensions, Text, View, Image,Platform,StatusBar,
+  StyleSheet, Dimensions, Text, View, Image,Platform,StatusBar,NetInfo
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -240,6 +240,12 @@ class CNavigation extends Component {
     props.getRef instanceof Function && props.getRef(this)
   }
   componentWillMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this._handleFirstConnectivityChange);
+  }
+
+  _handleFirstConnectivityChange = (isConnected) => {
+    window.console.log(`-------- 当前联网状态为 '${isConnected}-------`);
+    NetInfo.isConnected.removeEventListener('connectionChange', this._handleFirstConnectivityChange);
   }
 
   componentDidMount() {

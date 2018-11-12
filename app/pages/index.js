@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  View, AppState,
+  View, AppState, NetInfo,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -25,6 +25,8 @@ import LoginOutPage from './loginOut/index'; // 退出登陆
 import MorePerson from './errorPage/morePerson'; // 人数较多的提示页面
 import EmptyPage from './errorPage/empty'; // 人数较多的提示页面
 import NetErrorPage from './errorPage/netError'; // 人数较多的提示页面
+import HasFeedBack from './my/userFeedback/hasFeedBack'; // 人数较多的提示页面
+import NoFeedBack from './my/userFeedback/noFeedBack'; // 人数较多的提示页面
 
 import InstalmentPage from './instalment/index'; // 分期还款
 
@@ -38,7 +40,18 @@ import TradeRecord from './my/tradeRecord'; // 交易记录
 import SettingPage from './my/setting/index'; // 设置
 
 /** 获取一些本地数据 **/
-import {userInfo, bankInfo, loanCardInfo, myLoan, loanDetail, moreDetail, tradeRecode, commonProblem,userFeedBack, appConfig} from '../store/data';
+import {
+  userInfo,
+  bankInfo,
+  loanCardInfo,
+  myLoan,
+  loanDetail,
+  moreDetail,
+  tradeRecode,
+  commonProblem,
+  userFeedBack,
+  appConfig
+} from '../store/data';
 
 /** 工具类的引用 */
 import {Horizontal_RToL_TranslateX, IOS_Default} from "../utils/transitionconfig";
@@ -105,6 +118,8 @@ const Stack = createStackNavigator(
     ValidationTelephone: {screen: ValidationTelephone},
     validationIdCard: {screen: validationIdCard},
     ModifyLoginPassword: {screen: ModifyLoginPassword},
+    HasFeedBack: {screen: HasFeedBack},
+    NoFeedBack: {screen: NoFeedBack},
     BXWebView: {screen: BXWebView},
     LoginOutPage: {screen: LoginOutPage},
     MainStack: {screen: MainStack},
@@ -143,12 +158,15 @@ export default class InitStack extends Component {
 
   constructor(props) {
     super(props);
+    this._isConnected = true;
+    NetInfo.isConnected.addEventListener('connectionChange', this._handleFirstConnectivityChange);
     this.state = {
       appState: AppState.currentState // 保存当前app的状态
     };
   }
 
   componentWillMount() {
+    this._handleFirstConnectivityChange()
     /** 向本地储存一些数据,方便数据后面的展示，各模块的数据结构参考
      * store/data.js
      * */
@@ -166,6 +184,13 @@ export default class InitStack extends Component {
     // StorageData.removeData('userInfo')
   }
 
+  _handleFirstConnectivityChange = (isConnected) => {
+    window.console.log(`-------- 当前联网状态为 '${isConnected}-------`);
+    this._isConnected = isConnected
+    NetInfo.isConnected.removeEventListener('connectionChange', this._handleFirstConnectivityChange);
+  }
+
+
   componentDidMount() {
     /** 添加app状态改变事件监听 */
     AppState.addEventListener('change', this._handleAppStateChange);
@@ -179,26 +204,37 @@ export default class InitStack extends Component {
      *
      *  演示效果仅仅判断用户是否已经注册
      * */
-    StorageData.getData('registerInfo').then((res) => {
-      if (res) {
-        let {hasRegister} = res
-        // 已经注册就到登陆，否则到注册页面
-        let _initPage = hasRegister ? 'login' : 'register';
-        /** 路由栈的重置 */
-        this._stackRoots.dispatch(
-          StackActions.reset({
-            index: 0,
-            actions: [
-              NavigationActions.navigate({
-                routeName: 'LoginAndRegister',
-                params: {initPage: _initPage}
-              }),
-            ]
-          })
-        )
-      }
-    })
-
+    if (this._isConnected) {
+      StorageData.getData('registerInfo').then((res) => {
+        if (res) {
+          let {hasRegister} = res
+          // 已经注册就到登陆，否则到注册页面
+          let _initPage = hasRegister ? 'login' : 'register';
+          /** 路由栈的重置 */
+          this._stackRoots.dispatch(
+            StackActions.reset({
+              index: 0,
+              actions: [
+                NavigationActions.navigate({
+                  routeName: 'LoginAndRegister',
+                  params: {initPage: _initPage}
+                }),
+              ]
+            })
+          )
+        }
+      })
+    }
+    else {
+      this._stackRoots.dispatch(
+        StackActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({routeName: 'NetErrorPage'}),
+          ]
+        })
+      )
+    }
     SplashScreen.hide() // 隐藏白屏
   }
 
