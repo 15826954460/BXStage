@@ -37,6 +37,7 @@ import MyLoan from './my/myLoan'; // 我的借款
 import LoanDetail from './my/myLoan/loanDetail'; // 借款详情
 import MoreDetail from './my/myLoan/moreDetail'; // 更多详情
 import TradeRecord from './my/tradeRecord'; // 交易记录
+import CommonProblem from './my/commonProblem'; // 交易记录
 import SettingPage from './my/setting/index'; // 设置
 
 /** 获取一些本地数据 **/
@@ -132,6 +133,7 @@ const Stack = createStackNavigator(
     LoanDetail: {screen: LoanDetail},
     MoreDetail: {screen: MoreDetail},
     TradeRecord: {screen: TradeRecord},
+    CommonProblem: {screen: CommonProblem},
     SettingPage: {screen: SettingPage},
   },
   {
@@ -159,14 +161,13 @@ export default class InitStack extends Component {
   constructor(props) {
     super(props);
     this._isConnected = true;
-    NetInfo.isConnected.addEventListener('connectionChange', this._handleFirstConnectivityChange);
     this.state = {
       appState: AppState.currentState // 保存当前app的状态
     };
   }
 
   componentWillMount() {
-    this._handleFirstConnectivityChange()
+    NetInfo.isConnected.addEventListener('connectionChange', this._handleFirstConnectivityChange);
     /** 向本地储存一些数据,方便数据后面的展示，各模块的数据结构参考
      * store/data.js
      * */
@@ -216,7 +217,8 @@ export default class InitStack extends Component {
               index: 0,
               actions: [
                 NavigationActions.navigate({
-                  routeName: 'LoginAndRegister',
+                  // routeName: 'LoginAndRegister',
+                  routeName: 'CommonProblem',
                   params: {initPage: _initPage}
                 }),
               ]

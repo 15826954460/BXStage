@@ -9,6 +9,7 @@ import {
 /** 第三方依赖库的引用 */
 
 /** 自定义组建的引用 */
+import CNavigation from '../../../components/CNavigation';
 
 /** 页面的引入 */
 
@@ -41,9 +42,13 @@ export default class Vue2 extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Vue2.0</Text>
-      </View>
+      <CNavigation
+
+      >
+        <View style={styles.container}>
+          <Text>Vue2.0</Text>
+        </View>
+      </CNavigation>
     );
   }
 }

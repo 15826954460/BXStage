@@ -89,7 +89,7 @@ export default class Main extends Component {
     let _url = 'tel: ' + configData.customNum;
     Linking.canOpenURL(_url).then(supported => {
       if (!supported) {
-        bouncedUtils.toast.show({content: '您的应用还不支持次功能'})
+        bouncedUtils.toast.show({content: '您的应用还不支持此功能'})
       } else {
         return Linking.openURL(_url);
       }

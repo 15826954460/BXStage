@@ -45,6 +45,7 @@ S
   }
 
   _onPress = () => {
+    console.log(111122222)
     const {handle} = this.props
     this._isAllowToJump() && handle instanceof Function && handle()
   }

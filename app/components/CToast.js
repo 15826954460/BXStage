@@ -105,7 +105,7 @@ class CToast extends Component {
           fadeDuration={0}>
           <View style={styles.container}>
             <Text numberOfLines={2} style={styles.font}>
-              {params.content + '暂无网络,请稍后重试'}
+              {params.content}
             </Text>
           </View>
         </ImageBackground>
