@@ -40,6 +40,7 @@ import TradeRecord from './my/tradeRecord'; // 交易记录
 import CommonProblem from './my/commonProblem'; // 交易记录
 import SettingPage from './my/setting/index'; // 设置
 
+
 /** 获取一些本地数据 **/
 import {
   userInfo,
@@ -49,9 +50,12 @@ import {
   loanDetail,
   moreDetail,
   tradeRecode,
-  commonProblem,
   userFeedBack,
-  appConfig
+  appConfig,
+  accountProblem,
+  approvalProblem,
+  lendingProblem,
+  productIntroduce
 } from '../store/data';
 
 /** 工具类的引用 */
@@ -178,11 +182,13 @@ export default class InitStack extends Component {
     StorageData.saveData('loanDetail', loanDetail)
     StorageData.saveData('moreDetail', moreDetail)
     StorageData.saveData('tradeRecode', tradeRecode)
-    StorageData.saveData('commonProblem', commonProblem)
     StorageData.saveData('userFeedBack', userFeedBack)
     StorageData.saveData('appConfig', appConfig)
-    // StorageData.removeData('registerInfo')
-    // StorageData.removeData('userInfo')
+
+    StorageData.saveData('accountProblem', accountProblem)
+    StorageData.saveData('approvalProblem', approvalProblem)
+    StorageData.saveData('lendingProblem', lendingProblem)
+    StorageData.saveData('productIntroduce', productIntroduce)
   }
 
   _handleFirstConnectivityChange = (isConnected) => {
@@ -217,8 +223,8 @@ export default class InitStack extends Component {
               index: 0,
               actions: [
                 NavigationActions.navigate({
-                  // routeName: 'LoginAndRegister',
-                  routeName: 'CommonProblem',
+                  routeName: 'LoginAndRegister',
+                  // routeName: 'CommonProblem',
                   params: {initPage: _initPage}
                 }),
               ]

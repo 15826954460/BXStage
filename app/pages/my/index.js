@@ -209,6 +209,7 @@ export default class Main extends Component {
               leftIconType={'MIQ'}
               leftText={'常见问题'}
               hasBottomLine={true}
+              handle={() => this.props.navigation.navigate('CommonProblem')}
             />
             <ListItem
               leftIconType={'MIC'}

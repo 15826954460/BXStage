@@ -1,6 +1,8 @@
 import SiblingsNotice from '../components/CNotice';
 import SiblingsAlert from '../components/CAlert';
 import SiblingsToast from '../components/CToast';
+import SiblingsNoticeBottom from '../components/CNoticeBottom';
+
 const bouncedUtils = {
   /**
    * params 参数分别对应的 {content, type} 提示文案和提示类型
@@ -27,6 +29,13 @@ const bouncedUtils = {
   toast: {
     show: (params) => SiblingsToast.showSiblings instanceof Function && SiblingsToast.showSiblings(params),
     hide: () => SiblingsToast.hideSiblings instanceof Function && SiblingsToast.hideSiblings(),
+  },
+  /**
+   {"title": "","content": ""}
+   */
+  noticesBottom: {
+    show: (params) => SiblingsNoticeBottom.showSiblings instanceof Function && SiblingsNoticeBottom.showSiblings(params),
+    hide: () => SiblingsNoticeBottom.hideSiblings instanceof Function && SiblingsNoticeBottom.hideSiblings(),
   }
 }
 export {bouncedUtils}

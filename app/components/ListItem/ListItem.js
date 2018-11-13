@@ -34,6 +34,7 @@ export default class ListItem extends Component {
     isShowRightIcon: PropTypes.bool, // 是否显示右边icon
     hasBottomLine: PropTypes.bool, // 是否有底部线
     hasAllBottomLine: PropTypes.bool, // 是否有完整的底部线
+    borderAllBottomLineStyle: PropTypes.object,
     specialIconType: PropTypes.string, // 一些特殊用途的logo
     numberOfLines: PropTypes.number,
   }
@@ -56,6 +57,10 @@ export default class ListItem extends Component {
     hasAllBottomLine: false,
     numberOfLines: 0,
     rightTextStyle: {},
+    borderAllBottomLineStyle: {
+      left: 0,
+      right: 0,
+    }
   }
 
   constructor(props) {
@@ -81,22 +86,22 @@ export default class ListItem extends Component {
 
   _getLeftIconPath(type) {
     let actions = new Map([
-      ['MIB', () => require('../../images/me/me_img_borrowing.png')],
-      ['MIT', () => require('../../images/me/me_img_transaction.png')],
-      ['MIQ', () => require('../../images/me/me_img_qa.png')],
-      ['MIC', () => require('../../images/me/me_img_customer.png')],
-      ['MIF', () => require('../../images/me/me_img_feedback.png')],
-      ['MIA', () => require('../../images/me/me_img_about.png')],
-      ['MIS', () => require('../../images/me/me_img_setting.png')],
+      ['MIB', require('../../images/me/me_img_borrowing.png')],
+      ['MIT', require('../../images/me/me_img_transaction.png')],
+      ['MIQ', require('../../images/me/me_img_qa.png')],
+      ['MIC', require('../../images/me/me_img_customer.png')],
+      ['MIF', require('../../images/me/me_img_feedback.png')],
+      ['MIA', require('../../images/me/me_img_about.png')],
+      ['MIS', require('../../images/me/me_img_setting.png')],
     ])
-    return actions.get(type)()
+    return actions.get(type)
   }
 
   _getSpecialIconPath(type) {
     let actions = new Map([
       ['ZSYH', () => require('../../images/me/accountInfo/bank_img_default.png')],
     ])
-    return actions.get(type)()
+    return actions.get(type)
   }
 
   _onPress = () => {
@@ -104,7 +109,7 @@ export default class ListItem extends Component {
   }
 
   render() {
-    const {isDot, leftText, rightText, leftIconType, isShowUserImg, isShowRightIcon, hasBottomLine, specialIconType, wrapperStyle, leftTextBottom, hasAllBottomLine, numberOfLines, rightTextStyle} = this.props
+    const {isDot, leftText, rightText, leftIconType, isShowUserImg, isShowRightIcon, hasBottomLine, specialIconType, wrapperStyle, leftTextBottom, hasAllBottomLine, numberOfLines, rightTextStyle, borderAllBottomLineStyle} = this.props
     return (
       <CTouchableWithoutFeedback handle={this._onPress}>
         <View style={[styles.container, wrapperStyle]}>
@@ -172,7 +177,7 @@ export default class ListItem extends Component {
           }
 
           {
-            hasAllBottomLine ? <View style={[styles.borderAllBottomLine, styles.bottomLine]}>
+            hasAllBottomLine ? <View style={[borderAllBottomLineStyle, styles.bottomLine, {width: width,}]}>
             </View> : null
           }
         </View>
@@ -220,13 +225,10 @@ const styles = StyleSheet.create({
     borderBottomColor: Layout.color.gray_line,
     position: 'absolute',
     bottom: 0,
-    right: 0,
   },
   borderBottomLine: {
-    width: width * 331 / 375
-  },
-  borderAllBottomLine: {
-    width: width
+    width: width * 331 / 375,
+    right: 0,
   },
   leftTextWrapper: {
     flexDirection: 'column',

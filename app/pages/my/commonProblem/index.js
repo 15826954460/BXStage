@@ -14,24 +14,24 @@ import CNavigation from '../../../components/CNavigation';
 
 
 /** 页面的引入 */
-import ProblemList from './problemType';
+import ProblemType from './problemType';
+import ProblemList from './problemList';
 
 /** 工具类的引用 */
-
+import {bouncedUtils} from '../../../utils/bouncedUtils';
 /** 常量声明 */
 
 export default class CommonProblem extends Component {
 
-  _contentWidth = 0;
-
   constructor(props) {
     super(props);
     this.state = {
-      defaultType: 1,
+      typeID: 1,
     };
   }
 
   componentDidMount() {
+    // bouncedUtils.noticesBottom.show()
   }
 
   componentWillMount() {
@@ -45,6 +45,10 @@ export default class CommonProblem extends Component {
 
   shouldComponentUpdate(nextProps) {
     return true
+  }
+
+  _selectType = (typeID) => {
+    this.setState({typeID: typeID})
   }
 
   render() {
@@ -68,11 +72,9 @@ export default class CommonProblem extends Component {
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
         >
-          <ProblemList/>
+          <ProblemType selectProblemType={this._selectType}/>
 
-          <ScrollView>
-
-          </ScrollView>
+          <ProblemList typeID={this.state.typeID}/>
 
         </ScrollView>
 
@@ -83,7 +85,5 @@ export default class CommonProblem extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: 'red',
   },
 });

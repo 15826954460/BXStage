@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, ScrollView, ImageBackground, Image,Dimensions,
+  StyleSheet, Text, View, ScrollView, ImageBackground, Image, Dimensions,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -137,10 +137,10 @@ export default class ProblemList extends Component {
         })
       }
     }
+    /** 点击缩放效果 */
     this.refs['faq_type_list_' + type].faq_select_ani(480).then((endState) => {
       if (endState.finished) {
-        /** 动画结束之后再走列表动画 */
-        // WebAPI.FAQ.AddFAQTypeViewCount(rowData.ID, () => null);
+        this.props.selectProblemType instanceof Function && this.props.selectProblemType(type)
       }
     });
   }
@@ -155,16 +155,16 @@ export default class ProblemList extends Component {
           iterationCount={1}
           useNativeDriver={true}
           duration={400}
-          delay={40 * (PROPLEM_TYPE_LIST.length - 1 - index)}
+          delay={100 * (PROPLEM_TYPE_LIST.length - 1 - index)}
         >
-            <ImageBackground
-              resizeMode={'contain'}
-              source={IMAGE_BACKGROUND}
-              fadeDuration={0}
-              style={styles.typeWrapper}>
-              <CTouchableWithoutFeedback
-                handle={() => this._selectType(item.type, index)}
-              >
+          <ImageBackground
+            resizeMode={'contain'}
+            source={IMAGE_BACKGROUND}
+            fadeDuration={0}
+            style={styles.typeWrapper}>
+            <CTouchableWithoutFeedback
+              handle={() => this._selectType(item.type, index)}
+            >
               <View style={{
                 width: 100,
                 height: 80,
@@ -180,9 +180,8 @@ export default class ProblemList extends Component {
                        source={this.state.defaultType === item.type ? item.imgUrl[1] : item.imgUrl[0]}/>
                 <Text style={{fontSize: 13, color: Layout.color.black}}>{item.name}</Text>
               </View>
-              </CTouchableWithoutFeedback>
-            </ImageBackground>
-
+            </CTouchableWithoutFeedback>
+          </ImageBackground>
         </Animatable.View>
       )
     })
@@ -205,7 +204,7 @@ export default class ProblemList extends Component {
 }
 const styles = StyleSheet.create({
   problemTypeContainer: {
-    width: width,
+    width: width
   },
   typeWrapper: {
     width: 120,
