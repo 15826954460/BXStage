@@ -40,7 +40,6 @@ class CToast extends Component {
     }
     this.state = {
       scaleAni: new Animated.Value(0.1),
-      translateY: new Animated.Value(20),
       opacity: new Animated.Value(0)
     };
   }

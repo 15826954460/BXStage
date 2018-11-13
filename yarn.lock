@@ -2205,6 +2205,10 @@ cross-spawn@^5.0.1, cross-spawn@^5.1.0:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
+crypto-js@^3.1.9-1:
+  version "3.1.9-1"
+  resolved "http://registry.npm.taobao.org/crypto-js/download/crypto-js-3.1.9-1.tgz#fda19e761fc077e01ffbfdc6e9fdfc59e8806cd8"
+
 cssom@0.3.x, "cssom@>= 0.3.2 < 0.4.0":
   version "0.3.4"
   resolved "http://registry.npm.taobao.org/cssom/download/cssom-0.3.4.tgz#8cd52e8a3acfd68d3aed38ee0a640177d2f9d797"
@@ -5117,6 +5121,12 @@ react-native-drawer-layout@1.3.2:
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
+react-native-img-cache@^1.5.3:
+  version "1.5.3"
+  resolved "http://registry.npm.taobao.org/react-native-img-cache/download/react-native-img-cache-1.5.3.tgz#ccffba86603077d0be4f9dc08aff59e3f551090b"
+  dependencies:
+    crypto-js "^3.1.9-1"
+
 react-native-linear-gradient@2.4.2:
   version "2.4.2"
   resolved "http://registry.npm.taobao.org/react-native-linear-gradient/download/react-native-linear-gradient-2.4.2.tgz#9d3acd0a198b9d4566e8f6253ef1f60fef0ff2be"
@@ -5130,6 +5140,10 @@ react-native-paper@2.1.3:
     create-react-context "^0.2.2"
     hoist-non-react-statics "^2.5.0"
     react-lifecycles-compat "^3.0.4"
+
+react-native-read-more-text@^1.1.0:
+  version "1.1.0"
+  resolved "http://registry.npm.taobao.org/react-native-read-more-text/download/react-native-read-more-text-1.1.0.tgz#d6f02a5caff8c91297957be66ecb42287c084e96"
 
 react-native-root-siblings@3.0.0:
   version "3.0.0"

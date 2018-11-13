@@ -23,7 +23,6 @@ const TRANSLATE_Y = Util.isIPhoneX() ? 484 : 460;
 
 const TOAST_ANIMATION_DURATION = 250;
 
-
 class CNoticeBottom extends Component {
   static propTypes = {
     params: PropTypes.object,

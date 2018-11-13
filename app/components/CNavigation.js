@@ -15,7 +15,6 @@ import DeviceInfo from "react-native-device-info";
 /** 自定义组建的引用 */
 import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
 import CStatusBar from './CStatusBar';
-import {Size} from "../styles/size";
 import {Util} from "../utils/util";
 
 /** 自定义工具方法的引用 */
