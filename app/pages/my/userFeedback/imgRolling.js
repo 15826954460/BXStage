@@ -1,12 +1,13 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View,Image,
+  StyleSheet, Text, View,Modal,
 } from "react-native";
 
 /** 全局样式的引用 */
 
 /** 第三方依赖库的引用 */
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 /** 自定义组建的引用 */
 
@@ -16,13 +17,11 @@ import {
 
 /** 常量声明 */
 
-export default class Vue2 extends Component {
+export default class ImageRolling extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      arr: [1,1,3,3]
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -43,17 +42,15 @@ export default class Vue2 extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Image
-          style={{width: 50, height: 50}}
-          source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-        />
-      </View>
+      <Modal visible={true}
+             transparent={true}>
+        <ImageViewer imageUrls={require('../../../images/common/test_one.png')}/>
+      </Modal>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   }
 });

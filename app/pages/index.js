@@ -40,6 +40,7 @@ import TradeRecord from './my/tradeRecord'; // 交易记录
 import CommonProblem from './my/commonProblem'; // 交易记录
 import SettingPage from './my/setting/index'; // 设置
 
+import Vue2 from '../pages/testView/test';
 
 /** 获取一些本地数据 **/
 import {
@@ -139,6 +140,7 @@ const Stack = createStackNavigator(
     TradeRecord: {screen: TradeRecord},
     CommonProblem: {screen: CommonProblem},
     SettingPage: {screen: SettingPage},
+    Vue2: {screen: Vue2},
   },
   {
     initialRouteName: 'AuthStatus',
@@ -223,8 +225,9 @@ export default class InitStack extends Component {
               index: 0,
               actions: [
                 NavigationActions.navigate({
-                  routeName: 'LoginAndRegister',
-                  // routeName: 'CommonProblem',
+                  // routeName: 'LoginAndRegister',
+                  routeName: 'HasFeedBack',
+                  // routeName: 'Vue2',
                   params: {initPage: _initPage}
                 }),
               ]
