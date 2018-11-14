@@ -191,6 +191,8 @@ export default class InitStack extends Component {
     StorageData.saveData('approvalProblem', approvalProblem)
     StorageData.saveData('lendingProblem', lendingProblem)
     StorageData.saveData('productIntroduce', productIntroduce)
+
+    // StorageData.removeData('userFeedBack')
   }
 
   _handleFirstConnectivityChange = (isConnected) => {

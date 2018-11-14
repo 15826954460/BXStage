@@ -13,9 +13,10 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 
 /** 自定义组建的引用 */
 import CNavigation from '../../../components/CNavigation';
-import FeedBackCell from './feedBackCell'
+import CGradientButton from '../../../components/CGradientButton';
 
 /** 页面的引入 */
+import FeedBackCell from './feedBackCell'
 
 /** 工具类的引用 */
 import {Util} from '../../../utils/util';
@@ -60,34 +61,6 @@ export default class HasFeedBack extends Component {
 
   render() {
     let {isModalVisible, imgList} = this.state;
-    // imgList = imgList.map((item, index) => {
-    //   // if (Util.isAndroid()) {
-    //   //   if (item) {
-    //   //     return {
-    //   //       url: 'file://' + ImageCache.get().cache[item.url].path
-    //   //     }
-    //   //   }
-    //   // } else {
-    //   //   if (item) {
-    //   //     return {
-    //   //       url: ImageCache.get().cache[item.url].path
-    //   //     }
-    //   //   }
-    //   // }
-    //   if (Util.isAndroid()) {
-    //     if (item) {
-    //       return {
-    //         url: 'file://' + item.url
-    //       }
-    //     }
-    //   } else {
-    //     if (item) {
-    //       return {
-    //         url: item.url
-    //       }
-    //     }
-    //   }
-    // })
     return (
       <CNavigation
         leftButton={{
@@ -123,7 +96,9 @@ export default class HasFeedBack extends Component {
                            onCancel()
                            this.setState({isModalVisible: false})
                          }}
-                         renderIndicator={() => {null}}
+                         renderIndicator={() => {
+                           null
+                         }}
                          enableImageZoom={true}
                          onChange={(index) => this.setState({ChooseIndex: index})}
             />
@@ -137,7 +112,7 @@ export default class HasFeedBack extends Component {
               flexDirection: 'row'
             }}>
               {
-                imgList.map((item, index) => {
+                imgList instanceof Array && imgList.map((item, index) => {
                   if (index === this.state.ChooseIndex) {
                     return <View key={index} style={[styles.smellArc, {opacity: 1}]}/>
                   } else {
@@ -150,6 +125,21 @@ export default class HasFeedBack extends Component {
           </Modal>
 
         </ScrollView>
+
+        <View style={styles.btnWrapper}>
+          <CGradientButton
+            gradientType={'btn_m'}
+            contentText={'写反馈'}
+            contentTextStyle={{
+              color: Layout.color.white_bg,
+              fontSize: 15,
+              fontFamily: "PingFangSC-Regular",
+              textAlign: "center"
+            }}
+            onPress={() => this.props.navigation.navigate('NoFeedBack')}
+          />
+        </View>
+
       </CNavigation>
     );
   }
@@ -165,5 +155,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 4,
     marginLeft: 10
+  },
+  btnWrapper: {
+    width: width,
+    position: 'absolute',
+    bottom: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });

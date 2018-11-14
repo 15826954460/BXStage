@@ -2,6 +2,7 @@ import SiblingsNotice from '../components/CNotice';
 import SiblingsAlert from '../components/CAlert';
 import SiblingsToast from '../components/CToast';
 import SiblingsNoticeBottom from '../components/CNoticeBottom';
+import SiblingsActionSheet from '../components/CActionSheet';
 
 const bouncedUtils = {
   /**
@@ -36,6 +37,10 @@ const bouncedUtils = {
   noticesBottom: {
     show: (params) => SiblingsNoticeBottom.showSiblings instanceof Function && SiblingsNoticeBottom.showSiblings(params),
     hide: () => SiblingsNoticeBottom.hideSiblings instanceof Function && SiblingsNoticeBottom.hideSiblings(),
+  },
+  actionSheet: {
+    show: (params) => SiblingsActionSheet.showSiblings instanceof Function && SiblingsActionSheet.showSiblings(params),
+    hide: () => SiblingsActionSheet.hideSiblings instanceof Function && SiblingsActionSheet.hideSiblings(),
   }
 }
 export {bouncedUtils}

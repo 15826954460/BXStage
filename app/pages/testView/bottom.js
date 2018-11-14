@@ -1,148 +1,122 @@
 /**
- * Created by hebao on 2017/2/10.
+ * Created by hebao on 2017/10/21.
  */
-
-
-'use strict';
 import React, {Component} from 'react';
 import {
   View,
-  Text,
   StyleSheet,
-  Image,
-  TouchableOpacity,
-  ScrollView,
   Animated,
+  Text,
+  TouchableHighlight,
   BackHandler,
   Easing,
+  TouchableOpacity
 } from 'react-native';
+// 通过root-siblings
 import RootSiblings from 'react-native-root-siblings';
 
-import Size from '../../utility/size';
-import Util from '../../utility/util'
-import BXStandard from '../../styles/standard';
+import {observable, action} from 'mobx';
+import {observer} from 'mobx-react/native';
 
-import WebAPI from '../../utility/webAPI';
+import BXStandard from '../styles/standard';
+import CommonSize from '../utility/size';
 
-const {width, height, pixel, iPhoneXHomeIndicatorAreaHeight} = Size.screen
-const debugKeyWord = '[FaqDetailPage]';
+const {width, height, pixel, iPhoneXHomeIndicatorAreaHeight} = CommonSize.screen;
+const _transY = height * 2 / 3;
 
-const TOAST_ANIMATION_DURATION = 250;
-const _transY = 460;
+const TOAST_ANIMATION_DURATION = 200;
+let siblingHandle = null;
 
-let faq_siblingHandle = null;
+let ActionSheetContent = observable({
+  @observable data: {
+    visible: false,//非配置属性
+    //option
+    hardwareBackPress: null,
+    allowHardwareBackHideModal: true,
+    tapBackToHide: true,
+    //option
+    buttons: [{title: '', callback: () => null}],
+  },
 
-class FaqDetailMain extends Component {
-  _hardwareBackHandle = null;//物理返回键监听句柄
-  _imgRef = null;
+  @action updateData(data) {
+    ActionSheetContent.data = {
+      ...ActionSheetContent.data,
+      ...data
+    };
+  },
 
-  static defaultProps = {
-    FaqID: null,
-    FaqTitle: '',
-    FaqContent: '',
-  }
+  @action showDone() {
+    ActionSheetContent.data = {
+      ...ActionSheetContent.data,
+      visible: false,
+    };
+  },
+});
 
+@observer
+class ActionSheetContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
-      unResolved: false,
-      resolved: false,
-      clicked: false,
-
-      imageFitWidth: 0,//远程网络图片的宽
-      imageFitHeight: 0,//远程网络图片的高
-      imageMarginTop: 0,//图片距离上边补白
-      imageInitWidth: 0,//图片全屏查看时的宽
-      imageInitHeight: 0,//图片全屏查看时的高
-
       opacity: new Animated.Value(0),
+      buttonPressed: null
     }
   }
 
   componentDidMount() {
-    this._hardwareBackHandle = BackHandler.addEventListener('hardwareBackPress', this.props.hardwareBackPress || this._hardwareBackPress);
     this._show();
-  }
-
-  componentWillUnmount() {
-    this._hardwareBackHandle.remove();
-  }
-
-  _hardwareBackPress = () => {
-    this._hide();
-    return true;
   };
 
-  _show = (show) => {
+  componentWillReceiveProps(nextProps, nextState) {
+    nextProps.visible === false && this._hide();
+  }
+
+  _show = () => {
     Animated.timing(this.state.opacity, {
       toValue: 1,
       duration: TOAST_ANIMATION_DURATION,
-      easing: Easing.out(Easing.ease)
-    }).start(() => {
-      this.props.onShow instanceof Function && this.props.onShow();
-      show instanceof Function && show();
-    });
+      easing: Easing.easeInEaseOut,
+      useNativeDriver: true
+    }).start();
   };
 
-  _hide = (hide) => {
+  _hide = () => {
     Animated.timing(this.state.opacity, {
       toValue: 0,
       duration: TOAST_ANIMATION_DURATION,
-      easing: Easing.in(Easing.ease)
+      easing: Easing.easeInEaseOut,
+      useNativeDriver: true
     }).start(() => {
-      FaqDetail.instanceShow = false;
-      FaqDetail.destroy(faq_siblingHandle);
-      this.props.onHide instanceof Function && this.props.onHide();
-      hide instanceof Function && hide();
+      setTimeout(() => this.state.buttonPressed instanceof Function && this.state.buttonPressed(), 50);//延迟为了UI效果
+      ActionSheet.instanceShow = false;
+      ActionSheet.destroy(siblingHandle);
     });
   };
 
-  _feedBack = (isResolved) => {
-    if (this.state.clicked)
-      return
-    WebAPI.my.starUseful({id: this.props.FaqID, label: isResolved ? 1 : 0}, (data) => {
-      Util.toast.show('感谢反馈');
-      this.setState({
-        unResolved: !isResolved,
-        resolved: isResolved,
-        clicked: true
-      });
-    })
-  }
-
-  _checkButton = (url) => {
-    if (url.indexOf('http') !== -1 && url.indexOf('fid') !== -1) {
-      let _fid = url.split('=')[1];
-      this._hide(() => {
-        setTimeout(() => FaqDetail.show({FaqID: _fid}), 300);//需要延迟，否则destroy之后马上show会出问题
-      });
-    }
-    else {
-    }
-  }
+  _itemSelect = (s, i) => {
+    this.state.buttonPressed = s.callback;
+    ActionSheet.hide();
+  };
 
   render() {
-    let {unResolved, resolved,} = this.state;
+    let {tapBackToHide, buttons} = ActionSheetContent.data;
     return (
-      <Animated.View
-        style={[
-          Styles.wrap,
-          {
-            backgroundColor: this.state.opacity.interpolate({
-              inputRange: [0, 1],
-              outputRange: ['rgba(0,0,0,0)', 'rgba(0,0,0,.6)']
-            })
-          }
-        ]}>
-        <TouchableOpacity
-          style={Styles.backCloseBtn}
-          activeOpacity={1}
-          onPress={this._hide}/>
-
+      <View style={[Styles.wrap]}>
         <Animated.View
           style={[
-            Styles.container,
+            Styles.wrap,
+            {
+              backgroundColor: 'rgba(0,0,0,.65)',
+              opacity: this.state.opacity
+            }
+          ]}/>
+        <TouchableOpacity
+          style={{flex: 1, width}}
+          activeOpacity={1}
+          onPress={() => tapBackToHide && ActionSheet.hide()}/>
+        <Animated.View
+          style={[
+            Styles.sheet,
             {
               transform: [{
                 translateY: this.state.opacity.interpolate({
@@ -152,78 +126,97 @@ class FaqDetailMain extends Component {
               }]
             }
           ]}>
-          <View style={Styles.titleWrap}>
-            <Text
-              numberOfLines={1}
-              style={Styles.titleFont}>
-              {this.props.FaqTitle || '问题详情'}
-            </Text>
-            <TouchableOpacity
-              style={Styles.titleCloseBtn}
+          {
+            buttons.map((s, i) => {
+              return (
+                <TouchableHighlight
+                  key={'sheet_' + i}
+                  activeOpacity={1}
+                  onPress={() => this._itemSelect(s, i)}
+                  underlayColor={BXStandard.color.gray_press}
+                  style={[
+                    Styles.item,
+                    {
+                      borderBottomWidth: i === buttons.length - 1 ? 0 : pixel,
+                      marginBottom: i === buttons.length - 1 ? 15 : 0
+                    }
+                  ]}>
+                  <Text style={Styles.font}>{s.title}</Text>
+                </TouchableHighlight>
+              )
+            })
+          }
+          <View
+            style={{
+              paddingBottom: CommonSize.isIPhoneX ? iPhoneXHomeIndicatorAreaHeight : 0,
+              backgroundColor: BXStandard.color.white_bg
+            }}>
+            <TouchableHighlight
               activeOpacity={1}
-              onPress={this._hide}>
-              <Image
-                style={Styles.titleCloseIcon}
-                resizeMode={'cover'}
-                fadeDuration={0}
-                source={require('../../res/common_img_closewindow.png')}/>
-            </TouchableOpacity>
+              onPress={() => ActionSheet.hide()}
+              delayPressIn={0}
+              underlayColor={BXStandard.color.gray_press}
+              style={[Styles.cancel]}>
+              <Text style={Styles.font}>{'取消'}</Text>
+            </TouchableHighlight>
           </View>
-
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{flex: 1}}>
-            <View style={Styles.detailZone}>
-              <Text style={Styles.detailFont}>
-                {this.props.FaqContent || ''}
-              </Text>
-            </View>
-          </ScrollView>
-
-          <View style={[Styles.toolBtnWrap]}>
-            <Text style={[Styles.toolFont, {marginRight: 10}]}>{'是否对你有帮助:'}</Text>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => this._feedBack(true)}
-              style={Styles.toolBtnFeed}>
-              <Image
-                source={resolved ? require('../../res/faq_img_help_down.png') : require('../../res/faq_img_help.png')}
-                resizeMode={'cover'}
-                style={Styles.feedBackIcon}/>
-              <Text
-                style={[Styles.toolFont, {color: resolved ? BXStandard.color.worange : BXStandard.color.wgray_main}]}>
-                {'有帮助'}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => this._feedBack(false)}
-              style={Styles.toolBtnFeed}>
-              <Image
-                source={unResolved ? require('../../res/faq_img_nohelp_down.png') : require('../../res/faq_img_nohelp.png')}
-                resizeMode={'cover'}
-                style={Styles.feedBackIcon}/>
-              <Text
-                style={[Styles.toolFont, {color: unResolved ? BXStandard.color.worange : BXStandard.color.wgray_main}]}>
-                {'没帮助'}
-              </Text>
-            </TouchableOpacity>
-          </View>
-
         </Animated.View>
-      </Animated.View>
-    );
+      </View>
+    )
   }
 }
 
-export default class FaqDetail extends Component {
+@observer
+class ActionSheetMain extends Component {
+  _hardwareBackPressHandle = null;//物理返回键监听句柄
+  _hardwareBackPress = null;//安卓物理返回键案件回调函数
+
+  componentDidMount() {
+    let {hardwareBackPress} = ActionSheetContent.data;
+    this._hardwareBackPress = hardwareBackPress instanceof Function ? hardwareBackPress : this.hardwareBackPress;
+    this._hardwareBackPressHandle = BackHandler.addEventListener('hardwareBackPress', this._hardwareBackPress);
+  }
+
+  componentWillUnmount() {
+    this._hardwareBackPressHandle.remove();
+  }
+
+  hardwareBackPress = () => {
+    let {allowHardwareBackHideModal, visible} = ActionSheetContent.data;
+    if (visible) {
+      if (allowHardwareBackHideModal) {
+        ActionSheet.hide();
+      }
+      return true;
+    }
+    return false;
+  };
+
+  render() {
+    let {visible} = ActionSheetContent.data;
+    return (
+      <ActionSheetContainer visible={visible}/>
+    );
+  }
+
+}
+
+export default class ActionSheet extends Component {
   static instanceShow = false;
 
   static show = (option) => {
-    if (!FaqDetail.instanceShow) {
-      FaqDetail.instanceShow = true;
-      faq_siblingHandle = new RootSiblings(<FaqDetailMain {...option}/>);
+    ActionSheetContent.updateData({
+      ...option,
+      visible: true,
+    });
+    if (!ActionSheet.instanceShow) {
+      ActionSheet.instanceShow = true;
+      siblingHandle = new RootSiblings(<ActionSheetMain/>);
     }
+  };
+
+  static hide = () => {
+    ActionSheetContent.showDone();
   };
 
   static destroy = (siblingHandle) => {
@@ -242,89 +235,37 @@ export default class FaqDetail extends Component {
 
 const Styles = StyleSheet.create({
   wrap: {
+    ...BXStandard.layout.cfec,
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    // backgroundColor: 'rgba(0,0,0,.6)',
-    ...BXStandard.layout.cfec
   },
-  backCloseBtn: {
-    flex: 1,
-    width
-  },
-  container: {
-    width,
-    height: 460 + (Size.isIPhoneX ? iPhoneXHomeIndicatorAreaHeight : 0),
-    backgroundColor: BXStandard.color.white_bg,
+  sheet: {
     ...BXStandard.layout.cfsc,
+    width,
+    backgroundColor: BXStandard.color.gray_bg,
+    borderTopWidth: pixel,
+    borderTopColor: BXStandard.color.gray_line
   },
-  titleWrap: {
+  item: {
+    ...BXStandard.layout.rcc,
     width,
     height: 44,
-    paddingLeft: BXStandard.gap.gap_edge,
-    borderTopWidth: pixel,
+    backgroundColor: BXStandard.color.white_bg,
     borderBottomWidth: pixel,
-    borderColor: BXStandard.color.gray_line,
-    ...BXStandard.layout.rsbc
+    borderBottomColor: BXStandard.color.gray_line
   },
-  titleFont: {
-    flex: 1,
-    fontSize: BXStandard.font.SL1,
-    color: BXStandard.color.wblack,
-  },
-  titleCloseBtn: {
-    width: 15 + 2 * BXStandard.gap.gap_edge,
-    height: 44,
-    paddingHorizontal: BXStandard.gap.gap_edge,
-    ...BXStandard.layout.ccc
-  },
-  titleCloseIcon: {
-    width: 15,
-    height: 15,
-  },
-  detailZone: {
+  cancel: {
+    ...BXStandard.layout.rcc,
     width,
-    paddingHorizontal: BXStandard.gap.gap_edge,
-    marginBottom: 20,
-    ...BXStandard.layout.cfsfs
+    height: 44 + (CommonSize.isIPhoneX ? CommonSize.screen.iPhoneXHomeIndicatorAreaHeight:0),
+    paddingBottom: CommonSize.isIPhoneX ? CommonSize.screen.iPhoneXHomeIndicatorAreaHeight:0,
   },
-  detailFont: {
-    fontSize: BXStandard.font.Body1,
+  font: {
     color: BXStandard.color.wblack,
-    marginTop: 20,
-    lineHeight: Math.ceil(18),
-  },
-  detailBtnWrap: {
-    borderWidth: 0.5,
-    borderColor: BXStandard.color.yellow_main,
-    marginTop: 44,
-  },
-  detailBtnFont: {
-    fontSize: BXStandard.font.btn_m,
-    color: BXStandard.color.yellow_main,
-  },
-  toolBtnWrap: {
-    width,
-    height: 44,
-    marginBottom: Size.isIPhoneX ? iPhoneXHomeIndicatorAreaHeight : 0,
-    paddingHorizontal: BXStandard.gap.gap_edge,
-    borderTopWidth: pixel,
-    borderTopColor: BXStandard.color.gray_line,
-    ...BXStandard.layout.rfsc,
-  },
-  toolFont: {
-    fontSize: BXStandard.font.Body1,
-    color: BXStandard.color.wgray_main,
-  },
-  toolBtnFeed: {
-    marginRight: 20,
-    ...BXStandard.layout.rfsc,
-  },
-  feedBackIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 5
+    fontSize: BXStandard.font.Subtle1,
+    lineHeight: 21
   }
 });

@@ -20,7 +20,6 @@ import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
 const {width, height} = Dimensions.get('window');
 
 /** 一些自定义工具的引用 */
-import {bouncedUtils} from '../utils/bouncedUtils';
 
 /** 按钮的颜色 */
 const

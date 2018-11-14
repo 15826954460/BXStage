@@ -35,8 +35,6 @@ class CNoticeBottom extends Component {
     }
   }
 
-  _waitTimer = null; // 事件执行句柄
-
   constructor(props) {
     super(props);
     this.state = {
@@ -64,8 +62,6 @@ class CNoticeBottom extends Component {
 
   componentWillUnmount() {
     this._hardwareBackHandle.remove()
-    clearTimeout(this._waitTimer);
-    this._waitTimer = null
   }
 
   _clearAndReHide = () => {
