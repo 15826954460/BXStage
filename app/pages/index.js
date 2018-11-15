@@ -13,6 +13,12 @@ import {createStackNavigator, NavigationActions, StackActions, createBottomTabNa
 /** 自定义组件的引用 */
 import CTabIcon from '../components/CTabIcon';
 
+/** 工具类的引用 */
+import {Horizontal_RToL_TranslateX, IOS_Default} from "../utils/transitionconfig";
+import {Routers} from '../store/routes';
+import StorageData from '../store/storageData';
+import {Layout} from "../styles/layout";
+
 /** 页面引入 */
 import LoginAndRegister from './loginAndRegister'; // 登陆和注册
 import ValidationCodePage from './loginAndRegister/validationCode'; // 获取验证码
@@ -30,6 +36,7 @@ import NoFeedBack from './my/userFeedback/noFeedBack'; // 人数较多的提示�
 
 import InstalmentPage from './instalment/index'; // 分期还款
 
+/** 以下为我的页面的引用 */
 import My from './my'; // 我
 import AccountInfo from './my/accountInfo'; // 用户信息
 import ReName from './my/accountInfo/rename'; // 修改昵称
@@ -41,6 +48,11 @@ import CommonProblem from './my/commonProblem'; // 交易记录
 import SettingPage from './my/setting/index'; // 设置
 
 import Vue2 from '../pages/testView/test';
+import CLoading from '../components/CLoading';
+
+/** 以下为相册相关页面的引用 */
+import PhotoPage from '../pages/photo'; // 所有图片的分类
+import ChoosePhoto from '../pages/photo/choose'; // 所有图片的分类
 
 /** 获取一些本地数据 **/
 import {
@@ -58,12 +70,6 @@ import {
   lendingProblem,
   productIntroduce
 } from '../store/data';
-
-/** 工具类的引用 */
-import {Horizontal_RToL_TranslateX, IOS_Default} from "../utils/transitionconfig";
-import {Routers} from '../store/routes';
-import StorageData from '../store/storageData';
-import {Layout} from "../styles/layout";
 
 /** 主页面信息栈 */
 const MainStack = createBottomTabNavigator(
@@ -110,6 +116,22 @@ const MainStack = createBottomTabNavigator(
   }
 )
 
+
+/** 相册图库的栈 */
+const PhotoStack = createStackNavigator(
+  {
+    PhotoPage: {screen: PhotoPage},
+    ChoosePhoto: {screen: ChoosePhoto}
+  },
+  {
+    headerMode: 'none',
+    mode: 'none',
+    navigationOptions: {
+      gesturesEnabled: true, // 默认不启用滑动手势(ios手机默认启用，android手机默认关闭)
+    },
+  }
+)
+
 /** 登陆注册栈 */
 const Stack = createStackNavigator(
   {
@@ -141,6 +163,8 @@ const Stack = createStackNavigator(
     CommonProblem: {screen: CommonProblem},
     SettingPage: {screen: SettingPage},
     Vue2: {screen: Vue2},
+    CLoading: {screen: CLoading},
+    PhotoStack: {screen: PhotoStack},
   },
   {
     initialRouteName: 'AuthStatus',
@@ -228,8 +252,10 @@ export default class InitStack extends Component {
               actions: [
                 NavigationActions.navigate({
                   // routeName: 'LoginAndRegister',
-                  routeName: 'HasFeedBack',
+                  // routeName: 'HasFeedBack',
+                  routeName: 'NoFeedBack',
                   // routeName: 'Vue2',
+                  // routeName: 'CLoading',
                   params: {initPage: _initPage}
                 }),
               ]

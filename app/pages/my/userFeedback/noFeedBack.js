@@ -1,7 +1,16 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, ImageBackground, TextInput, Dimensions, ScrollView, Image, TouchableWithoutFeedback, Keyboard
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TextInput,
+  Dimensions,
+  ScrollView,
+  Image,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -9,7 +18,7 @@ import {Layout} from "../../../styles/layout";
 
 /** 第三方依赖库的引用 */
 import Permissions from 'react-native-permissions'; // 判断是否有调用相机或照片权限的第三方库
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-picker'; // 访问相册的第三方库
 
 /** 自定义组建的引用 */
 import CNavigation from '../../../components/CNavigation';
@@ -100,7 +109,7 @@ export default class Vue2 extends Component {
               }
               else {
                 if (imageList.length < 4) {
-                  imageList.push({url: response.uri, name: response.name})
+                  imageList.push({url: response.uri})
                   this.setState({
                     imageList: imageList
                   })
@@ -120,41 +129,39 @@ export default class Vue2 extends Component {
       })
     }
     else if (type === 'pick') {
-      /** 检测权限 */
-      Permissions.request('photo').then(res => {
-        switch (res) {
-          case 'authorized':
-            /** 调用系统相册 */
-            ImagePicker.showImagePicker({}, (response) => {
-              if (response.didCancel || response.customButton || response.customButton) {
-                window.console.log('User cancelled image picker');
-              }
-              else {
-                if (imageList.length < 4) {
-                  imageList.push({url: response.uri, name: response.name})
-                  this.setState({
-                    imageList: imageList
-                  })
-                } else {
-                  bouncedUtils.toast.show({
-                    content: '最多只能选择四张图片', type: 'warning'
-                  })
-                }
-              }
-            })
-            // Routers.navRoot.dispatch(NavigationActions.navigate({
-            //   routeName: 'ChoosePhoto', params: {
-            //     callBack: this.PhotoCallBack.bind(this),
-            //     count: (4 - this.state.feedbackImg.length)
-            //   }
-            // }))
-            break;
-          default:
-            bouncedUtils.toast.show({
-              content: '没有权限', type: 'warning'
-            })
-        }
-      })
+      this.props.navigation.navigate('PhotoStack')
+      // ImagePicker.showImagePicker({
+      //   title: '请选择',
+      //   cancelButtonTitle: '取消',
+      //   takePhotoButtonTitle: '拍照',
+      //   chooseFromLibraryButtonTitle: '选择相册',
+      //   quality: 0.75,
+      //   allowsEditing: true,
+      //   noData: false,
+      //   storageOptions: {
+      //     skipBackup: true,
+      //     path: 'image'
+      //   }
+      // }, (response) => {
+      //   if (response.didCancel) {
+      //     window.console.log('User cancelled image picker');
+      //   } else if (response.error) {
+      //     window.console.log('ImagePicker Error: ', response.error);
+      //   } else if (response.customButton) {
+      //     window.console.log('User tapped custom button: ', response.customButton);
+      //   } else {
+      //     if (imageList.length < 4) {
+      //       imageList.push({url: response.uri})
+      //       this.setState({
+      //         imageList: imageList
+      //       })
+      //     } else {
+      //       bouncedUtils.toast.show({
+      //         content: '最多只能选择四张图片', type: 'warning'
+      //       })
+      //     }
+      //   }
+      // });
     }
   }
 

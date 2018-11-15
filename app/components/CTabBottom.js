@@ -55,25 +55,9 @@ class CTabBottom extends Component {
   onSelectTab = (tab) => {
     switch (tab) {
       case 0:
-        // Routers.stackRoots.dispatch(
-        //   StackActions.reset({
-        //     index: 0,
-        //     actions: [
-        //       NavigationActions.navigate({routeName: 'InstalmentPage'}),
-        //     ]
-        //   })
-        // )
         this.props.navigation.replace('MainPage')
         break;
       case 1:
-        // Routers.stackRoots.dispatch(
-        //   StackActions.reset({
-        //     index: 0,
-        //     actions: [
-        //       NavigationActions.navigate({routeName: 'MyPage'}),
-        //     ]
-        //   })
-        // )
         this.props.navigation.replace('MyPage')
         break;
     }
