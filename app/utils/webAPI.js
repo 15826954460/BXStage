@@ -1,5 +1,6 @@
 import axios from 'axios'
 import qs from 'qs' // 用来序列化请求参数
+import {bouncedUtils} from '../utils/bouncedUtils';
 
 /** 域名的配置 */
 const initConfig = {
@@ -16,12 +17,14 @@ function getDomain() {
 }
 
 const webApiConfig = {
+  startToLoading: 300,// 300ms内网络请求无响应，则展现loading动画
+  loadingTimeout: 30000,// loading 动画超时时间
   requestInstanceStack: new Map(), // 请球拦截
   responseInstanceStack: new Map(), // 响应拦截
   /**  自定义一个 axios 实例 */
   instance: axios.create({
     baseURL: getDomain(), // 配置基础路径
-    timeout: 10000, // 默认请求超时时间
+    timeout: 60000., // 默认请求超时时间
     // 设置请求头格式：用自定义的覆盖 axios 自带的 'Content-Type': 'application/json; charset=UTF-8'
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -89,6 +92,30 @@ const webApiConfig = {
   }
 }
 
+/** 开始请求接口 */
+function startLoading() {
+  let _loadInstance = null;
+  let _startTimer = setTimeout(() => {
+    _loadInstance = bouncedUtils.loading.show
+    _loadInstance()
+    _startTimer = null
+  }, webApiConfig.startToLoading)
+
+  let _overTimer = setTimeout(() => {
+    bouncedUtils.toast.show({content: '请求超时\n请检查网络'})
+    _overTimer = null
+  }, webApiConfig.loadingTimeout)
+
+  return [_startTimer, _overTimer, _loadInstance,]
+}
+
+/** 请求接口结束 */
+function endLoading() {
+  clearTimeout(startLoading()[0])
+  clearTimeout(startLoading()[1])
+  startLoading()[2] instanceof Function && bouncedUtils.loading.hide()
+}
+
 /** 启用拦截 */
 function startInterceptors(interfaceKey) {
   webApiConfig.setRequestInterceptors(interfaceKey)
@@ -126,6 +153,7 @@ export function getFetch(url, params, interfaceKey, cancel) {
   if (cancelFetch(cancel, interfaceKey).cancel) return
   /** 这里使用 promise 进行就建议包装是为了更友好的将数据的处理暴露在业务层 */
   return new Promise((resolve, reject) => {
+    startLoading()
     webApiConfig.instance({
       method: 'get',
       url: url,
@@ -135,6 +163,7 @@ export function getFetch(url, params, interfaceKey, cancel) {
         cancelFetch(cancel, interfaceKey).cancel = c;
       }) || '',
     }).then(response => {
+      endLoading()
       // response 数据机构 {data: {}, status: 200, statusText: 'OK', headers:{}, config: {} }
       deleteInterceptors(interfaceKey)// 删除拦截器以及其实例
       if (response.status === 200) {
@@ -156,6 +185,8 @@ export function postFetch(url, params, interfaceKey, cancel) {
   if (cancelFetch(cancel, interfaceKey).cancel) return
   /** 这里使用 promise 进行就建议包装是为了更友好的将数据的处理暴露在业务层 */
   return new Promise((resolve, reject) => {
+    startLoading()
+    /** 配置请求是否加载动画 */
     webApiConfig.instance({
       method: 'post',
       url: url,
@@ -165,6 +196,7 @@ export function postFetch(url, params, interfaceKey, cancel) {
         cancelFetch(cancel, interfaceKey).cancel = c;
       }) || '',
     }).then(response => {
+      endLoading()
       deleteInterceptors(interfaceKey) // 删除拦截器以及其实例
       if (response.status === 200) {
         return resolve(response.data)

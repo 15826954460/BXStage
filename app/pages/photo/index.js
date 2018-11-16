@@ -32,16 +32,9 @@ export default class PhotoPage extends Component {
     this.state = {
       isAuthorized: true,
       photoTypeObj: {
-        /**
-         * a: [{
-         *    filename: "IMG_0388.JPG"
-              height: 1137
-              isStored: true
-              playableDuration: 0
-              uri: "assets-library://asset/asset.JPG?id=B3435448-CC2B-42D4-A6D8-C78A9CB4F4AD&ext=JPG"
-              width: 640
-         * }]
-         * b: []
+        /** 内部数据结构如下格式
+         * a: [{},{}]
+         * b: [{},{}]
          * */
       },
     }
@@ -56,10 +49,19 @@ export default class PhotoPage extends Component {
     Permissions.request('photo').then(res => {
         switch (res) {
           case 'authorized':
+            /** 显示lottie动画 */
+            let loadingInstance = '';
+            let _startLoad = setTimeout(() => {
+              loadingInstance = bouncedUtils.loading.show
+              loadingInstance()
+              _startLoad = null
+            }, 500)
+
+            /** 待优化 */
             CameraRoll.getPhotos({
               first: 10000, // 写这么大的数字，默认取用户所有图片
-              assetType: 'Photos',
-              groupTypes: 'All'
+              assetType: 'Photos', // 获取类型
+              groupTypes: 'All' // 获取所有
             }).then(r => {
               r.edges.map((node, index, arr) => {
                 if (photoTypeObj[node.node.group_name]) {
@@ -69,6 +71,9 @@ export default class PhotoPage extends Component {
                   photoTypeObj[node.node.group_name].push(node.node.image)
                 }
               })
+              /** 隐藏lottie动画 */
+              clearTimeout(_startLoad)
+              loadingInstance instanceof Function && bouncedUtils.loading.hide()
               this.setState({
                 photoTypeObj: photoTypeObj
               })

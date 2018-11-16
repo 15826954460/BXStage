@@ -47,7 +47,7 @@ import TradeRecord from './my/tradeRecord'; // 交易记录
 import CommonProblem from './my/commonProblem'; // 交易记录
 import SettingPage from './my/setting/index'; // 设置
 
-import Vue2 from '../pages/testView/test';
+import Test from '../pages/testView/test';
 import CLoading from '../components/CLoading';
 
 /** 以下为相册相关页面的引用 */
@@ -162,7 +162,7 @@ const Stack = createStackNavigator(
     TradeRecord: {screen: TradeRecord},
     CommonProblem: {screen: CommonProblem},
     SettingPage: {screen: SettingPage},
-    Vue2: {screen: Vue2},
+    Test: {screen: Test},
     CLoading: {screen: CLoading},
     PhotoStack: {screen: PhotoStack},
   },
@@ -254,7 +254,7 @@ export default class InitStack extends Component {
                   // routeName: 'LoginAndRegister',
                   // routeName: 'HasFeedBack',
                   routeName: 'NoFeedBack',
-                  // routeName: 'Vue2',
+                  // routeName: 'Test',
                   // routeName: 'CLoading',
                   params: {initPage: _initPage}
                 }),

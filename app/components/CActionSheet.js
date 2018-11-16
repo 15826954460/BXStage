@@ -64,7 +64,6 @@ class CActionSheet extends Component {
 
   componentWillUnmount() {
     this._hardwareBackHandle.remove();
-    this._callBack = null
   }
 
   componentWillReceiveProps(nextProps, nextState) {

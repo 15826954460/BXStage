@@ -40,7 +40,6 @@ class CToast extends Component {
     }
     this.state = {
       scaleAni: new Animated.Value(0.1),
-      opacity: new Animated.Value(0)
     };
   }
 
@@ -159,7 +158,7 @@ class CToast extends Component {
                       fontSize: Layout.font.Subtle1,
                       fontFamily: 'PingFangSC-Regular',
                     }}
-                    onPress={() => {bouncedUtils.toast.hide()}}
+                    onPress={() => {bouncedUtils.alert.hide()}}
                   /> : <View style={{
                     ...Layout.layout.rsbc,
                     width: '100%',
@@ -223,7 +222,6 @@ export default class SiblingsAlert extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     position: 'absolute',
     top: 0,
     left: 0,
