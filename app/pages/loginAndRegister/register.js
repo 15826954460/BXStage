@@ -149,8 +149,8 @@ class Register extends Component {
 
     /** 查看如何获取邀请码为嵌入网页，后期再补充 */
     _toWebView = () => {
-
     }
+
   }
 
   render() {
@@ -179,7 +179,7 @@ class Register extends Component {
 
           <BXTextInput
             getRef={ref => this._invitationCodeInstance = ref}
-            placeholder={'请输入邀请码(6为数字即可)'}
+            placeholder={'请输入邀请码'}
             keyboardType={'numeric'}
             maxLength={6}
             isShowPasswordIcon={true}
@@ -199,7 +199,10 @@ class Register extends Component {
             disabled={this.state.disabled}
             gradientType={'btn_l'}
             contentText={'注册'}
-            textStyle={styles.buttonStyle}
+            textStyle={{
+              fontSize: 17,
+              color: '#fff'
+            }}
             onPress={this._validation}
           />
 
@@ -281,9 +284,5 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     flex: 1,
     height: 44,
-  },
-  buttonStyle: {
-    fontSize: 17,
-    color: '#fff'
   },
 });

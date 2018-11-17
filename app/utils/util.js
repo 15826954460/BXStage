@@ -124,15 +124,6 @@ const Util = {
     value = newValue.replace(newValue.slice(3, newValue.length - 4), '****')
     return value
   },
-  /** 针对某些特定的需求进行 ios 和 android 的适配 */
-  select() {
-    let _instructions = Platform.select({
-      ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-      android: 'Double tap R on your keyboard to reload,\n' + 'Shake or press menu button for dev menu',
-    });
-    return _instructions
-
-  },
   /** baiyunsong 验证邮箱的邮箱性 */
   isEmail(str) {
     let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
@@ -140,7 +131,6 @@ const Util = {
   },
   /** 身份证的有效性验证 */
   idCardIsLegal(idCardNum) {
-    console.log(111116666, idCardNum)
     return IdCardUtils.validateIdCard(idCardNum)
   }
 }

@@ -59,9 +59,6 @@ class CActionSheet extends Component {
     return true;
   };
 
-  componentWillMount() {
-  }
-
   componentWillUnmount() {
     this._hardwareBackHandle.remove();
   }

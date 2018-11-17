@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
   registerHeader: {
     flex: 1,
     height: 42,
-    lineHeight: 42,
     marginTop: 20,
     marginBottom: 35,
     ...Layout.layout.rfsc,

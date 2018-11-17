@@ -16,28 +16,11 @@ import {
 
 /** 常量声明 */
 
-import {observable, computed, action, decorate} from "mobx";
-import {observer} from 'mobx-react';
-
-class Timer {
-  @observable number = 0;
-
-  @action
-  tick() {
-    this.number += 1
-  }
-}
-
-const store = new Timer()
-
-console.log(store.number)
-
-@observer
-export default class Test extends Component {
+export default class Vue2 extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {viewRef: null};
+    this.state = {};
   }
 
   componentDidMount() {
@@ -59,16 +42,13 @@ export default class Test extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text onPress={() => store.tick()} style={{fontSize: 50}}>{99999}</Text>
-        <Text>{store.number}</Text>
+        <Text>Vue2.0</Text>
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: "center",
-  },
+    flex: 1
+  }
 });

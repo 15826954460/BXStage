@@ -151,8 +151,17 @@ class Login extends Component {
             </View>
           </TouchableWithoutFeedback>
 
-          <CGradientButton disabled={this.state.disabled} gradientType={"btn_l"} contentText={"登陆"}
-                           textStyle={styles.buttonStyle} onPress={this._validation}/>
+          <CGradientButton disabled={this.state.disabled}
+                           gradientType={"btn_l"}
+                           contentText={"登陆"}
+                           textStyle={{
+                             fontFamily: "PingFangSC-Regular",
+                             fontSize: 17,
+                             color: "#FFFFFF",
+                             letterSpacing: 0,
+                             textAlign: "center"
+                           }}
+                           onPress={this._validation}/>
         </ScrollView>
 
         <BottomText normalText={"还没有账号？"} clickText={"注册"} handle={this.props.switchToRegister}/>
@@ -192,11 +201,4 @@ const styles = StyleSheet.create({
     height: 44,
     ...Layout.layout.rcc
   },
-  buttonStyle: {
-    fontFamily: "PingFangSC-Regular",
-    fontSize: 17,
-    color: "#FFFFFF",
-    letterSpacing: 0,
-    textAlign: "center"
-  }
 });

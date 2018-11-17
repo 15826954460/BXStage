@@ -31,10 +31,6 @@ class CLoading extends Component {
     };
   }
 
-
-  componentWillMount() {
-  }
-
   componentDidMount() {
     Animated.timing(this.state.opacity, {
       toValue: 1,

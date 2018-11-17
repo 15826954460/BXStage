@@ -48,7 +48,6 @@ import CommonProblem from './my/commonProblem'; // 交易记录
 import SettingPage from './my/setting/index'; // 设置
 
 import Test from '../pages/testView/test';
-import CLoading from '../components/CLoading';
 
 /** 以下为相册相关页面的引用 */
 import PhotoPage from '../pages/photo'; // 所有图片的分类
@@ -116,7 +115,6 @@ const MainStack = createBottomTabNavigator(
   }
 )
 
-
 /** 相册图库的栈 */
 const PhotoStack = createStackNavigator(
   {
@@ -124,6 +122,7 @@ const PhotoStack = createStackNavigator(
     ChoosePhoto: {screen: ChoosePhoto}
   },
   {
+    initialRouteName: 'PhotoPage',
     headerMode: 'none',
     mode: 'none',
     navigationOptions: {
@@ -163,7 +162,6 @@ const Stack = createStackNavigator(
     CommonProblem: {screen: CommonProblem},
     SettingPage: {screen: SettingPage},
     Test: {screen: Test},
-    CLoading: {screen: CLoading},
     PhotoStack: {screen: PhotoStack},
   },
   {
@@ -255,7 +253,7 @@ export default class InitStack extends Component {
                   // routeName: 'HasFeedBack',
                   routeName: 'NoFeedBack',
                   // routeName: 'Test',
-                  // routeName: 'CLoading',
+                  // routeName: 'PhotoStack',
                   params: {initPage: _initPage}
                 }),
               ]

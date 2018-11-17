@@ -121,6 +121,7 @@ export default class CGradientButton extends Component {
     numberOfLines: 0,
     additionalStyle: {}, // 默认特殊按钮的样式为空对象，防止页面运行报错
     contentTextStyle: {},
+    textStyle: {}
   };
 
   constructor(props) {

@@ -19,6 +19,7 @@ import {Layout} from "../../../styles/layout";
 /** 第三方依赖库的引用 */
 import Permissions from 'react-native-permissions'; // 判断是否有调用相机或照片权限的第三方库
 import ImagePicker from 'react-native-image-picker'; // 访问相册的第三方库
+import {observer} from 'mobx-react'
 
 /** 自定义组建的引用 */
 import CNavigation from '../../../components/CNavigation';
@@ -32,7 +33,10 @@ import {bouncedUtils} from '../../../utils/bouncedUtils'
 const {width, height} = Dimensions.get('window');//屏幕宽度
 const MAX_TEXT_LENGTH = 300;
 
-export default class Vue2 extends Component {
+import {UserImageList} from '../../../store/mobx';
+
+@observer
+export default class NoFeedBack extends Component {
 
   constructor(props) {
     super(props);
@@ -40,12 +44,6 @@ export default class Vue2 extends Component {
       inputValue: '',
       allowSubmit: false,
       remainingText: '剩余 300 个字',
-      imageList: [
-        // {url: require('../../../images/common/test_four.jpg')},
-        // {url: require('../../../images/common/test_three.jpg')},
-        // {url: require('../../../images/common/test_two.jpg')},
-        // {url: require('../../../images/common/test_one.png')}
-      ]
     };
   }
 
@@ -90,7 +88,7 @@ export default class Vue2 extends Component {
   }
 
   _chooseImg = (type) => {
-    const {imageList} = this.state
+    const {selectImgList} = UserImageList.data
     if (type === 'take') {
       /** 检测权限 */
       Permissions.request('camera').then(res => {
@@ -108,10 +106,11 @@ export default class Vue2 extends Component {
                 window.console.log('User tapped custom button: ', response.customButton);
               }
               else {
-                if (imageList.length < 4) {
-                  imageList.push({url: response.uri})
-                  this.setState({
-                    imageList: imageList
+                if (selectImgList.length < 4) {
+                  selectImgList.push({uri: response.uri})
+                  UserImageList.update({
+                    selectImgList: selectImgList,
+                    selectNumber: selectImgList.length,
                   })
                 } else {
                   bouncedUtils.toast.show({
@@ -165,8 +164,18 @@ export default class Vue2 extends Component {
     }
   }
 
+  /** 删除图片 */
+  _deleteImg = (index) => {
+    const {selectImgList} = UserImageList.data
+    selectImgList.splice(index, 1)
+    UserImageList.update({
+      selectImgList: selectImgList,
+      selectNumber: selectImgList.length,
+    })
+  }
+
   render() {
-    const {imageList} = this.state
+    const {selectImgList} = UserImageList.data
     return (
       <CNavigation
         leftButton={{
@@ -226,20 +235,15 @@ export default class Vue2 extends Component {
 
           <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
             {
-              imageList.map((item, index) => {
+              selectImgList.map((item, index) => {
                 return <View style={styles.addImageWrapper}
                              key={index + ''}
                 >
                   <Image style={[{position: 'absolute', bottom: 0, left: 0, width: 78, height: 78}]}
-                         source={{uri: item.url}}/>
+                         source={{uri: item.uri}}/>
 
                   <TouchableWithoutFeedback
-                    onPress={() => {
-                      imageList.splice(index, 1)
-                      this.setState({
-                        imageList: this.state.imageList,
-                      })
-                    }}
+                    onPress={() => this._deleteImg(index)}
                   >
                     <View>
                       <Image style={[{position: 'absolute', top: 0, right: 0}]}
@@ -252,7 +256,7 @@ export default class Vue2 extends Component {
             }
 
             {
-              imageList.length < 4 ?
+              selectImgList.length < 4 ?
 
                 <TouchableWithoutFeedback
                   onPress={this._addImage}

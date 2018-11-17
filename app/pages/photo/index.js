@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, CameraRoll, ScrollView, Dimensions, Image,
+  StyleSheet, Text, View, CameraRoll, ScrollView, Image, TouchableWithoutFeedback,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -10,20 +10,14 @@ import {Size} from "../../styles/size";
 
 /** 第三方依赖库的引用 */
 import Permissions from 'react-native-permissions'; // 判断是否有调用相机或照片权限的第三方库
-import ImagePicker from 'react-native-image-picker'; // 访问相册的第三方库
-import {NavigationActions} from 'react-navigation';
 
 /** 自定义组建的引用 */
 import CNavigation from '../../components/CNavigation';
 
-/** 页面的引入 */
-
 /** 工具类的引用 */
 import {bouncedUtils} from '../../utils/bouncedUtils';
 
-
 /** 常量声明 */
-const {width, height} = Dimensions.get('window');//屏幕宽度
 
 export default class PhotoPage extends Component {
 
@@ -55,14 +49,15 @@ export default class PhotoPage extends Component {
               loadingInstance = bouncedUtils.loading.show
               loadingInstance()
               _startLoad = null
-            }, 500)
+            }, 1000)
 
             /** 待优化 */
             CameraRoll.getPhotos({
-              first: 10000, // 写这么大的数字，默认取用户所有图片
+              first: 50, // 暂定只取600张
               assetType: 'Photos', // 获取类型
               groupTypes: 'All' // 获取所有
             }).then(r => {
+              // console.log(res.node)
               r.edges.map((node, index, arr) => {
                 if (photoTypeObj[node.node.group_name]) {
                   photoTypeObj[node.node.group_name].push(node.node.image)
@@ -78,14 +73,16 @@ export default class PhotoPage extends Component {
                 photoTypeObj: photoTypeObj
               })
             }).catch((err) => {
-              //Error Loading Images
+              bouncedUtils.toast.show({
+                content: '出现异常\n请稍后再试'
+              })
             });
             /** 调用系统相册 这个适合截图操作 */
             break;
           default:
             this.state.isAuthorized = false
             bouncedUtils.toast.show({
-              content: '没有权限', type: 'warning'
+              content: '没有权限'
             })
         }
       }
@@ -105,18 +102,26 @@ export default class PhotoPage extends Component {
   _imgGroupItem = () => {
     const {photoTypeObj} = this.state
     return Object.keys(photoTypeObj).map((item, index) => {
-      return <View style={styles.imgGroupItem} key={index}>
-        <Image source={{uri: photoTypeObj[item][0].uri}} style={styles.leftImage}/>
-        <View style={styles.rightWrapper}>
-          <Text style={{fontSize: 16, color: Layout.color.wblack}}>
-            {item}
-            <Text style={{fontSize: 16, color: Layout.color.wgray_main}}>
-              {`（${photoTypeObj[item].length}）`}
+      return <TouchableWithoutFeedback
+        onPress={() => {
+          this.props.navigation.navigate('ChoosePhoto', {
+            photoList: photoTypeObj[item]
+          })
+        }}
+        key={index}>
+        <View style={styles.imgGroupItem}>
+          <Image source={{uri: photoTypeObj[item][0].uri}} style={styles.leftImage}/>
+          <View style={styles.rightWrapper}>
+            <Text style={{fontSize: 16, color: Layout.color.wblack}}>
+              {item}
+              <Text style={{fontSize: 16, color: Layout.color.wgray_main}}>
+                {`（${photoTypeObj[item].length}）`}
+              </Text>
             </Text>
-          </Text>
-          <Image source={require('../../images/common/common_img_arrow.png')}/>
+            <Image source={require('../../images/common/common_img_arrow.png')}/>
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     })
   }
 
@@ -147,17 +152,17 @@ export default class PhotoPage extends Component {
           style={styles.container}
           showsVerticalScrollIndicator={false}
         >
-            {
-              !isAuthorized ? <View style={{flex: 1, ...Layout.layout.ccc}}>
-                <Text>
-                  {'请在设置－隐私－照片”中，允许币下分期访问你的手机相册'}
-                </Text>
-              </View> : <View style={{flex: 1, width: width}}>
-                {
-                  Object.keys(photoTypeObj).length > 0 && this._imgGroupItem()
-                }
-              </View>
-            }
+          {
+            !isAuthorized ? <View style={{flex: 1, ...Layout.layout.ccc}}>
+              <Text style={{color: Layout.color.gray_line}}>
+                {'请在设置－隐私－照片”中，允许币下分期访问你的手机相册'}
+              </Text>
+            </View> : <View style={{flex: 1, width: Size.screen.width}}>
+              {
+                Object.keys(photoTypeObj).length > 0 && this._imgGroupItem()
+              }
+            </View>
+          }
 
         </ScrollView>
       </CNavigation>
@@ -167,7 +172,7 @@ export default class PhotoPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: width,
+    width: Size.screen.width,
   },
   imgGroupItem: {
     ...Layout.layout.rsbc,
