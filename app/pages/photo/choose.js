@@ -1,5 +1,5 @@
 /** react 组建的引用 */
-import React, {Component} from "react";
+import React, {Component, PureComponent} from "react";
 import {
   StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Image,
 } from "react-native";
@@ -42,15 +42,7 @@ export default class ChoosePhoto extends Component {
   componentDidMount() {
   }
 
-
   componentWillUnmount() {
-  }
-
-  componentWillReceiveProps(nextProps, nextState) {
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return true
   }
 
   /** 选择图片 */
@@ -81,7 +73,7 @@ export default class ChoosePhoto extends Component {
 
   _renderItem = ({item}) => {
     return <TouchableWithoutFeedback
-      key={item.filename}
+      key={item.filename + item.uri}
       onPress={() => this._changeImage(item.filename)}
     >
       <View
@@ -164,6 +156,10 @@ export default class ChoosePhoto extends Component {
             backgroundColor: Layout.color.white_bg,
             width: Size.screen.width,
           }}
+          getItemLayout={(data, index) => (
+            {length: (Size.screen.width - 3) / 4, offset: (Size.screen.width - 3) / 4 * index, index}
+          )}
+          initialNumToRender={30}
           keyExtractor={this._keyExtractor}
           data={ImageData.photoImgList.slice()}
           removeClippedSubviews={true}

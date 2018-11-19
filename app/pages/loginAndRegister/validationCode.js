@@ -18,7 +18,6 @@ import HOCNavigationFocus from '../../components/HOC/HOCNavigationEvents';
 
 /** 获取自定义的静态方法 */
 import StaticPages from '../../utils/staticPage';
-import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
 import {Layout} from "../../styles/layout";
 
@@ -53,7 +52,8 @@ export default class ValidationCode extends Component {
   componentWillBlur() {
   }
 
-  componentWillReceiveProps(nextProps, nextState) {}
+  componentWillReceiveProps(nextProps, nextState) {
+  }
 
   /** 监听用户输入 */
   _onChangeText = (val) => {
@@ -69,7 +69,7 @@ export default class ValidationCode extends Component {
 
   /** 验证验证码, 实际开发中自行获取接口, 这里为了演示效果还是前端来做校验  */
   _validationCode = () => {
-    let validateLegal =  /^\d{4}$/.test(Number(this.state.validationCode))
+    let validateLegal = /^\d{4}$/.test(Number(this.state.validationCode))
 
     if (validateLegal) {
       Keyboard.dismiss()
@@ -144,7 +144,7 @@ export default class ValidationCode extends Component {
           <View style={{flex: 1, ...Layout.layout.ccc,}}>
 
             <BXTextInput
-              getRef = {ref => this._inputInstance = ref}
+              getRef={ref => this._inputInstance = ref}
               maxLength={4}
               isButton={true}
               editable={this.state.editable}
@@ -157,7 +157,10 @@ export default class ValidationCode extends Component {
               <CGradientButton
                 gradientType={'btn_input'}
                 contentText={this.state.defaultText}
-                textStyle={styles.inputButtonStyle}
+                textStyle={{
+                  fontSize: 14,
+                  color: '#fff'
+                }}
                 disabled={this.state.getDisabled}
                 onPress={this._getValidationCode}
               />
@@ -170,11 +173,13 @@ export default class ValidationCode extends Component {
             <CGradientButton
               gradientType={'btn_l'}
               contentText={'下一步'}
-              textStyle={styles.buttonStyle}
+              textStyle={{
+                fontSize: 17,
+                color: '#fff'
+              }}
               disabled={this.state.disabled}
               onPress={this._validationCode}
-            >
-            </CGradientButton>
+            />
           </View>
 
         </ScrollView>
@@ -188,13 +193,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 12,
-  },
-  buttonStyle: {
-    fontSize: 17,
-    color: '#fff'
-  },
-  inputButtonStyle: {
-    fontSize: 14,
-    color: '#fff'
   },
 });

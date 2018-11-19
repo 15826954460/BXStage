@@ -95,6 +95,7 @@ export default class NoFeedBack extends Component {
           case "authorized":
             /** 调用系统拍照功能 */
             ImagePicker.launchCamera({}, response => {
+              console.log(response)
               if (response.didCancel) {
                 // window.console.log('User cancelled image picker');
               }
@@ -107,7 +108,9 @@ export default class NoFeedBack extends Component {
               else {
                 if (ImageData.selectImgList.length < 4) {
                   ImageData.selectImgList.push({
-                    uri: response.uri, isSelect: true,
+                    uri: response.uri,
+                    isSelect: true,
+                    filename: response.uri.slice(url.lastIndexOf('/') + 1)
                   })
                 } else {
                   bouncedUtils.toast.show({
@@ -171,7 +174,9 @@ export default class NoFeedBack extends Component {
   /** 确认提交 */
   _submit = () => {
     if (this.state.allowSubmit) {
-      /** 实际开发中根据后台接口返回的结果判断是否需要重置 */
+      /** 实际开发中根据后台接口返回的结果判断是否需要重置
+       * 将数据处理成后后端协商好的结构穿过去就好了
+       * */
       ImageData.resetSelectNumber()
       ImageData.resetSelectImgList()
       ImageData.resetPhotoImgList()

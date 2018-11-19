@@ -512,6 +512,30 @@ const appConfig = {
 }
 
 
+const photoListdata = {
+  group_name: "壁纸",
+  image: {
+    filename: "IMG_0388.JPG",
+    height: 1137,
+    isStored: true,
+    playableDuration: 0,
+    uri: "assets-library://asset/asset.JPG?id=B3435448-CC2B-42D4-A6D8-C78A9CB4F4AD&ext=JPG",
+    width: 640
+  },
+  location: {},
+  timestamp: 1457505939,
+  type: "ALAssetTypePhoto",
+}
+
+const camera = {
+  data: "/9j/4AAQSkZJRgABAQAASABIAAD/4QBYRXhpZgAATU0AKgAAAA",
+  fileSize: 219016,
+  height: 3264,
+  isVertical: true,
+  uri: "file:///var/mobile/Containers/Data/Application/3CB3306A-8BF6-4F4B-8788-F829CAF3D54E/tmp/184E2255-E6F8-45AC-AC01-DC76B71268B1.jpg",
+  width: 2448,
+}
+
 export {
   userInfo,
   bankInfo,

@@ -1,75 +1,58 @@
-/** react 组建的引用 */
-import React, {Component} from "react";
-import {
-  StyleSheet, Text, View,findNodeHandle,Image,
-} from "react-native";
+class MyListItem extends React.PureComponent {
+  _onPress = () => {
+    this.props.onPressItem(this.props.id);
+  };
 
-/** 全局样式的引用 */
-
-/** 第三方依赖库的引用 */
-import { BlurView, VibrancyView } from 'react-native-blur';
-/** 自定义组建的引用 */
-
-/** 页面的引入 */
-
-/** 工具类的引用 */
-
-/** 常量声明 */
-
-export default class Vue2 extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = { viewRef: null };
+  render() {
+    const textColor = this.props.selected ? "red" : "black";
+    return (
+      <TouchableOpacity onPress={this._onPress}>
+        <View>
+          <Text style={{ color: textColor }}>
+            {this.props.title}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
   }
+}
 
-  componentDidMount() {
-  }
+class MultiSelectList extends React.PureComponent {
+  state = {selected: new Map()};
 
-  componentWillMount() {
-  }
+  _keyExtractor = (item, index) => item.id;
 
-  componentWillUnmount() {
-  }
+  _onPressItem = (id: string) => {
+    this.setState((state) => {
+      const selected = new Map(state.selected);
+      selected.set(id, !selected.get(id));
+      return {selected};
+    });
+  };
 
-  componentWillReceiveProps(nextProps, nextState) {
-  }
+  _onPress = (item) => {
+    this._onPressItem(item.id);
+  };
 
-  imageLoaded() {
-    this.setState({ viewRef: findNodeHandle(this.backgroundImage) });
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return true
+  _renderItem = ({item}) => {
+    const textColor = this.state.selected ? "red" : "black";
+    return  <TouchableOpacity onPress={() => this._onPress(item)}>
+      <View>
+        <Text style={{ color: textColor }}>
+          {this.props.title}
+        </Text>
+      </View>
+    </TouchableOpacity>
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Image
-          ref={(img) => { this.backgroundImage = img; }}
-          source={{uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1542184343057&di=b6ada4aa27afa853fff970b5739d8a66&imgtype=0&src=http%3A%2F%2Fimg18.3lian.com%2Fd%2Ffile%2F201710%2F27%2F6239258bb41622006605f967200b806b.jpg'}}
-          style={styles.absolute}
-          onLoadEnd={this.imageLoaded.bind(this)}
-        />
-        <BlurView
-          style={styles.absolute}
-          viewRef={this.state.viewRef}
-          blurType="light"
-          blurAmount={10}
-        />
-        <Text>{'Hi, I am some unblurred text'}</Text>
-      </View>
+      <FlatList
+        data={this.props.data}
+        extraData={this.state}
+        keyExtractor={this._keyExtractor}
+        renderItem={this._renderItem}
+      />
     );
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  absolute: {
-    position: "absolute",
-    top: 0, left: 0, bottom: 0, right: 0,
-  },
-});

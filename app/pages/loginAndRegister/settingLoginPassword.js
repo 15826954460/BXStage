@@ -151,11 +151,13 @@ export default class Vue2 extends Component {
             <CGradientButton
               gradientType={'btn_l'}
               contentText={'确定'}
-              textStyle={styles.buttonStyle}
+              textStyle={{
+                fontSize: 17,
+                color: '#fff'
+              }}
               disabled={this.state.disabled}
               onPress={this._validationPassword}
-            >
-            </CGradientButton>
+            />
           </View>
 
 
@@ -169,9 +171,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 12,
-  },
-  buttonStyle: {
-    fontSize: 17,
-    color: '#fff'
   },
 });

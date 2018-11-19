@@ -111,8 +111,8 @@ export default class FeedBackCell extends Component {
             {
               items.feedbackImgs.map((item, index) => {
                 return <View
-                  key={index + Math.random() * 10000 + ''}
-                  style={{width: 109, height: 109, marginRight: ((index + 1) % 3 === 0 && width === 375) ? 0 : 12, marginBottom: 12}}
+                  key={index}
+                  style={{width: (width - 4 * 12) / 3, height: (width - 4 * 12) / 3, marginRight: ((index + 1) % 3 === 0) ? 0 : 12, marginBottom: 12}}
                 >
                   <TouchableWithoutFeedback onPress={() => {
                     this.props.toggleModal instanceof Function && this.props.toggleModal(items.feedbackImgs, index)

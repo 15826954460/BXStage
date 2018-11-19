@@ -159,7 +159,6 @@ class Register extends Component {
         isNavContent={false}
         isPaddingTop={false}
       >
-        {/*<View style={styles.container}>*/}
         <ScrollView
           style={styles.scrollViewStyle}
           keyboardDismissMode={'on-drag'}
@@ -236,8 +235,6 @@ class Register extends Component {
           clickText={'登陆'}
           handle={this.props.switchToLogin}
         />
-
-        {/*</View>*/}
       </CNavigation>
     );
   }

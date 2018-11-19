@@ -54,11 +54,12 @@ export default class PhotoPage extends Component {
 
             /** 待优化 */
             CameraRoll.getPhotos({
-              first: 50, // 暂定只取600张
+              first: 10, // 暂定只取600张
               assetType: 'Photos', // 获取类型
               groupTypes: 'All' // 获取所有
             }).then(r => {
               r.edges.map((node, index, arr) => {
+                console.log(node)
                 if (photoTypeObj[node.node.group_name]) {
                   photoTypeObj[node.node.group_name].push(node.node.image)
                 } else {

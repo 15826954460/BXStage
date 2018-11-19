@@ -251,9 +251,9 @@ export default class InitStack extends Component {
               index: 0,
               actions: [
                 NavigationActions.navigate({
-                  // routeName: 'LoginAndRegister',
+                  routeName: 'LoginAndRegister',
                   // routeName: 'HasFeedBack',
-                  routeName: 'NoFeedBack',
+                  // routeName: 'NoFeedBack',
                   // routeName: 'Test',
                   // routeName: 'PhotoStack',
                   params: {initPage: _initPage}
