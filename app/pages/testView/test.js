@@ -24,13 +24,15 @@ class Timer {
 
   @action
   tick() {
-    this.number += 1
+    console.log(this.number)
+    this.number += 1;
+    console.log(this.number)
   }
 }
 
 const store = new Timer()
 
-console.log(store.number)
+// console.log(store.number)
 
 @observer
 export default class Test extends Component {

@@ -19,7 +19,7 @@ import {Layout} from "../../../styles/layout";
 /** 第三方依赖库的引用 */
 import Permissions from 'react-native-permissions'; // 判断是否有调用相机或照片权限的第三方库
 import ImagePicker from 'react-native-image-picker'; // 访问相册的第三方库
-import {observer} from 'mobx-react'
+import {observer} from 'mobx-react';
 
 /** 自定义组建的引用 */
 import CNavigation from '../../../components/CNavigation';
@@ -27,13 +27,13 @@ import CNavigation from '../../../components/CNavigation';
 /** 页面的引入 */
 
 /** 工具类的引用 */
-import {bouncedUtils} from '../../../utils/bouncedUtils'
+import {bouncedUtils} from '../../../utils/bouncedUtils';
+import {ImageData} from '../../photo/mobx/mobx';
 
 /** 常量声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
 const MAX_TEXT_LENGTH = 300;
 
-import {UserImageList} from '../../../store/mobx';
 
 @observer
 export default class NoFeedBack extends Component {
@@ -88,7 +88,6 @@ export default class NoFeedBack extends Component {
   }
 
   _chooseImg = (type) => {
-    const {selectImgList} = UserImageList.data
     if (type === 'take') {
       /** 检测权限 */
       Permissions.request('camera').then(res => {
@@ -97,20 +96,18 @@ export default class NoFeedBack extends Component {
             /** 调用系统拍照功能 */
             ImagePicker.launchCamera({}, response => {
               if (response.didCancel) {
-                window.console.log('User cancelled image picker');
+                // window.console.log('User cancelled image picker');
               }
               else if (response.error) {
-                window.console.log('ImagePicker Error: ', res.error);
+                // window.console.log('ImagePicker Error: ', res.error);
               }
               else if (response.customButton) {
-                window.console.log('User tapped custom button: ', response.customButton);
+                // window.console.log('User tapped custom button: ', response.customButton);
               }
               else {
-                if (selectImgList.length < 4) {
-                  selectImgList.push({uri: response.uri})
-                  UserImageList.update({
-                    selectImgList: selectImgList,
-                    selectNumber: selectImgList.length,
+                if (ImageData.selectImgList.length < 4) {
+                  ImageData.selectImgList.push({
+                    uri: response.uri, isSelect: true,
                   })
                 } else {
                   bouncedUtils.toast.show({
@@ -166,16 +163,24 @@ export default class NoFeedBack extends Component {
 
   /** 删除图片 */
   _deleteImg = (index) => {
-    const {selectImgList} = UserImageList.data
+    const {selectImgList} = ImageData
     selectImgList.splice(index, 1)
-    UserImageList.update({
-      selectImgList: selectImgList,
-      selectNumber: selectImgList.length,
-    })
+    ImageData.updateSelectImgList(selectImgList)
+  }
+
+  /** 确认提交 */
+  _submit = () => {
+    if (this.state.allowSubmit) {
+      /** 实际开发中根据后台接口返回的结果判断是否需要重置 */
+      ImageData.resetSelectNumber()
+      ImageData.resetSelectImgList()
+      ImageData.resetPhotoImgList()
+      this.props.navigation.navigate('HasFeedBack')
+    }
   }
 
   render() {
-    const {selectImgList} = UserImageList.data
+    const {selectImgList} = ImageData
     return (
       <CNavigation
         leftButton={{
@@ -197,8 +202,7 @@ export default class NoFeedBack extends Component {
             color: this.state.allowSubmit ? Layout.color.yellow_main : Layout.color.wgray_sub,
             fontSize: 16,
           },
-          handle: () => {
-          }
+          handle: this._submit
         }}
       >
         <ScrollView style={styles.container}

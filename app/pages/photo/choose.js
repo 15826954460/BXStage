@@ -7,7 +7,9 @@ import {
 /** 全局样式的引用 */
 import {Layout} from "../../styles/layout";
 import {Size} from "../../styles/size";
+
 /** 第三方依赖库的引用 */
+import {observer} from 'mobx-react';
 
 /** 自定义组建的引用 */
 import CNavigation from '../../components/CNavigation';
@@ -16,7 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 /** 页面的引入 */
 
 /** 工具类的引用 */
-import {UserImageList} from '../../store/mobx';
+import {ImageData} from './mobx/mobx';
 import {bouncedUtils} from "../../utils/bouncedUtils";
 
 /** 常量声明 */
@@ -26,39 +28,22 @@ const
 
 const MAX_IMAGE_NUMBER = 4;
 
+@observer
 export default class ChoosePhoto extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      changeNumber: 0,
-      data: []
-    };
-  }
-
-  _addOptions = (arr) => {
-    arr.map((item, index) => {
-      item.isSelect = false
-    })
-    this.setState({
-      data: arr,
-    })
+    this.state = {};
   }
 
   componentWillMount() {
-
   }
 
   componentDidMount() {
-    this._addOptions(this.props.navigation.state.params.photoList)
   }
 
 
   componentWillUnmount() {
-    this.setState({
-      changeNumber: 0,
-      data: []
-    })
   }
 
   componentWillReceiveProps(nextProps, nextState) {
@@ -70,26 +55,25 @@ export default class ChoosePhoto extends Component {
 
   /** 选择图片 */
   _changeImage = (filename) => {
-    this.state.data.map((item, index) => {
+    /** 针对每一次选择对图片类表属性做相应的改变 */
+    ImageData.photoImgList.map((item, index) => {
       if (item.filename === filename) {
         if (!item.isSelect) {
-          if (this.state.changeNumber >= (MAX_IMAGE_NUMBER - UserImageList.data.selectNumber)) {
-            bouncedUtils.toast.show({ content: `最多只能选${this.state.changeNumber}张`})
+          if (ImageData.selectNumber >= MAX_IMAGE_NUMBER - ImageData.selectImgList.length) {
+            bouncedUtils.toast.show({content: `最多只能选${MAX_IMAGE_NUMBER - ImageData.selectImgList.length}张`})
             return
           }
-          this.state.changeNumber += 1
+          ImageData.updateSelectNumber(1)
         } else {
-          this.state.changeNumber -= 1
+          ImageData.updateSelectNumber(-1)
         }
         item.isSelect = !item.isSelect
       }
     })
 
-    if (this.state.changeNumber <= (MAX_IMAGE_NUMBER - UserImageList.data.selectNumber)) {
-      this.setState({
-        data: this.state.data,
-        changeNumber: this.state.changeNumber
-      })
+    /** 重新赋值 */
+    if (ImageData.selectNumber <= MAX_IMAGE_NUMBER - ImageData.selectImgList.length) {
+      ImageData.updatePhotoImgList(ImageData.photoImgList)
     }
   }
 
@@ -121,22 +105,40 @@ export default class ChoosePhoto extends Component {
 
   /** 确认图片选择 */
   _sureSelect = () => {
-    this.state.data.filter((item, index) => {
+    let _newSelectImgList = ImageData.photoImgList.filter((item, index) => {
       return item.isSelect
-    }).map((item, index) => {
-      UserImageList.data.selectImgList.push({uri: item.uri})
     })
+    ImageData.updateSelectImgList(ImageData.selectImgList.concat(_newSelectImgList))
+    ImageData.resetSelectNumber()
     this.props.navigation.navigate('NoFeedBack')
   }
 
+  /** 预览 */
+  _preView = () => {
+    let _newSelectImgList = ImageData.photoImgList.filter((item, index) => {
+      return item.isSelect
+    })
+    ImageData.updatePreViewPhotoList(_newSelectImgList)
+    this.props.navigation.navigate('PreView')
+  }
+
+  /** 取消选择 */
+  _giveUpSelect = () => {
+    ImageData.photoImgList.map((item, index) => {
+      item.isSelect = false
+    })
+    ImageData.resetSelectNumber()
+    ImageData.updatePhotoImgList(ImageData.photoImgList)
+    this.props.navigation.pop()
+  }
+
   render() {
-    const {data, changeNumber} = this.state
     return (
       <CNavigation
         leftButton={{
           isShowTitle: false,
           isShowIcon: true,
-          handle: () => this.props.navigation.pop()
+          handle: this._giveUpSelect,
         }}
         rightButton={{
           isShowTitle: true,
@@ -144,9 +146,7 @@ export default class ChoosePhoto extends Component {
           titleStyle: {
             fontSize: 14,
           },
-          handle: () => {
-            // this.props.navigation.pop()
-          },
+          handle: this._giveUpSelect,
         }}
         centerTitle={{
           title: '相册',
@@ -165,7 +165,7 @@ export default class ChoosePhoto extends Component {
             width: Size.screen.width,
           }}
           keyExtractor={this._keyExtractor}
-          data={data}
+          data={ImageData.photoImgList.slice()}
           removeClippedSubviews={true}
           renderItem={this._renderItem}
           numColumns={4}
@@ -174,10 +174,12 @@ export default class ChoosePhoto extends Component {
 
         <View style={styles.bottomButton}>
 
-          <Text style={{fontSize: 16, color: changeNumber ? Layout.color.wblack : Layout.color.gray_line}}>{'预览'}</Text>
+          <Text onPress={this._preView}
+                style={{fontSize: 16, color: ImageData.selectNumber ? Layout.color.wblack : Layout.color.gray_line}}
+          >{'预览'}</Text>
 
           {
-            changeNumber > 0 ?
+            ImageData.selectNumber > 0 ?
               <View style={{...Layout.layout.rsbc}}>
                 <LinearGradient
                   start={{x: 0.0, y: 0.0}}
@@ -189,12 +191,13 @@ export default class ChoosePhoto extends Component {
                   }}
                 >
                   <Text style={{fontSize: 16, color: Layout.color.white_bg, alignSelf: 'center'}}>
-                    {changeNumber}
+                    {ImageData.selectNumber}
                   </Text>
                 </LinearGradient>
 
 
-                <TouchableWithoutFeedback onPress={this._sureSelect}>
+                <TouchableWithoutFeedback
+                  onPress={this._sureSelect}>
                   <View>
                     <Text style={{
                       fontSize: 16,
@@ -227,5 +230,4 @@ const styles = StyleSheet.create({
     backgroundColor: Layout.color.white_bg,
     ...Layout.layout.rsbc,
   },
-  flatListStyle: {}
 });

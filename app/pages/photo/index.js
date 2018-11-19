@@ -16,6 +16,7 @@ import CNavigation from '../../components/CNavigation';
 
 /** 工具类的引用 */
 import {bouncedUtils} from '../../utils/bouncedUtils';
+import {ImageData} from './mobx/mobx';
 
 /** 常量声明 */
 
@@ -57,7 +58,6 @@ export default class PhotoPage extends Component {
               assetType: 'Photos', // 获取类型
               groupTypes: 'All' // 获取所有
             }).then(r => {
-              // console.log(res.node)
               r.edges.map((node, index, arr) => {
                 if (photoTypeObj[node.node.group_name]) {
                   photoTypeObj[node.node.group_name].push(node.node.image)
@@ -103,12 +103,15 @@ export default class PhotoPage extends Component {
     const {photoTypeObj} = this.state
     return Object.keys(photoTypeObj).map((item, index) => {
       return <TouchableWithoutFeedback
+        key={index}
         onPress={() => {
-          this.props.navigation.navigate('ChoosePhoto', {
-            photoList: photoTypeObj[item]
+          photoTypeObj[item].map((item, index) => {
+            return item.isSelect = false
           })
+          ImageData.updatePhotoImgList(photoTypeObj[item])
+          this.props.navigation.navigate('ChoosePhoto')
         }}
-        key={index}>
+      >
         <View style={styles.imgGroupItem}>
           <Image source={{uri: photoTypeObj[item][0].uri}} style={styles.leftImage}/>
           <View style={styles.rightWrapper}>

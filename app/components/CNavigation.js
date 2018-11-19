@@ -83,7 +83,7 @@ class LeftButtonItem extends Component {
     const {theme} = this.props
     return (
       <CTouchableWithoutFeedback handle={this._navigate}>
-        <View style={styles.btn}>
+        <View style={[styles.btn]}>
           {
             isShowTitle ? <Text
                 style={[titleStyle,{color: theme === 'variable' ? (theme === 'light' ? WHITE_COLOR : BLACK_COLOR) : titleStyle.color}]}
@@ -344,6 +344,8 @@ const styles = StyleSheet.create({
   },
   btn: {
     flexDirection: 'row',
-    width: 60
+    alignItems: 'center',
+    width: 60,
+    height: 44
   }
 });

@@ -17,7 +17,7 @@ import {observer} from 'mobx-react';
 
 /** 常量声明 */
 
-import {UserInfo} from '../store/mobx';
+import {UserInfo} from '../pages/photo/mobx/mobx';
 
 @observer
 class Vue2 extends Component {

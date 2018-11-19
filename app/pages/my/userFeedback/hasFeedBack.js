@@ -96,9 +96,7 @@ export default class HasFeedBack extends Component {
                            onCancel()
                            this.setState({isModalVisible: false})
                          }}
-                         renderIndicator={() => {
-                           null
-                         }}
+                         renderIndicator={() => null}
                          enableImageZoom={true}
                          onChange={(index) => this.setState({ChooseIndex: index})}
             />

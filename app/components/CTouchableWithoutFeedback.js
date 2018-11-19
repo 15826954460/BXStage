@@ -41,7 +41,7 @@ S
       this.isJump = true
       clearTimeout(this.timer)
       this.timer = null
-    }, 1000)
+    }, 500)
   }
 
   _onPress = () => {

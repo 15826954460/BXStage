@@ -52,6 +52,7 @@ import Test from '../pages/testView/test';
 /** 以下为相册相关页面的引用 */
 import PhotoPage from '../pages/photo'; // 所有图片的分类
 import ChoosePhoto from '../pages/photo/choose'; // 所有图片的分类
+import PreView from '../pages/photo/preview'; // 所有图片的分类
 
 /** 获取一些本地数据 **/
 import {
@@ -119,7 +120,8 @@ const MainStack = createBottomTabNavigator(
 const PhotoStack = createStackNavigator(
   {
     PhotoPage: {screen: PhotoPage},
-    ChoosePhoto: {screen: ChoosePhoto}
+    ChoosePhoto: {screen: ChoosePhoto},
+    PreView: {screen: PreView}
   },
   {
     initialRouteName: 'PhotoPage',
