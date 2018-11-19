@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Dimensions, Text, View, Image,Platform,StatusBar,NetInfo
+  StyleSheet, Dimensions, Text, View, Image, Platform, StatusBar, NetInfo
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -86,7 +86,9 @@ class LeftButtonItem extends Component {
         <View style={[styles.btn]}>
           {
             isShowTitle ? <Text
-                style={[titleStyle,{color: theme === 'variable' ? (theme === 'light' ? WHITE_COLOR : BLACK_COLOR) : titleStyle.color}]}
+                style={[titleStyle,
+                  {color: (theme === 'light' || theme === 'variable') ? WHITE_COLOR : BLACK_COLOR}
+                ]}
                 numberOfLines={1}> {title} </Text>
               : isShowIcon ?
               <Image source={theme === 'dark' ? LEFT_ICON_BLACK : LEFT_ICON_WHITE} style={iconStyle}/> : null
@@ -114,6 +116,7 @@ class RightButtonItem extends Component {
   static defaultProps = {
     theme: 'dark',
   }
+
   constructor(props) {
     super(props);
     this.defaultRightButton = {
@@ -148,7 +151,7 @@ class RightButtonItem extends Component {
         <View style={[styles.btn, {justifyContent: 'flex-end',}]}>
           {
             isShowTitle ? <Text
-                style={[titleStyle, {color: theme === 'variable' ? (theme === 'light' ? WHITE_COLOR : BLACK_COLOR) : titleStyle.color}]}
+                style={[titleStyle, {color: (theme === 'light' || theme === 'variable') ? WHITE_COLOR : BLACK_COLOR}]}
                 numberOfLines={1}> {title} </Text>
               : isShowIcon ?
               <Image source={theme === 'dark' ? RIGHT_ICON : RIGHT_ICON} style={iconStyle}/> : null
@@ -185,11 +188,15 @@ class TitleItem extends Component {
   render() {
     const {title, titleStyle, handle} = Object.assign(this.defaultcenterTitle, this.props.centerTitle)
     const {theme} = this.props
+    console.log(theme)
     return (
       <CTouchableWithoutFeedback onPress={handle}>
         <View>
           <Text
-            style={[titleStyle, {color: theme === 'variable' ? (theme === 'light' ? WHITE_COLOR : BLACK_COLOR) : titleStyle.color}]}
+            style={[
+              titleStyle, {
+                color: (theme === 'light' || theme === 'variable') ? WHITE_COLOR : BLACK_COLOR
+              }]}
             numberOfLines={1}>
             {title ? title : null}
           </Text>
@@ -238,12 +245,13 @@ class CNavigation extends Component {
     };
     props.getRef instanceof Function && props.getRef(this)
   }
+
   componentWillMount() {
     NetInfo.isConnected.addEventListener('connectionChange', this._handleFirstConnectivityChange);
   }
 
   _handleFirstConnectivityChange = (isConnected) => {
-    window.console.log(`-------- 当前联网状态为 '${isConnected}-------`);
+    // window.console.log(`-------- 当前联网状态为 '${isConnected}-------`);
     NetInfo.isConnected.removeEventListener('connectionChange', this._handleFirstConnectivityChange);
   }
 
@@ -264,10 +272,9 @@ class CNavigation extends Component {
     const {theme} = this.props
     let _navBackgroundColor, _barStyle, _theme
     if (theme === 'variable') {
-      _navBackgroundColor = p ? ( p >= 0.5 ? `rgba(255,255,255,${p})` : 'transparent') : 'transparent'
+      _navBackgroundColor = p ? (p >= 0.5 ? `rgba(255,255,255,${p})` : 'transparent') : 'transparent'
       _barStyle = (p >= 0.5) ? 'dark-content' : 'light-content'
       _theme = (p >= 0.5) ? 'dark' : 'light'
-      // this._statusBarInstance.setBarStyle(_navBackgroundColor, false)
       this.setState({
         navBackgroundColor: _navBackgroundColor,
         barStyle: _barStyle,
@@ -292,13 +299,14 @@ class CNavigation extends Component {
         <CStatusBar ref={ref => this._statusBarInstance = ref}
                     barStyle={barStyle}/>
 
-        <View style={[styles.container, {paddingTop: isPaddingTop ? 44: 0}]}>
+        <View style={[styles.container, {paddingTop: isPaddingTop ? 44 : 0}]}>
           {
             isNavContent ? <View style={[
               styles.navContainer,
-              {height: !isSafeArea ? (Util.isIPhoneX() ? 88 : (Number(DeviceInfo.getAPILevel()) >= 21 ? 64 : 44)) : 44},
-              {paddingTop: !isSafeArea ? (Platform.OS === 'android' ? (Number(DeviceInfo.getAPILevel()) >= 21 ? StatusBar.currentHeight : 0) : (Util.isIPhoneX() ? 24 : 0)) : 0},
+              {height: !isSafeArea ? (Util.isIPhoneX() ? 88 : (Number(DeviceInfo.getAPILevel()) >= 21 ? 64 : 64)) : 44},
+              {paddingTop: !isSafeArea ? (Platform.OS === 'android' ? (Number(DeviceInfo.getAPILevel()) >= 21 ? StatusBar.currentHeight : 20) : (Util.isIPhoneX() ? 24 : 20)) : 0},
               {backgroundColor: navBackgroundColor},
+              {borderWidth: 1,}
             ]}>
               <View style={styles.buttonWrapper}>
                 {

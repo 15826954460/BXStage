@@ -82,7 +82,7 @@ const MainStack = createBottomTabNavigator(
     },
   },
   {
-    initialRouteName: '我',
+    initialRouteName: '分期',
     /** 配置导航的相关参数(这里针对全局配置，也可以放在单独配置) */
     tabBarOptions: {
       activeTintColor: Layout.color.red_main, // 文字激活的颜色

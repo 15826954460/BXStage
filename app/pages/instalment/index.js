@@ -21,18 +21,12 @@ export default class Vue2 extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      headPicture: '', // 用户头像那
+    };
   }
 
   componentDidMount() {
-    /** 获取本地的用户信息 */
-    StorageData.getData('userInfo').then((res) => {
-      if (res) {
-        this.setState({userInfo: res})
-      }
-    }).catch((error) => {
-      console.log(`获取信息---【userInfo】----失败，失败信息为【${error}】!!!!!!`)
-    })
   }
 
   componentWillMount() {
@@ -45,22 +39,9 @@ export default class Vue2 extends Component {
 
   render() {
     return (
-      <CNavigation
-        leftButton={{
-          isShowTitle: false,
-          isShowIcon: true,
-        }}
-      >
-        <ScrollView style={{flex:1, borderWidth:1, borderColor: 'red'}}>
-          <View style={styles.container}>
-            <Text onPress={() => {
-              this.props.navigation.navigate('LoginOutPage')
-            }}>
-              {'退出登陆'}
-            </Text>
-          </View>
-        </ScrollView>
-      </CNavigation>
+     <ScrollView>
+
+     </ScrollView>
     );
   }
 }

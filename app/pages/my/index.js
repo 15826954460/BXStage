@@ -114,10 +114,12 @@ export default class Main extends Component {
     return (
       <CNavigation
         getRef={ref => this._navInstance = ref}
-        LeftOrRight={'left'}
-        leftButton={{
-          isShowIcon: true,
-          isShowTitle: false,
+        centerTitle={{
+          title: '我的信息',
+          titleStyle: {
+            fontSize: 18,
+            fontWeight: 'bold',
+          }
         }}
         theme={'variable'}
         barStyle={STATUS_BAR_LIGHT_THEME}
