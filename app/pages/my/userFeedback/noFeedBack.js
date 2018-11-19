@@ -95,7 +95,6 @@ export default class NoFeedBack extends Component {
           case "authorized":
             /** 调用系统拍照功能 */
             ImagePicker.launchCamera({}, response => {
-              console.log(response)
               if (response.didCancel) {
                 // window.console.log('User cancelled image picker');
               }
@@ -110,7 +109,7 @@ export default class NoFeedBack extends Component {
                   ImageData.selectImgList.push({
                     uri: response.uri,
                     isSelect: true,
-                    filename: response.uri.slice(url.lastIndexOf('/') + 1)
+                    filename: response.uri.slice(response.uri.lastIndexOf('/') + 1)
                   })
                 } else {
                   bouncedUtils.toast.show({

@@ -1,13 +1,16 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, StatusBar, ScrollView,
+  StyleSheet, Text, View, Image, ScrollView, TouchableWithoutFeedback,
 } from "react-native";
 
 /** 全局样式的引用 */
 import {Layout} from "../../../styles/layout";
+import {Size} from "../../../styles/size";
 
 /** 第三方依赖库的引用 */
+import Permissions from 'react-native-permissions'; // 判断是否有调用相机或照片权限的第三方库
+import ImagePicker from 'react-native-image-picker'; // 访问相册的第三方库
 
 /** 自定义组建的引用 */
 import CNavigation from '../../../components/CNavigation';
@@ -19,6 +22,7 @@ import withFocus from '../../../components/HOC/HOCNavigationEvents';
 /** 工具类的引用 */
 import StorageData from "../../../store/storageData";
 import {bankInfo} from "../../../store/data";
+import {bouncedUtils} from '../../../utils/bouncedUtils';
 
 /** 常量声明 */
 
@@ -29,6 +33,7 @@ class AccountInfo extends Component {
     this.state = {
       userInfo: props.navigation.state.params,
       bankInfo: {}, // 银行卡信息
+      headPicture: '', // 头像信息
     };
   }
 
@@ -61,9 +66,82 @@ class AccountInfo extends Component {
     return true
   }
 
+  /** 修改用户图像 */
+  _changeHeaderImg = () => {
+    bouncedUtils.actionSheet.show({
+      buttons: [
+        {title: '拍照', callback: () => this._chooseImg('take')},
+        {title: '从相册选一张', callback: () => this._chooseImg('pick')},
+      ]
+    })
+  }
+
+  /** 选择图片 */
+  _chooseImg = (type) => {
+    const {imgList} = this.state
+    if (type === 'take') {
+      /** 检测权限 */
+      Permissions.request('camera').then(res => {
+        switch (res) {
+          case "authorized":
+            /** 调用系统拍照功能 */
+            ImagePicker.launchCamera({}, response => {
+              if (response.didCancel) {
+                // window.console.log('User cancelled image picker');
+              }
+              else if (response.error) {
+                // window.console.log('ImagePicker Error: ', res.error);
+              }
+              else if (response.customButton) {
+                // window.console.log('User tapped custom button: ', response.customButton);
+              }
+              else {
+                this.setState({
+                  headPicture: response.uri
+                })
+              }
+            })
+            break;
+          default:
+            bouncedUtils.toast.show({
+              content: '没有权限', type: 'warning'
+            })
+        }
+      })
+    }
+    else if (type === 'pick') {
+      ImagePicker.showImagePicker({
+        title: '请选择',
+        cancelButtonTitle: '取消',
+        takePhotoButtonTitle: '拍照',
+        chooseFromLibraryButtonTitle: '选择相册',
+        quality: 0.75,
+        allowsEditing: true,
+        noData: false,
+        storageOptions: {
+          skipBackup: true,
+          path: 'image'
+        }
+      }, (response) => {
+        if (response.didCancel) {
+          // window.console.log('User cancelled image picker');
+        } else if (response.error) {
+          // window.console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          // window.console.log('User tapped custom button: ', response.customButton);
+        } else {
+          this.setState({
+            headPicture: response.uri
+          })
+        }
+      });
+    }
+  }
+
   render() {
-    const {headPicture, realName, replyCount, hasFeedback, nickName, idCard, phoneNumber} = this.state.userInfo
-    const {bankCardNo, bankName, bankIcon} = this.state.bankInfo
+    const {realName, nickName, idCard, phoneNumber} = this.state.userInfo
+    const {bankCardNo, bankName} = this.state.bankInfo
+    const {headPicture} = this.state
     return (
       <CNavigation
         leftButton={{
@@ -85,17 +163,25 @@ class AccountInfo extends Component {
                     scrollEventThrottle={16}
                     showsVerticalScrollIndicator={false}
         >
-          <ListItem
-            leftText={'头像'}
-            isShowUserImg={true}
-            isShowRightIcon={false}
-            wrapperStyle={{
+          <TouchableWithoutFeedback
+            onPress={this._changeHeaderImg}
+          >
+            <View style={{
+              ...Layout.layout.rsbc,
               height: 80,
               marginTop: 15,
               backgroundColor: Layout.color.white_bg,
-            }}
-            hasBottomLine={true}
-          />
+              borderBottomWidth: Size.screen.pixel,
+              borderBottomColor: Layout.color.gray_line,
+              paddingHorizontal: 12,
+            }}>
+              <Text>{'头像'}</Text>
+              <Image
+                style={{width: 60, height: 60, borderRadius: 30,}}
+                source={headPicture ? {uri: headPicture} : require('../../../images/me/index_icon_bixia.png')}
+              />
+            </View>
+          </TouchableWithoutFeedback>
 
           <ListItem
             handle={() => this.props.navigation.navigate('ReName', {nickName: nickName})}
@@ -128,7 +214,7 @@ class AccountInfo extends Component {
               height: 50,
             }}
             rightText={realName}
-            hasBottomLine={true}
+            hasAllBottomLine={true}
           />
 
           <ListItem
@@ -139,7 +225,7 @@ class AccountInfo extends Component {
               height: 50,
             }}
             rightText={idCard}
-            hasBottomLine={true}
+            hasAllBottomLine={true}
           />
 
           <ListItem
@@ -150,7 +236,7 @@ class AccountInfo extends Component {
               height: 50,
             }}
             rightText={phoneNumber}
-            hasBottomLine={true}
+            hasAllBottomLine={true}
           />
 
           <ListItem

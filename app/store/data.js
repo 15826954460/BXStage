@@ -1,6 +1,6 @@
 // 账户信息
 const userInfo = {
-  "headPicture": "",
+  "headPicture": null,
   "realName": "童书文",
   "replyCount": 0,
   "hasFeedback": true,
@@ -492,13 +492,6 @@ const userFeedBack = [
   }
 ]
 
-// 保存反馈
-const saveFeedBack = {
-  "code": "0000",
-  "message": "已收到反馈，感谢你的支持",
-  "body": null
-}
-
 // app配置信息
 const appConfig = {
   "code": "0000",
@@ -534,6 +527,18 @@ const camera = {
   isVertical: true,
   uri: "file:///var/mobile/Containers/Data/Application/3CB3306A-8BF6-4F4B-8788-F829CAF3D54E/tmp/184E2255-E6F8-45AC-AC01-DC76B71268B1.jpg",
   width: 2448,
+}
+
+const pickData = {
+  data: "/9j/4AAQSkZJRgABAQAASABIAAD/4QBYRXhpZgAATU0AKgAAAA",
+  fileName: "IMG_0388.JPG",
+  fileSize: 441410,
+  height: 1137,
+  isVertical: true,
+  origURL: "assets-library://asset/asset.JPG?id=B3435448-CC2B-42D4-A6D8-C78A9CB4F4AD&ext=JPG",
+  timestamp: "2016-03-09T06:45:39Z",
+  uri: "file:///var/mobile/Containers/Data/Application/BCC22F47-E039-4995-BF83-0D2CC96F1371/tmp/332A420F-869A-43DC-B199-8AED2ED6BE81.jpg",
+  width: 640
 }
 
 export {

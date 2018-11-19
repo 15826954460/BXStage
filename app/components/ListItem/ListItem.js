@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import CTouchableWithoutFeedback from '../../components/CTouchableWithoutFeedback';
 
 /** 工具类的引用 */
+import StorageData from '../../store/storageData';
 
 /** 常量声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
@@ -30,13 +31,13 @@ export default class ListItem extends Component {
     rightText: PropTypes.string, // 右边文案
     rightTextStyle: PropTypes.object, // 右边文案
     leftIconType: PropTypes.string, // icon 标识
-    isShowUserImg: PropTypes.bool, // 是否显示用户头像
     isShowRightIcon: PropTypes.bool, // 是否显示右边icon
     hasBottomLine: PropTypes.bool, // 是否有底部线
     hasAllBottomLine: PropTypes.bool, // 是否有完整的底部线
     borderAllBottomLineStyle: PropTypes.object,
     specialIconType: PropTypes.string, // 一些特殊用途的logo
     numberOfLines: PropTypes.number,
+    handle: PropTypes.func,
   }
 
   static defaultProps = {
@@ -50,7 +51,6 @@ export default class ListItem extends Component {
     leftText: '',
     leftTextBottom: '',
     rightText: '',
-    isShowUserImg: false,
     isShowRightIcon: true,
     hasBottomLine: false,
     specialIconType: '',
@@ -60,15 +60,25 @@ export default class ListItem extends Component {
     borderAllBottomLineStyle: {
       left: 0,
       right: 0,
-    }
+    },
+    handle: null,
   }
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      headPicture: {},
+    };
   }
 
   componentDidMount() {
+    StorageData.getData('userInfo').then((res)=> {
+      if (res && res.headPicture) {
+        this.setState({
+          headPicture: res.headPicture
+        })
+      }
+    })
   }
 
   componentWillMount() {
@@ -99,7 +109,7 @@ export default class ListItem extends Component {
 
   _getSpecialIconPath(type) {
     let actions = new Map([
-      ['ZSYH', () => require('../../images/me/accountInfo/bank_img_default.png')],
+      ['ZSYH', require('../../images/me/accountInfo/bank_img_default.png')],
     ])
     return actions.get(type)
   }
@@ -109,7 +119,7 @@ export default class ListItem extends Component {
   }
 
   render() {
-    const {isDot, leftText, rightText, leftIconType, isShowUserImg, isShowRightIcon, hasBottomLine, specialIconType, wrapperStyle, leftTextBottom, hasAllBottomLine, numberOfLines, rightTextStyle, borderAllBottomLineStyle} = this.props
+    const {isDot, leftText, rightText, leftIconType, isShowRightIcon, hasBottomLine, specialIconType, wrapperStyle, leftTextBottom, hasAllBottomLine, numberOfLines, rightTextStyle, borderAllBottomLineStyle} = this.props
     return (
       <CTouchableWithoutFeedback handle={this._onPress}>
         <View style={[styles.container, wrapperStyle]}>
@@ -155,12 +165,6 @@ export default class ListItem extends Component {
               ]}>
                 <Text style={{fontSize: 12, color: Layout.color.white_bg}}>{'1'}</Text>
               </View> : null
-            }
-            {
-              isShowUserImg ? <Image
-                style={{width: 60, height: 60, borderRadius: 30,}}
-                source={require('../../images/me/index_icon_bixia.png')}
-              /> : null
             }
             {
               isShowRightIcon ? <Image

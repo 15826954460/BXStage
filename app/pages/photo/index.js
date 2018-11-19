@@ -59,7 +59,6 @@ export default class PhotoPage extends Component {
               groupTypes: 'All' // 获取所有
             }).then(r => {
               r.edges.map((node, index, arr) => {
-                console.log(node)
                 if (photoTypeObj[node.node.group_name]) {
                   photoTypeObj[node.node.group_name].push(node.node.image)
                 } else {
