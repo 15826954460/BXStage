@@ -348,6 +348,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: 60,
-    height: 44
+    height: 44,
   }
 });

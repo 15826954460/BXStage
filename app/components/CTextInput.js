@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, TouchableWithoutFeedback, Image, TextInput, View, Keyboard,
+  StyleSheet, TouchableWithoutFeedback, Image, TextInput, View,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -107,6 +107,7 @@ export default class BXTextInput extends Component {
 
   /** 清除 */
   _clear = () => {
+    console.log(1111111)
     this._inputInstance.clear()
     this.isShowIcon = false
     this.setState({
@@ -153,19 +154,23 @@ export default class BXTextInput extends Component {
           {
             !isButton && isShowClearIcon ? <TouchableWithoutFeedback
               onPress={this._clear}>
-              <Image
-                style={styles.iconStyle}
-                source={require('../images/login/login_img_clear.png')}/>
+              <View style={{height: '100%', justifyContent: 'center',alignItems:'flex-end',flex: 1}}>
+                <Image
+                  style={styles.iconStyle}
+                  source={require('../images/login/login_img_clear.png')}/>
+              </View>
             </TouchableWithoutFeedback> : null
           }
           {/*密码显示隐藏图标*/}
           {
             !isButton && isShowClearIcon && isShowPasswordIcon ? <TouchableWithoutFeedback
               onPress={this._onPressSecure}>
-              <Image
-                style={[styles.iconStyle]}
-                source={secureTextEntry ? require('../images/login/login_img_showpsw.png') : require('../images/login/login_img_hidepsw.png')
-                }/>
+              <View style={{height: '100%',justifyContent: 'center',alignItems:'flex-end', flex: 1,}}>
+                <Image
+                  style={[styles.iconStyle]}
+                  source={secureTextEntry ? require('../images/login/login_img_showpsw.png') : require('../images/login/login_img_hidepsw.png')
+                  }/>
+              </View>
             </TouchableWithoutFeedback> : null
           }
 
@@ -205,11 +210,13 @@ const styles = StyleSheet.create({
   },
   iconWrapperSpaceBetween: {
     justifyContent: 'space-between',
-    width: 68,
+    // width: 68,
+    width: 100,
   },
   iconWrapperFlexEnd: {
     justifyContent: 'flex-end',
-    width: 24,
+    // width: 24,
+    width: 50,
   },
   iconStyle: {
     height: 24,

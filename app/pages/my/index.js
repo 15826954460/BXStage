@@ -9,20 +9,16 @@ import {Layout} from '../../styles/layout';
 /** 第三方依赖库的引用 */
 
 /** 自定义组建的引用 */
-import CNavigation from '../../components/CNavigation';
 import CTouchableWithoutFeedback from '../../components/CTouchableWithoutFeedback';
 import ListItem from '../../components/ListItem/ListItem';
-// import withFocus from '../../components/HOC/HOCNavigationEvents';
 import withCNavigation from '../../components/HOC/HOCCNavigation';
 import withOnScroll from '../../components/HOC/HOCOnscroll';
-
 
 /** 全局工具方法的引用 */
 import {Util} from "../../utils/util";
 import StorageData from "../../store/storageData";
 import {bouncedUtils} from "../../utils/bouncedUtils";
 import {configData} from '../../store/configData';
-import {Size} from "../../styles/size";
 
 /** 声明常量 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
@@ -83,17 +79,6 @@ class Main extends Component {
   }
 
   componentWillUnmount() {
-  }
-
-  _onScroll = e => {
-    /** 计算导航的透明度 */
-    let {y} = e.nativeEvent.contentOffset
-    let {contentSize, layoutMeasurement} = e.nativeEvent
-    let maxOffsetY = contentSize.height - layoutMeasurement.height
-    maxOffsetY = Math.min(Math.floor(maxOffsetY), height * 0.1);
-    maxOffsetY <= 0 && (maxOffsetY = height * 0.1)
-    let alpha = (y / maxOffsetY).toFixed(2)
-    this._navInstance._fadeInBottomLine(alpha)
   }
 
   /** 版本检查【实际生产中调用后台接口】*/

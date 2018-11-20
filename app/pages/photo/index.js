@@ -54,7 +54,7 @@ export default class PhotoPage extends Component {
 
             /** 待优化 */
             CameraRoll.getPhotos({
-              first: 10, // 暂定只取600张
+              first: 600, // 暂定只取600张
               assetType: 'Photos', // 获取类型
               groupTypes: 'All' // 获取所有
             }).then(r => {
