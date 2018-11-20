@@ -124,7 +124,7 @@ export default class Main extends Component {
         theme={'variable'}
         barStyle={STATUS_BAR_LIGHT_THEME}
         isPaddingTop={false}
-        isSafeArea={false}
+        isSafeAreaTop={false}
         isSafeAreaBottom={false}
       >
         <ScrollView style={styles.container}

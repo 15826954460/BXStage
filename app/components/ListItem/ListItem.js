@@ -110,6 +110,7 @@ export default class ListItem extends Component {
   _getSpecialIconPath(type) {
     let actions = new Map([
       ['ZSYH', require('../../images/me/accountInfo/bank_img_default.png')],
+      ['WRANING', require('../../images/common/index_img_warning.png')],
     ])
     return actions.get(type)
   }

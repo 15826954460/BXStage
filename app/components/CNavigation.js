@@ -216,7 +216,7 @@ class CNavigation extends Component {
     commonBackgroundColor: PropTypes.string,
     navBackgroundColor: PropTypes.string,
     isPaddingTop: PropTypes.bool,
-    isSafeArea: PropTypes.bool,
+    isSafeAreaTop: PropTypes.bool,
     isSafeAreaBottom: PropTypes.bool,
     isNavContent: PropTypes.bool,
     theme: PropTypes.oneOf(['dark', 'light', 'variable']),
@@ -229,7 +229,7 @@ class CNavigation extends Component {
     navBackgroundColor: Layout.color.white_bg, // 导航的背景颜色
     LeftOrRight: 'all',
     isPaddingTop: true, // 默认有paddingTop
-    isSafeArea: true, // 是否设置安全区域
+    isSafeAreaTop: true, // 是否设置安全区域
     isSafeAreaBottom: true, // 是否设置安全区域
     isNavContent: true, // 是否需要导航
     theme: 'dark', // 导航的主题颜色
@@ -284,13 +284,13 @@ class CNavigation extends Component {
   }
 
   render() {
-    const {LeftOrRight, commonBackgroundColor, isPaddingTop, isSafeArea, isNavContent, isSafeAreaBottom} = this.props
+    const {LeftOrRight, commonBackgroundColor, isPaddingTop, isSafeAreaTop, isNavContent, isSafeAreaBottom} = this.props
     const {barStyle, navBackgroundColor, theme} = this.state
     return (
 
       <SafeAreaView
         ref={ref => this._CNavInstance = ref}
-        forceInset={{top: isSafeArea ? 'always' : 'never', bottom: isSafeAreaBottom ? 'always' : 'never'}}
+        forceInset={{top: isSafeAreaTop ? 'always' : 'never', bottom: isSafeAreaBottom ? 'always' : 'never'}}
         style={[{
           flex: 1, backgroundColor: commonBackgroundColor,
           position: 'relative',
@@ -303,10 +303,9 @@ class CNavigation extends Component {
           {
             isNavContent ? <View style={[
               styles.navContainer,
-              {height: !isSafeArea ? (Util.isIPhoneX() ? 88 : (Number(DeviceInfo.getAPILevel()) >= 21 ? 64 : 64)) : 44},
-              {paddingTop: !isSafeArea ? (Platform.OS === 'android' ? (Number(DeviceInfo.getAPILevel()) >= 21 ? StatusBar.currentHeight : 20) : (Util.isIPhoneX() ? 24 : 20)) : 0},
+              {height: !isSafeAreaTop ? (Util.isIPhoneX() ? 88 : (Number(DeviceInfo.getAPILevel()) >= 21 ? 64 : 64)) : 44},
+              {paddingTop: !isSafeAreaTop ? (Platform.OS === 'android' ? (Number(DeviceInfo.getAPILevel()) >= 21 ? StatusBar.currentHeight : 20) : (Util.isIPhoneX() ? 24 : 20)) : 0},
               {backgroundColor: navBackgroundColor},
-              {borderWidth: 1,}
             ]}>
               <View style={styles.buttonWrapper}>
                 {
