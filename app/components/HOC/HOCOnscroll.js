@@ -20,12 +20,17 @@ const {width, height} = Dimensions.get('window');//屏幕宽度
 
 /** 通过 Consumer 获取 Provider 传递过来的导航的实例 */
 const withScrollComponent = (ScrollComponent) => {
-
-  const ComponentWithNav = <Consumer>
-    {
-      (getNav) => <TargetComponent getNav={getNav}/>
+  class ComponentWithNav extends Component {
+    render() {
+      return (
+        <Consumer>
+          {
+            ({getNav}) => <ScrollComponent getNav={getNav} {...this.props}/>
+          }
+        </Consumer>
+      )
     }
-  </Consumer>
+  }
 
   return hoistStatics(ComponentWithNav, ScrollComponent);
 }
@@ -41,7 +46,7 @@ export default function withOnScroll(ScrollComponent) {
       maxOffsetY = Math.min(Math.floor(maxOffsetY), height * 0.1);
       maxOffsetY <= 0 && (maxOffsetY = height * 0.1)
       let alpha = (y / maxOffsetY).toFixed(2)
-      let nav = props.getNav()
+      let nav = props.getNav
       nav && nav._fadeInBottomLine(alpha)
     }
   })

@@ -76,6 +76,7 @@ export default class LoginOut extends Component {
 
   /** 将用户的输入的密码和存储在本地的做比较 */
   _judgePassword = (password, storePassword) => {
+    console.log(666666)
     if (password === storePassword) {
 
       // this.props.navigation.navigate('MainStack')
@@ -168,7 +169,13 @@ export default class LoginOut extends Component {
           <CGradientButton
             gradientType={'btn_l'}
             contentText={'登陆'}
-            textStyle={styles.buttonStyle}
+            textStyle={{
+              fontFamily: 'PingFangSC-Regular',
+              fontSize: 17,
+              color: '#FFFFFF',
+              letterSpacing: 0,
+              textAlign: 'center',
+            }}
             disabled={this.state.disabled}
             onPress={this._loginValidation}
           />
@@ -224,12 +231,5 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 44,
     ...Layout.layout.rcc,
-  },
-  buttonStyle: {
-    fontFamily: 'PingFangSC-Regular',
-    fontSize: 17,
-    color: '#FFFFFF',
-    letterSpacing: 0,
-    textAlign: 'center',
   },
 });

@@ -10,6 +10,7 @@ import {
 /** 全局样式的引用 */
 
 /** 第三方依赖库的引用 */
+import {NavigationActions, StackActions} from 'react-navigation';
 
 /** 自定义组建的引用 */
 import CNavigation from '../../components/CNavigation';
@@ -19,10 +20,11 @@ import CGradientButton from '../../components/CGradientButton';
 /** 获取自定义的静态方法 */
 import StaticPages from '../../utils/staticPage';
 import StorageData from '../../store/storageData';
+import {Routers} from '../../store/routes';
 import {Util} from '../../utils/util';
 import {bouncedUtils} from '../../utils/bouncedUtils';
 
-export default class Vue2 extends Component {
+export default class SettingLoginPassword extends Component {
 
   constructor(props) {
     super(props);
@@ -77,7 +79,14 @@ export default class Vue2 extends Component {
 
 
       /** 跳转到首页,是否需要清空用户上次的输入信息，根据实际自行补充 */
-      this.props.navigation.navigate('MainStack')
+      Routers.stackRoots.dispatch(
+        StackActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({routeName: 'MainStack'})
+          ]
+        })
+      )
 
       /** 储存用户登陆密码，到达这里，用户已经注册成功 */
       if (!this.from) {

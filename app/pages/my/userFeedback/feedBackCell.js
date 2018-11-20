@@ -49,7 +49,6 @@ export default class FeedBackCell extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     // 返回false，避免父组件render的时候导致子组件的render
-    console.log(1111, nextState.imageList !== this.state.imageList, )
     if (nextState.imageList !== this.state.imageList) {
       return true
     }

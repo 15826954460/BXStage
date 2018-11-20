@@ -101,10 +101,11 @@ export default class Vue2 extends Component {
           </ImageBackground>
 
 
-          <View style={styles.itemWrapper}>
+          {/*<View style={styles.itemWrapper}>*/}
             <ListItem
               wrapperStyle={{
                 height: 60,
+                marginTop: 20,
               }}
               leftText={'你有逾期，请尽快还款'}
               leftTextBottom={'已逾期4天，逾期费6.81元'}
@@ -126,7 +127,7 @@ export default class Vue2 extends Component {
               }}
               hasAllBottomLine={true}
             />
-          </View>
+          {/*</View>*/}
 
         </ScrollView>
 
@@ -147,19 +148,17 @@ export default class Vue2 extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 12,
-    borderColor: 'red',
   },
   headerTopWrapper: {
-    width: '100%',
+    width:Size.screen.width,
     height: 74,
-    marginBottom: 1,
+    marginBottom: 16,
+    paddingHorizontal: 12,
     ...Layout.layout.rsbc,
   },
   headerPicWrapper: {
     width: 74,
     height: 74,
-    marginBottom: 16,
     ...Layout.layout.ccc,
   },
   headerTitle: {
@@ -168,8 +167,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   cardWrapper: {
-    width: Size.screen.width - Layout.gap.gap_edge * 2,
+    width: Size.screen.width,
     height: Size.screen.width / 375 * 181,
+    paddingHorizontal: 12,
     marginTop: 16,
     ...Layout.layout.cfsc,
   },
@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
   },
   itemWrapper: {
     marginTop: 19,
+    borderWidth: 1,
   },
   buttonBottomWrapper: {
     position: 'absolute',

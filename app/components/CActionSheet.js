@@ -77,7 +77,7 @@ class CActionSheet extends Component {
       easing: Easing.easeInEaseOut,
       useNativeDriver: true
     }).start(() => {
-      item.callback instanceof Function && item.callback()
+      item && item.callback instanceof Function && item.callback()
       SiblingsActionSheet.hideSiblings();
     });
   }

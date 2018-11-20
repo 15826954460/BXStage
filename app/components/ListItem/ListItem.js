@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     width: width,
     ...Layout.layout.rsbc,
     position: 'relative',
-    paddingHorizontal: 14,
+    paddingHorizontal: 12,
   },
   iconAndTextWrapper: {
     flexDirection: 'row',

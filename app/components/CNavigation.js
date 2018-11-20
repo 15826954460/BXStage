@@ -27,7 +27,7 @@ const
   RIGHT_ICON = require('../images/common/common_img_arrow.png'),
   WHITE_COLOR = Layout.color.white_bg,
   BLACK_COLOR = Layout.color.black;
-
+@withNavigation
 class LeftButtonItem extends Component {
   static propTypes = {
     theme: PropTypes.oneOf(['dark', 'light', 'variable']),
@@ -99,8 +99,7 @@ class LeftButtonItem extends Component {
   }
 }
 
-withNavigation(LeftButtonItem)
-
+@withNavigation
 class RightButtonItem extends Component {
   static propTypes = {
     theme: PropTypes.oneOf(['dark', 'light', 'variable']),
@@ -151,7 +150,7 @@ class RightButtonItem extends Component {
         <View style={[styles.btn, {justifyContent: 'flex-end',}]}>
           {
             isShowTitle ? <Text
-                style={[titleStyle, {color: (theme === 'light' || theme === 'variable') ? WHITE_COLOR : BLACK_COLOR}]}
+                style={[titleStyle, {color: (theme === 'light' || theme === 'variable') ? WHITE_COLOR : (titleStyle.color ? titleStyle.color :BLACK_COLOR)}]}
                 numberOfLines={1}> {title} </Text>
               : isShowIcon ?
               <Image source={theme === 'dark' ? RIGHT_ICON : RIGHT_ICON} style={iconStyle}/> : null
@@ -162,8 +161,8 @@ class RightButtonItem extends Component {
   }
 }
 
-withNavigation(RightButtonItem)
 
+@withNavigation
 class TitleItem extends Component {
   static propTypes = {
     centerTitle: PropTypes.shape({
@@ -188,7 +187,6 @@ class TitleItem extends Component {
   render() {
     const {title, titleStyle, handle} = Object.assign(this.defaultcenterTitle, this.props.centerTitle)
     const {theme} = this.props
-    console.log(theme)
     return (
       <CTouchableWithoutFeedback onPress={handle}>
         <View>
@@ -206,9 +204,8 @@ class TitleItem extends Component {
   }
 }
 
-withNavigation(TitleItem)
-
-class CNavigation extends Component {
+@withNavigation
+export default class CNavigation extends Component {
 
   static propTypes = {
     getRef: PropTypes.func,
@@ -329,8 +326,6 @@ class CNavigation extends Component {
     );
   }
 }
-
-export default withNavigation(CNavigation)
 
 const styles = StyleSheet.create({
   container: {

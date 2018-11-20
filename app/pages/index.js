@@ -174,11 +174,11 @@ const Stack = createStackNavigator(
       gesturesEnabled: true, // 默认不启用滑动手势(ios手机默认启用，android手机默认关闭)
     },
     /** 路由动画相关，可以获取当前路由栈以及当前路由 */
-    onTransitionStart: (transitionProps, prevTransitionProps) => {
+    onTransitionStart: (currentTransitionProps, prevTransitionProps) => {
       // console.log(transitionProps, prevTransitionProps)
     },
-    onTransitionEnd: (transitionProps, prevTransitionProps) => {
-      // console.log(transitionProps)
+    onTransitionEnd: (currentTransitionProps, prevTransitionProps) => {
+      console.log(currentTransitionProps)
     },
     /** 动画配置 */
     transitionConfig: Horizontal_RToL_TranslateX,
@@ -216,7 +216,7 @@ export default class InitStack extends Component {
     StorageData.saveData('lendingProblem', lendingProblem)
     StorageData.saveData('productIntroduce', productIntroduce)
 
-    // StorageData.removeData('userFeedBack')
+    // StorageData.removeData('registerInfo')
   }
 
   _handleFirstConnectivityChange = (isConnected) => {
@@ -251,8 +251,8 @@ export default class InitStack extends Component {
               index: 0,
               actions: [
                 NavigationActions.navigate({
-                  // routeName: 'LoginAndRegister',
-                  routeName: 'MainStack',
+                  routeName: 'LoginAndRegister',
+                  // routeName: 'MainStack',
                   // routeName: 'HasFeedBack',
                   // routeName: 'NoFeedBack',
                   // routeName: 'Test',

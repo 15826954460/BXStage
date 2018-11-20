@@ -26,7 +26,8 @@ import {bouncedUtils} from '../../../utils/bouncedUtils';
 
 /** 常量声明 */
 
-class AccountInfo extends Component {
+@withFocus
+export default  class AccountInfo extends Component {
 
   constructor(props) {
     super(props);
@@ -163,9 +164,7 @@ class AccountInfo extends Component {
                     scrollEventThrottle={16}
                     showsVerticalScrollIndicator={false}
         >
-          <TouchableWithoutFeedback
-            onPress={this._changeHeaderImg}
-          >
+          <TouchableWithoutFeedback onPress={this._changeHeaderImg}>
             <View style={{
               ...Layout.layout.rsbc,
               height: 80,
@@ -254,8 +253,6 @@ class AccountInfo extends Component {
     );
   }
 }
-
-export default withFocus(AccountInfo)
 
 const styles = StyleSheet.create({
   container: {
