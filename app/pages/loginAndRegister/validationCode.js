@@ -73,6 +73,7 @@ export default class ValidationCode extends Component {
 
     if (validateLegal) {
       Keyboard.dismiss()
+      // 从设置密码页面跳转过来
       if (this.props.navigation.state.params.from === 'settingPassword') {
         this.props.navigation.navigate('SettingLoginPassword', {
           phoneNumber: this.props.navigation.getParam('phoneNumber'),
@@ -103,7 +104,6 @@ export default class ValidationCode extends Component {
         type: 'warning', content: '验证码错误，请重新输入'
       })
     }
-
 
   }
 

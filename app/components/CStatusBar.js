@@ -48,8 +48,7 @@ export default class Vue2 extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (nextProps.barStyle !== this.props.barStyle) return true
-    return false
+   return true
   }
 
   render() {

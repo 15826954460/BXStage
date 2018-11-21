@@ -39,9 +39,12 @@ export default  class AccountInfo extends Component {
   }
 
   componentDidMount() {
+    StorageData.getData('registerInfo').then((res) => {
+    })
   }
 
   componentWillFocus() {
+    console.log(1111, 'zzzzzzzzzzzz')
     StorageData.getData('userInfo').then(res => {
       if (res) {
         this.setState({userInfo: res})

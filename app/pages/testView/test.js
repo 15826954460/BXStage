@@ -16,53 +16,40 @@ import {
 
 /** 常量声明 */
 
-import {observable, computed, action, decorate} from "mobx";
-import {observer} from 'mobx-react';
+class ChildCom extends Component {
 
-class Timer {
-  @observable number = 0;
+  constructor(props) {
+    super(props);
+    this.state = {viewRef: null};
+    props.getRef instanceof Function && props.getRef(this)  // 父组件获取子组件实例
+  }
 
-  @action
-  tick() {
-    console.log(this.number)
-    this.number += 1;
-    console.log(this.number)
+  _con = () => {
+  }
+
+  render() {
+    return (
+      <Text onPress={() => store.tick()} style={{fontSize: 50}}>{'我是子组件'}</Text>
+    );
   }
 }
 
-const store = new Timer()
-
-// console.log(store.number)
-
-@observer
-export default class Test extends Component {
+export default class ParentCom extends Component {
 
   constructor(props) {
     super(props);
     this.state = {viewRef: null};
   }
 
-  componentDidMount() {
-  }
-
-  componentWillMount() {
-  }
-
-  componentWillUnmount() {
-  }
-
-  componentWillReceiveProps(nextProps, nextState) {
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return true
-  }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text onPress={() => store.tick()} style={{fontSize: 50}}>{99999}</Text>
-        <Text>{store.number}</Text>
+      <View style={styles.container}
+            >
+        <Text onPress={() => this._childInstance._con()} style={{fontSize: 50, color: 'red'}}>{'我是父组件11111'}</Text>
+        <ChildCom getRef={ref => this._childInstance = ref}/>
+        <ChildCom ref={ref => this._childInstanceTwo = ref}/>
+        <Text onPress={() => this._childInstanceTwo._con()} style={{fontSize: 50, color: 'red'}}>{'我是父组件2222'}</Text>
       </View>
     );
   }

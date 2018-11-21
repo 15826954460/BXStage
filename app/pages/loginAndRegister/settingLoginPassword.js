@@ -29,7 +29,7 @@ export default class SettingLoginPassword extends Component {
   constructor(props) {
     super(props);
     let {params} = props.navigation.state
-    this.from = params && params.from || ''
+    this.from = params && params.from || false
     this.state = {
       password: '',
       disabled: true,
@@ -71,6 +71,7 @@ export default class SettingLoginPassword extends Component {
 
     if (passwordLegal) {
       Keyboard.dismiss()
+      // 不是 android 手机的情况下才调用 notice (各种不同厂家的状态栏不一样没法统一处理)
       !this.from ? bouncedUtils.notices.show({
         type: 'success', content: '注册成功'
       }) : bouncedUtils.notices.show({
@@ -87,6 +88,7 @@ export default class SettingLoginPassword extends Component {
           ]
         })
       )
+
 
       /** 储存用户登陆密码，到达这里，用户已经注册成功 */
       if (!this.from) {

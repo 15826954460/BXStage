@@ -29,6 +29,7 @@ import CNavigation from '../../../components/CNavigation';
 /** 工具类的引用 */
 import {bouncedUtils} from '../../../utils/bouncedUtils';
 import {ImageData} from '../../photo/mobx/mobx';
+import {Util} from '../../../utils/util';
 
 /** 常量声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽度

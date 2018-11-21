@@ -18,7 +18,6 @@ import ProblemType from './problemType';
 import ProblemList from './problemList';
 
 /** 工具类的引用 */
-import {bouncedUtils} from '../../../utils/bouncedUtils';
 /** 常量声明 */
 
 export default class CommonProblem extends Component {

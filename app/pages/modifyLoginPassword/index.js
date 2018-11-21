@@ -22,6 +22,7 @@ import CTouchableWithoutFeedback from '../../components/CTouchableWithoutFeedbac
 import StaticPages from '../../utils/staticPage';
 import StorageData from '../../store/storageData';
 import {bouncedUtils} from '../../utils/bouncedUtils';
+import {Util} from '../../utils/util';
 
 export default class Vue2 extends Component {
 

@@ -112,7 +112,7 @@ export default class MyLoan extends Component {
                     showsVerticalScrollIndicator={false}
         >
           <View style={styles.top}>
-            <Text style={{fontFamily: 'PingFangSC-Semibold', fontSize: 30, marginBottom: 5}}>
+            <Text style={{fontSize: 30, marginBottom: 5}}>
               {'我的借款'}
             </Text>
             <Text style={{fontSize: 14, color: Layout.color.wgray_bar}}>

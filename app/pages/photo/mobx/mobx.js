@@ -26,9 +26,7 @@ class Data {
   @observable photoImgList = []; // 相册列表
   @action
   updatePhotoImgList(photoList) {
-    console.log(this.photoImgList)
     this.photoImgList = photoList
-    console.log(this.photoImgList)
   }
 
   @action

@@ -13,6 +13,7 @@ import CTouchableWithoutFeedback from '../../components/CTouchableWithoutFeedbac
 import ListItem from '../../components/ListItem/ListItem';
 import withCNavigation from '../../components/HOC/HOCCNavigation';
 import withOnScroll from '../../components/HOC/HOCOnscroll';
+import withFocus from '../../components/HOC/HOCNavigationEvents';
 
 /** 全局工具方法的引用 */
 import {Util} from "../../utils/util";
@@ -28,6 +29,7 @@ const
 
 const WithScrollView = withOnScroll(ScrollView)
 
+@withFocus
 class Main extends Component {
 
   constructor(props) {
@@ -51,6 +53,12 @@ class Main extends Component {
       isSafeAreaTop: false,
       isSafeAreaBottom: false,
     }
+  }
+
+  componentWillFocus() {
+    this.setState({
+      navConfig: Object.assign(this.navConfig, {barStyle: STATUS_BAR_LIGHT_THEME})
+    })
   }
 
   componentWillMount() {
@@ -114,7 +122,7 @@ class Main extends Component {
     const {headPicture} = this.state.userInfo
     return (
       <WithScrollView style={styles.container}
-                      scrollEventThrottle={20}
+                      scrollEventThrottle={10}
                       keyboardDismissMode={"on-drag"}
                       keyboardShouldPersistTaps={"handled"}
                       showsVerticalScrollIndicator={false}
@@ -135,7 +143,6 @@ class Main extends Component {
                 numberOfLines={1}
                 style={{
                   fontSize: 30,
-                  fontFamily: 'PingFangSC-Medium',
                   color: Layout.color.white_bg
                 }}>
                 {this.state.noteName}
@@ -316,8 +323,8 @@ class Main extends Component {
   }
 }
 
+withFocus(Main)
 export default withCNavigation(Main)
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

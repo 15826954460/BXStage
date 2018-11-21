@@ -42,7 +42,8 @@ class CNotice extends Component {
 
   componentDidMount() {
     this._promit(this.props.params)
-    StatusBar.setHidden(true, true) // 显示动画的时候隐藏状态栏
+    // 显示动画的时候隐藏状态栏
+    StatusBar.setHidden(true, true)
     /** 显示动画 */
     Animated.timing(this.state.translateY, {
       toValue: 0,

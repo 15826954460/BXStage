@@ -59,6 +59,7 @@ import {
   userInfo,
   bankInfo,
   loanCardInfo,
+  registerInfo,
   myLoan,
   loanDetail,
   moreDetail,
@@ -178,7 +179,7 @@ const Stack = createStackNavigator(
       // console.log(transitionProps, prevTransitionProps)
     },
     onTransitionEnd: (currentTransitionProps, prevTransitionProps) => {
-      console.log(currentTransitionProps)
+      // window.console.log(currentTransitionProps)
     },
     /** 动画配置 */
     transitionConfig: Horizontal_RToL_TranslateX,
@@ -210,7 +211,7 @@ export default class InitStack extends Component {
     StorageData.saveData('tradeRecode', tradeRecode)
     StorageData.saveData('userFeedBack', userFeedBack)
     StorageData.saveData('appConfig', appConfig)
-
+    StorageData.saveData('registerInfo', registerInfo)
     StorageData.saveData('accountProblem', accountProblem)
     StorageData.saveData('approvalProblem', approvalProblem)
     StorageData.saveData('lendingProblem', lendingProblem)
@@ -220,7 +221,7 @@ export default class InitStack extends Component {
   }
 
   _handleFirstConnectivityChange = (isConnected) => {
-    window.console.log(`-------- 当前联网状态为 '${isConnected}-------`);
+    window.console.log(`6666666-------- 当前联网状态为 '${isConnected}-------`);
     this._isConnected = isConnected
     NetInfo.isConnected.removeEventListener('connectionChange', this._handleFirstConnectivityChange);
   }
@@ -290,7 +291,6 @@ export default class InitStack extends Component {
   }
 
   componentWillUnmount() {
-
   }
 
   render() {

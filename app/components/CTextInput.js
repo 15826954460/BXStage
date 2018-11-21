@@ -107,7 +107,6 @@ export default class BXTextInput extends Component {
 
   /** 清除 */
   _clear = () => {
-    console.log(1111111)
     this._inputInstance.clear()
     this.isShowIcon = false
     this.setState({

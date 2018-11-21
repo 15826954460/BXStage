@@ -81,7 +81,6 @@ export default class NetErrorPage extends Component {
           title: '币下分期',
           titleStyle: {
             fontSize: 18,
-            fontFamily: 'PingFangSC-Medium',
             color: '#000'
           }
         }}
@@ -111,7 +110,6 @@ export default class NetErrorPage extends Component {
               onPress={this._isConnected}
               textStyle={{
                 fontSize: 16,
-                fontFamily: 'PingFangSC-Regular',
                 color: Layout.color.wgray_main,
               }}
             >
@@ -142,7 +140,6 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 16,
-    fontFamily: 'PingFangSC-Regular',
     color: '#B8B8B8',
   },
   btnWrapper: {

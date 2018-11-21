@@ -15,17 +15,23 @@ import LinearGradient from 'react-native-linear-gradient';
 import CNavigation from '../../components/CNavigation';
 import ListItem from '../../components/ListItem/ListItem';
 import CGradientButton from '../../components/CGradientButton';
+import withFocus from '../../components/HOC/HOCNavigationEvents';
 
 /** 全局公用方法的引用 */
 import {Util} from '../../utils/util';
 import {Size} from "../../styles/size";
 
-export default class Vue2 extends Component {
+const STATUS_BAR_LIGHT_THEME = 'light-content',
+  STATUS_BAR_DARK_THEME = 'dark-content';
+
+@withFocus
+export default class Installment extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       headPicture: '', // 用户头像那
+      barStyle: STATUS_BAR_DARK_THEME
     };
   }
 
@@ -37,16 +43,21 @@ export default class Vue2 extends Component {
   }
 
   componentWillUnmount() {
+  }
 
+  componentWillFocus(){
+    this.setState({barStyle: STATUS_BAR_DARK_THEME})
   }
 
   render() {
+    console.log(11111, this.state.barStyle)
     return (
       <CNavigation
         isPaddingTop={false}
         isNavContent={false}
         isSafeAreaTop={false}
         isSafeAreaBottom={false}
+        barStyle={this.state.barStyle}
       >
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -102,31 +113,31 @@ export default class Vue2 extends Component {
 
 
           {/*<View style={styles.itemWrapper}>*/}
-            <ListItem
-              wrapperStyle={{
-                height: 60,
-                marginTop: 20,
-              }}
-              leftText={'你有逾期，请尽快还款'}
-              leftTextBottom={'已逾期4天，逾期费6.81元'}
-              specialIconType={'WRANING'}
-              isShowRightIcon={false}
-              AllBottomLine={true}
-            />
+          <ListItem
+            wrapperStyle={{
+              height: 60,
+              marginTop: 20,
+            }}
+            leftText={'你有逾期，请尽快还款'}
+            leftTextBottom={'已逾期4天，逾期费6.81元'}
+            specialIconType={'WRANING'}
+            isShowRightIcon={false}
+            AllBottomLine={true}
+          />
 
-            <ListItem
-              wrapperStyle={{
-                height: 60,
-              }}
-              leftText={'借款详情'}
-              leftTextBottom={'已还0期，共6期'}
-              rightText={'可结清全部'}
-              rightTextStyle={{
-                fontSize: 14,
-                color: Layout.color.wgray_main,
-              }}
-              hasAllBottomLine={true}
-            />
+          <ListItem
+            wrapperStyle={{
+              height: 60,
+            }}
+            leftText={'借款详情'}
+            leftTextBottom={'已还0期，共6期'}
+            rightText={'可结清全部'}
+            rightTextStyle={{
+              fontSize: 14,
+              color: Layout.color.wgray_main,
+            }}
+            hasAllBottomLine={true}
+          />
           {/*</View>*/}
 
         </ScrollView>
@@ -150,7 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerTopWrapper: {
-    width:Size.screen.width,
+    width: Size.screen.width,
     height: 74,
     marginBottom: 16,
     paddingHorizontal: 12,

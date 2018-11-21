@@ -50,7 +50,6 @@ export default class EmptyPage extends Component {
           title: '币下分期',
           titleStyle: {
             fontSize: 18,
-            fontFamily: 'PingFangSC-Medium',
             color: '#000'
           }
         }}
@@ -86,7 +85,6 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 16,
-    fontFamily: 'PingFangSC-Regular',
     color: '#B8B8B8'
   }
 });

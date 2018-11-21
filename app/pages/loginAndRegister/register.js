@@ -25,11 +25,7 @@ import BottomText from '../../components/BottomText/BottomText';
 import CGradientButton from '../../components/CGradientButton';
 import CNavigation from '../../components/CNavigation';
 
-/** 高阶组件的引用 */
-// import HOCNavigationFocus from '../../components/HOC/HOCNavigationEvents';
 
-
-// @HOCNavigationFocus
 class Register extends Component {
 
   constructor(props) {
@@ -105,8 +101,6 @@ class Register extends Component {
     /** 这里会根据用户的操作进行一些本地数据的保存，方便后面做交互验证 */
     let codeLegal = /^\d{6}$/.test(Number(this.state.code))
     let telephoneLegal = Util.checkMobile(this.state.telephoneNumber)
-
-    console.log(1111, codeLegal, telephoneLegal,Number(this.state.code))
     /** 判断用户是否已经注册 */
     StorageData.getData('registerInfo').then(res => {
       let {hasRegister} = res
@@ -242,11 +236,6 @@ class Register extends Component {
 
 export default withNavigation(Register)
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Layout.color.white_bg,
-    position: 'relative',
-  },
   scrollViewStyle: {
     flex: 1,
     width: width,

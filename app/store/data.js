@@ -543,6 +543,7 @@ const pickData = {
 
 export {
   userInfo,
+  registerInfo,
   bankInfo,
   loanCardInfo,
   myLoan,

@@ -6,6 +6,7 @@ import {
 
 /** 全局样式的引用 */
 import {Layout} from "../styles/layout";
+import {Size} from "../styles/size";
 
 /** 第三方依赖库的引用 */
 import {SafeAreaView, withNavigation} from 'react-navigation';
@@ -27,6 +28,7 @@ const
   RIGHT_ICON = require('../images/common/common_img_arrow.png'),
   WHITE_COLOR = Layout.color.white_bg,
   BLACK_COLOR = Layout.color.black;
+
 @withNavigation
 class LeftButtonItem extends Component {
   static propTypes = {
@@ -150,7 +152,7 @@ class RightButtonItem extends Component {
         <View style={[styles.btn, {justifyContent: 'flex-end',}]}>
           {
             isShowTitle ? <Text
-                style={[titleStyle, {color: (theme === 'light' || theme === 'variable') ? WHITE_COLOR : (titleStyle.color ? titleStyle.color :BLACK_COLOR)}]}
+                style={[titleStyle, {color: (theme === 'light' || theme === 'variable') ? WHITE_COLOR : (titleStyle.color ? titleStyle.color : BLACK_COLOR)}]}
                 numberOfLines={1}> {title} </Text>
               : isShowIcon ?
               <Image source={theme === 'dark' ? RIGHT_ICON : RIGHT_ICON} style={iconStyle}/> : null
@@ -294,14 +296,15 @@ export default class CNavigation extends Component {
         }]}>
 
         <CStatusBar ref={ref => this._statusBarInstance = ref}
-                    barStyle={barStyle}/>
+                    barStyle={barStyle}
+        />
 
         <View style={[styles.container, {paddingTop: isPaddingTop ? 44 : 0}]}>
           {
             isNavContent ? <View style={[
               styles.navContainer,
-              {height: !isSafeAreaTop ? (Util.isIPhoneX() ? 88 : (Number(DeviceInfo.getAPILevel()) >= 21 ? 64 : 64)) : 44},
-              {paddingTop: !isSafeAreaTop ? (Platform.OS === 'android' ? (Number(DeviceInfo.getAPILevel()) >= 21 ? StatusBar.currentHeight : 20) : (Util.isIPhoneX() ? 24 : 20)) : 0},
+              {height: (!isSafeAreaTop && Util.isIPhoneX()) ? 88 : (Util.isAndroid() ? (Size.screen.statusBarHeight + 44) : (!isSafeAreaTop ? 64 : 44))},
+              {paddingTop: (!isSafeAreaTop && Util.isIPhoneX()) ? 24 : (Util.isAndroid() ? StatusBar.currentHeight : (!isSafeAreaTop ? 20 : 0)) },
               {backgroundColor: navBackgroundColor},
             ]}>
               <View style={styles.buttonWrapper}>

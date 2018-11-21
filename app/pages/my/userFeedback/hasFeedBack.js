@@ -131,7 +131,6 @@ export default class HasFeedBack extends Component {
             contentTextStyle={{
               color: Layout.color.white_bg,
               fontSize: 15,
-              fontFamily: "PingFangSC-Regular",
               textAlign: "center"
             }}
             onPress={() => this.props.navigation.navigate('NoFeedBack')}

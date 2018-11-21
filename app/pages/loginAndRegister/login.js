@@ -155,7 +155,6 @@ class Login extends Component {
                            gradientType={"btn_l"}
                            contentText={"登陆"}
                            textStyle={{
-                             fontFamily: "PingFangSC-Regular",
                              fontSize: 17,
                              color: "#FFFFFF",
                              letterSpacing: 0,
@@ -174,11 +173,6 @@ class Login extends Component {
 export default withNavigation(Login);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Layout.color.white_bg,
-    // position: 'relative',
-  },
   scrollViewStyle: {
     flex: 1,
     width: width,

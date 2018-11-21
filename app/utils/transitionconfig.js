@@ -345,7 +345,7 @@ export const FadeToTheLeft = () => {//navigator 的默认动画
 
 /** 水平方向过页面切换动画，配合透明度 */
 export const Horizontal_RToL_TranslateX = () => {
-  if (Platform.OS === 'android') return Horizontal_RToL_Opacity;
+  if (Platform.OS === 'android') return FadeToTheLeft();
   return {
     transitionSpecTransX,
     // Define scene interpolation, eq. custom transition
