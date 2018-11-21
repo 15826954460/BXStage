@@ -69,7 +69,7 @@ export default class Installment extends Component {
 
           <View style={styles.headerTopWrapper}>
             <Text style={styles.headerTitle}>{'逾期账单'}</Text>
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('My')}>
               <View style={styles.headerPicWrapper}>
                 <Image style={{width: 50, height: 50}}
                        source={require('../../images/me/index_icon_bixia.png')}/>

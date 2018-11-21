@@ -85,6 +85,7 @@ export default class SettingLoginPassword extends Component {
           index: 0,
           actions: [
             NavigationActions.navigate({routeName: 'MainStack'})
+            // NavigationActions.navigate({routeName: 'InstalmentPage'})
           ]
         })
       )
