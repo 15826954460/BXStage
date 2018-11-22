@@ -132,12 +132,12 @@ export default class PreView extends Component {
         style={{flex: 1}}
         forceInset={{top: 'never', bottom: 'never'}}
       >
-
-
         <Modal visible={isModalVisible}
                transparent={true}
                animationType={'fade'}
                hardwareAccelerated={true}
+               onRequestClose={() => {
+               }}
         >
           <ImageViewer imageUrls={imgList}
                        showsButtons={false}
@@ -187,7 +187,6 @@ export default class PreView extends Component {
             }
 
           </View>
-
 
           <View style={styles.bottomNav}>
             <View style={[{...Layout.layout.rsbc}]}>
