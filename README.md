@@ -48,85 +48,101 @@ react + react-native + mobx + axios + es6 + react-navigation + lottie-react-nati
 ```
 
 ├── app
-│    ├── components
-│    │     └── BottomText                                     // 底部登陆注册切换文案组件
-│    │             └── BottomText.js
-│    ├── HOC
-│    │     ├── HOCCNavigation.js                              // 全局导航组件
-│    │     ├── HOCcontext.js                                  // 获取上下文组件
-│    │     ├── HOCNavigationEvents.js                         // 页面焦点事件组件
-│    │     └── HOCOnscroll.js                                 // 滚动改变导航透明度组件
-│    ├── ListItem
-│    │     └── ListItem                                       // FlatList item组件
-│    ├── designImage                                          // 设计效果图
-│    ├── images                                               // 项目图片
-│    ├── json                                                 // lottie动画文件
-│    ├── pages
-│    │     ├── errorPage                                      // 一些错误页面
-│    │     │     ├── empty.js
-│    │     │     ├── morePerson.js
-│    │     │     └── netError.js
-│    │     ├── installment                                    // 分期
-│    │     │     └── index.js
-│    │     ├── loginAndRegister                               // 登陆注册相关
-│    │     │     ├── index.js
-│    │     │     ├── login.js
-│    │     │     ├── register.js
-│    │     │     ├── settingLoginPassword.js
-│    │     │     ├── validationCode.js
-│    │     │     ├── validationCard.js
-│    │     │     └── validationTelephone.js
-│    │     ├── loginOut                                       // 退出登陆
-│    │     │     └── index.js
-│    │     ├── modifyLoginPassword                            // 修改密码
-│    │     │     └── index.js
-│    │     ├── my                                             // 我的
-│    │     │     ├── accountInfo
-│    │     │     │      ├── index.js
-│    │     │     │      └── rename.js                         // 修改用户名
-│    │     │     ├── commonProblem                            // 常见问题
-│    │     │     │      ├── index.js
-│    │     │     │      ├── problemType.js
-│    │     │     │      └── problemList.js
-│    │     │     ├── myLoan                                   // 我的借款
-│    │     │     │      ├── index.js
-│    │     │     │      ├── loanDetail.js
-│    │     │     │      └── moreDetail.js
-│    │     │     ├── setting.js                               // 设置
-│    │     │     │      └── index.js
-│    │     │     ├── tradeRecord.js                           // 交易记录
-│    │     │     │      └── index.js
-│    │     │     ├── userFeedBack                             // 用户反馈
-│    │     │     │      ├── feedBackCell.js
-│    │     │     │      ├── hasFeesBack.js
-│    │     │     │      └── noFeedBack.js
-│    │     │     └── index
-│    │     ├── photo                                          // 关于相册
-│    │     │     ├── mobx
-│    │     │     │      └── mobx.js                           // mobx
-│    │     │     ├── choose.js                                // 选择图片
-│    │     │     ├── index.js                                 // 图片分组
-│    │     │     └── preview                                  // 图片预览
-│    │     └── testView                                       // 测试页面
-│    ├── store                                                // 关于本地储存以及一些配置
-│    │     ├── configData.js
-│    │     ├── data.js
-│    │     ├── routers.js
-│    │     └── storageData.js
-│    ├── styles                                               // 全局样式相关的组件
-│    │    ├── layout.js
-│    │    └── size.js
-│    └── utils
-│         ├── aboutIdCard.js                                  // 身份验证
-│         ├── bouncedUtils.js                                 // 关于弹框的调用工具统一封装管理
-│         ├── curve.js                                        // 动画相关
-│         ├── staticPage.js                                   // 静态页面生成的工具方法
-│         ├── transitionconfig.js                             // 动画相关
-│         ├── util.js                                         // 全局工具方法
-│         └── webAPI.js                                       // wapAPI
+│    └── components
+│           ├── BottomText                               // 底部登陆注册切换文案组件
+│           │             └── BottomText.js
+│           ├── HOC                                      // 高阶组件
+│           │     ├── HOCCNavigation.js                  // 全局导航组件
+│           │     ├── HOCcontext.js                      // 获取上下文组件
+│           │     ├── HOCNavigationEvents.js             // 页面焦点事件组件
+│           │     └── HOCOnscroll.js                     // 滚动改变导航透明度组件
+│           ├── ListItem
+│           │     └── ListItem                           // FlatList item组件
+│           ├── pullRefresh                              // 下拉刷新
+│           │     ├── pullRefresh.ios.js
+│           │     └── pullRefresh.android.js
+│           ├── CActionSheet                             // 调用相册组件
+│           ├── CAlert                                   // 弹框组件
+│           ├── CBottomGradientButton                    // 全局底部按钮封装组件
+│           ├── CGradientButton                          // 全局按钮组件
+│           ├── CLoading                                 // loadding 组件
+│           ├── CNavigation                              // 导航组件
+│           ├── CNotice                                  // 顶部提示组件
+│           ├── CNoticeBottom                            // 底部弹层组件
+│           ├── CStatusBar                               // 状态栏组件
+│           ├── CTabIcon                                 // 底部切换tab组件
+│           ├── CTextInput                               // 输入框组件
+│           ├── CToast                                   // toast 提示组件
+│           ├── CTouchableOpacity                        // 点击按钮的简易封装
+│           └── CTouchableWithoutFeedback
+│
+├── designImage                                          // 设计效果图
+├── images                                               // 项目图片
+├── json                                                 // lottie动画文件
+├── pages
+│     ├── errorPage                                      // 一些错误页面
+│     │     ├── empty.js
+│     │     ├── morePerson.js
+│     │     └── netError.js
+│     ├── installment                                    // 分期
+│     │     └── index.js
+│     ├── loginAndRegister                               // 登陆注册相关
+│     │     ├── index.js
+│     │     ├── login.js
+│     │     ├── register.js
+│     │     ├── settingLoginPassword.js
+│     │     ├── validationCode.js
+│     │     ├── validationCard.js
+│     │     └── validationTelephone.js
+│     ├── loginOut                                       // 退出登陆
+│     │     └── index.js
+│     ├── modifyLoginPassword                            // 修改密码
+│     │     └── index.js
+│     ├── my                                             // 我的
+│     │     ├── accountInfo
+│     │     │      ├── index.js
+│     │     │      └── rename.js                         // 修改用户名
+│     │     ├── commonProblem                            // 常见问题
+│     │     │      ├── index.js
+│     │     │      ├── problemType.js
+│     │     │      └── problemList.js
+│     │     ├── myLoan                                   // 我的借款
+│     │     │      ├── index.js
+│     │     │      ├── loanDetail.js
+│     │     │      └── moreDetail.js
+│     │     ├── setting.js                               // 设置
+│     │     │      └── index.js
+│     │     ├── tradeRecord.js                           // 交易记录
+│     │     │      └── index.js
+│     │     ├── userFeedBack                             // 用户反馈
+│     │     │      ├── feedBackCell.js
+│     │     │      ├── hasFeesBack.js
+│     │     │      └── noFeedBack.js
+│     │     └── index
+│     ├── photo                                          // 关于相册
+│     │     ├── mobx
+│     │     │      └── mobx.js                           // mobx
+│     │     ├── choose.js                                // 选择图片
+│     │     ├── index.js                                 // 图片分组
+│     │     └── preview                                  // 图片预览
+│     └── testView                                       // 测试页面
+├── store                                                // 关于本地储存以及一些配置
+│     ├── configData.js
+│     ├── data.js
+│     ├── routers.js
+│     └── storageData.js
+├── styles                                               // 全局样式相关的组件
+│    ├── layout.js
+│    └── size.js
+├── utils
+│    ├── aboutIdCard.js                                  // 身份验证
+│    ├── bouncedUtils.js                                 // 关于弹框的调用工具统一封装管理
+│    ├── curve.js                                        // 动画相关
+│    ├── staticPage.js                                   // 静态页面生成的工具方法
+│    ├── transitionconfig.js                             // 动画相关
+│    ├── util.js                                         // 全局工具方法
+│    └── webAPI.js                                       // wapAPI
 └──
-.
-
 ```
 
 ###
