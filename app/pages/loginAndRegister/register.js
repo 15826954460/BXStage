@@ -79,7 +79,14 @@ class Register extends Component {
 
   /** 跳转到币下分期服务协议 后期再补充 */
   _goToAgreement = () => {
-
+    if (this.state.agreement) {
+      this._helpfulHints()
+    }
+    else {
+      bouncedUtils.notices.show({
+        type: 'warning', content: '请阅读并同意用户协议'
+      })
+    }
   }
 
   /** 清空数据 */
@@ -140,11 +147,16 @@ class Register extends Component {
     }).catch(error => {
       /****/
     })
+  }
 
-    /** 查看如何获取邀请码为嵌入网页，后期再补充 */
-    _toWebView = () => {
-    }
-
+  /** 一些协议和说明属于嵌入webApp页面，这里就不再进行开发和阐述了 */
+  _helpfulHints = () => {
+    bouncedUtils.alert.show({
+      title: '测试标题',
+      isOnlyOneBtn: true,
+      borderRadius: 12,
+      contentText: '协议和说明页面属于嵌入webapp\n暂不开发'
+    })
   }
 
   render() {
@@ -182,7 +194,7 @@ class Register extends Component {
             handle={this._getCode}
           />
 
-          <TouchableWithoutFeedback handle={this._toWebView}>
+          <TouchableWithoutFeedback onPress={this._helpfulHints}>
             <View style={styles.forgetSecret}>
               <Text style={styles.forgetSecretCode}>{'如何获取邀请码'}</Text>
             </View>
@@ -212,7 +224,7 @@ class Register extends Component {
               {'已阅读并同意协议'}
             </Text>
 
-            <TouchableWithoutFeedback handle={this._goToAgreement}>
+            <TouchableWithoutFeedback onPress={this._goToAgreement}>
               <View>
                 <Text style={styles.agreementText}>
                   《<Text style={{textDecorationLine: 'underline'}}>{'币下分期服务协议'}</Text>》

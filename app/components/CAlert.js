@@ -136,7 +136,7 @@ class CToast extends Component {
               }
 
               {/*通用文案部分*/}
-              <View style={{paddingHorizontal: 14}}>
+              <View style={{paddingHorizontal: 14, ...Layout.layout.rcc}}>
                 <Text style={{
                   fontSize: Layout.font.Subtle2,
                   color: Layout.color.wblack,

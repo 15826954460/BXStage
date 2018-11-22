@@ -51,7 +51,14 @@ export default class ReName extends Component {
         isShowClearIcon: true
       })
     }
-    this.state.inputValue = val
+    if (!val) {
+      this.setState({
+        isShowClearIcon: false
+      })
+    }
+    this.setState({
+      inputValue: val
+    })
   }
 
   _clear = () => {
@@ -68,7 +75,7 @@ export default class ReName extends Component {
       StorageData.mergeData('userInfo', {nickName: this.state.inputValue})
     }
     else {
-      bouncedUtils.notices.show({content : '请输入修改内容', type: 'warning'})
+      bouncedUtils.notices.show({content: '请输入修改内容', type: 'warning'})
     }
   }
 
