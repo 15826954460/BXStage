@@ -6,10 +6,15 @@
 
 ### 测试版本的下载地址
 >  https://fir.im/5n14    安卓的下包地址
+
 >  https://fir.im/jtas      IOS下包地址
+
 >  bixia2018  密码
+
 >  默认注册手机号: 17886521983
+
 >  邀请码: 085396
+
 >  密码：hb1234
 
 ### 技术栈
@@ -25,7 +30,7 @@ react + react-native + mobx + react-navigation + lottie-react-native + react-nat
 * xcode/android Studio 打开项目运行
 
 ###
->  任何问题欢迎在 github 上提 issues，一起交流和学习
+    任何问题欢迎在 github 上提 issues，一起交流和学习
 
 ### 关于第三方库的 xcode 以及 Android Studio 配置参考链接如下
 
