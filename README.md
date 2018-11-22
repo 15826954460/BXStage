@@ -9,7 +9,7 @@
 
 >  https://fir.im/jtas      IOS下包地址
 
->  bixia2018  密码
+>  密码: bixia2018
 
 >  默认注册手机号: 17886521983
 
