@@ -50,7 +50,6 @@ export default class Installment extends Component {
   }
 
   render() {
-    console.log(11111, this.state.barStyle)
     return (
       <CNavigation
         isPaddingTop={false}

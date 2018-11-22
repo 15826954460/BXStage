@@ -129,38 +129,6 @@ export default class NoFeedBack extends Component {
     }
     else if (type === 'pick') {
       this.props.navigation.navigate('PhotoStack')
-      // ImagePicker.showImagePicker({
-      //   title: '请选择',
-      //   cancelButtonTitle: '取消',
-      //   takePhotoButtonTitle: '拍照',
-      //   chooseFromLibraryButtonTitle: '选择相册',
-      //   quality: 0.75,
-      //   allowsEditing: true,
-      //   noData: false,
-      //   storageOptions: {
-      //     skipBackup: true,
-      //     path: 'image'
-      //   }
-      // }, (response) => {
-      //   if (response.didCancel) {
-      //     window.console.log('User cancelled image picker');
-      //   } else if (response.error) {
-      //     window.console.log('ImagePicker Error: ', response.error);
-      //   } else if (response.customButton) {
-      //     window.console.log('User tapped custom button: ', response.customButton);
-      //   } else {
-      //     if (imageList.length < 4) {
-      //       imageList.push({url: response.uri})
-      //       this.setState({
-      //         imageList: imageList
-      //       })
-      //     } else {
-      //       bouncedUtils.toast.show({
-      //         content: '最多只能选择四张图片', type: 'warning'
-      //       })
-      //     }
-      //   }
-      // });
     }
   }
 
@@ -254,9 +222,9 @@ export default class NoFeedBack extends Component {
                   <TouchableWithoutFeedback
                     onPress={() => this._deleteImg(index)}
                   >
-                    <View>
-                      <Image style={[{position: 'absolute', top: 0, right: 0}]}
-                             source={require('../../../images/feedBack/feedback_img_deleteimg_pre.png')}/>
+                    <View
+                      style={[{position: 'absolute', top: 0, right: 0, width: 30, height: 34}]}>
+                      <Image source={require('../../../images/feedBack/feedback_img_deleteimg_pre.png')}/>
                     </View>
 
                   </TouchableWithoutFeedback>

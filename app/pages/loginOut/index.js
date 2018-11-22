@@ -9,6 +9,7 @@ import {
 
 /** 第三方依赖库的引用 */
 import {Layout} from "../../styles/layout";
+import {Size} from "../../styles/size";
 
 /** 自定义组建的引用 */
 import BXTextInput from '../../components/CTextInput';
@@ -42,7 +43,7 @@ export default class LoginOut extends Component {
         this.setState({userInfo: res})
       }
     }).catch((error) => {
-      console.log(`获取信息---【${key}】----失败，失败信息为【${error}】!!!!!!`)
+      window.console.log(`获取信息---【${key}】----失败，失败信息为【${error}】!!!!!!`)
     })
   }
 
@@ -104,6 +105,20 @@ export default class LoginOut extends Component {
     /** 跳转到首页,是否需要清空用户上次的输入信息，根据实际自行补充 */
   }
 
+  _onLayout = (evt) => {
+    if (Util.isAndroid()) {
+      this._logoutScroll.setNativeProps({
+        style: {
+          flex: 0,
+          flexShrink: 0,
+          flexGrow: 0,
+          width: Size.screen.width,
+          height: evt.nativeEvent.layout.height
+        }
+      })
+    }
+  }
+
   /** 重置路由跳转到注册页 */
   _goToRegister = (page) => {
     Routers.stackRoots.dispatch(
@@ -127,9 +142,12 @@ export default class LoginOut extends Component {
         }}
       >
         <ScrollView
+          onLayout={this._onLayout}
+          ref={ref => this._logoutScroll = ref}
           style={styles.scrollViewWrapper}
           keyboardDismissMode={'on-drag'}
           keyboardShouldPersistTaps={'handled'}
+          showsVerticalScrollIndicator={false}
         >
           <View style={styles.logoIconWrapper}>
 
@@ -184,6 +202,7 @@ export default class LoginOut extends Component {
           handle={() => this._goToRegister('login')}
           clickText={'切换账号'}
         />
+
       </CNavigation>
     );
   }
@@ -192,7 +211,9 @@ export default class LoginOut extends Component {
 const styles = StyleSheet.create({
   scrollViewWrapper: {
     flex: 1,
+    width: Size.screen.width,
     paddingHorizontal: Layout.gap.gap_edge,
+    height: Size.screen.height,
   },
   logoIconWrapper: {
     flex: 1,

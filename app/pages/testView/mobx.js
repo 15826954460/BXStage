@@ -24,9 +24,7 @@ class Timer {
 
   @action
   tick() {
-    console.log(this.number)
     this.number += 1;
-    console.log(this.number)
   }
 }
 

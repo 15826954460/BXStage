@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, CameraRoll, ScrollView, Image, TouchableWithoutFeedback,
+  StyleSheet, Text, View, CameraRoll, ScrollView, Image, TouchableWithoutFeedback, StatusBar,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -17,6 +17,7 @@ import CNavigation from '../../components/CNavigation';
 /** 工具类的引用 */
 import {bouncedUtils} from '../../utils/bouncedUtils';
 import {ImageData} from './mobx/mobx';
+import {Util} from "../../utils/util";
 
 /** 常量声明 */
 
@@ -52,12 +53,23 @@ export default class PhotoPage extends Component {
               _startLoad = null
             }, 1000)
 
+            let _params;
+            if (Util.isAndroid()) {
+              _params = {
+                first: 600, // 暂定只取600张
+                assetType: 'Photos', // 获取类型
+              }
+            }
+            else {
+              _params = {
+                first: 600, // 暂定只取600张
+                assetType: 'Photos', // 获取类型
+                groupTypes: 'All' // 获取所有
+              }
+            }
+
             /** 待优化 */
-            CameraRoll.getPhotos({
-              first: 600, // 暂定只取600张
-              assetType: 'Photos', // 获取类型
-              groupTypes: 'All' // 获取所有
-            }).then(r => {
+            CameraRoll.getPhotos(_params).then(r => {
               r.edges.map((node, index, arr) => {
                 if (photoTypeObj[node.node.group_name]) {
                   photoTypeObj[node.node.group_name].push(node.node.image)
@@ -176,6 +188,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: Size.screen.width,
+    paddingTop: Util.isAndroid() ? StatusBar.currentHeight : 0,
   },
   imgGroupItem: {
     ...Layout.layout.rsbc,
@@ -184,7 +197,7 @@ const styles = StyleSheet.create({
   },
   leftImage: {width: 93, height: 93},
   rightWrapper: {
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    ...Layout.layout.rsbc,
     flex: 1, paddingLeft: 15, paddingRight: 12
   },
 });

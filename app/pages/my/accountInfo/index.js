@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, Image, ScrollView, TouchableWithoutFeedback,
+  StyleSheet, Text, View, Image, ScrollView, TouchableWithoutFeedback, PermissionsAndroid,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -23,11 +23,12 @@ import withFocus from '../../../components/HOC/HOCNavigationEvents';
 import StorageData from "../../../store/storageData";
 import {bankInfo} from "../../../store/data";
 import {bouncedUtils} from '../../../utils/bouncedUtils';
+import {Util} from '../../../utils/util';
 
 /** 常量声明 */
 
 @withFocus
-export default  class AccountInfo extends Component {
+export default class AccountInfo extends Component {
 
   constructor(props) {
     super(props);
@@ -44,7 +45,6 @@ export default  class AccountInfo extends Component {
   }
 
   componentWillFocus() {
-    console.log(1111, 'zzzzzzzzzzzz')
     StorageData.getData('userInfo').then(res => {
       if (res) {
         this.setState({userInfo: res})
@@ -82,7 +82,6 @@ export default  class AccountInfo extends Component {
 
   /** 选择图片 */
   _chooseImg = (type) => {
-    const {imgList} = this.state
     if (type === 'take') {
       /** 检测权限 */
       Permissions.request('camera').then(res => {

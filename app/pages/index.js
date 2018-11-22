@@ -181,7 +181,7 @@ const Stack = createStackNavigator(
       // console.log(transitionProps, prevTransitionProps)
     },
     onTransitionEnd: (currentTransitionProps, prevTransitionProps) => {
-      window.console.log(currentTransitionProps)
+      // window.console.log(currentTransitionProps)
     },
     /** 动画配置 */
     transitionConfig: Horizontal_RToL_TranslateX,
@@ -217,6 +217,8 @@ export default class InitStack extends Component {
     StorageData.saveData('approvalProblem', approvalProblem)
     StorageData.saveData('lendingProblem', lendingProblem)
     StorageData.saveData('productIntroduce', productIntroduce)
+
+    // StorageData.removeData('registerInfo', registerInfo)
 
     /** 避免每次都进行才注册，这里只是为了做前端效果展示 */
     StorageData.getData('registerInfo').then((res) => {
@@ -283,6 +285,7 @@ export default class InitStack extends Component {
         })
       )
     }
+    console.log(111111)
     SplashScreen.hide() // 隐藏白屏
   }
 

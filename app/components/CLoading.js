@@ -65,12 +65,14 @@ class CLoading extends Component {
         ]}
       >
         <View style={styles.lottieWrapper}>
-          <LottieView
-            style={{width: 52, height: 52}}
-            ref={ref => this._lottieInstance = ref}
-            source={require('../json/full_loading.json')}
-            loop={true}
-          />
+          <View style={{width: 52, height: 52}}>
+            <LottieView
+              ref={ref => this._lottieInstance = ref}
+              source={require('../json/full_loading.json')}
+              loop={true}
+            />
+          </View>
+
           <Text style={styles.bottomText}>{'加载中...'}</Text>
         </View>
       </Animated.View>
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
     height: 118,
     backgroundColor: 'rgba(240,240,240,0.8)',
     borderRadius: 8,
-    ...Layout.layout.ccc
+    ...Layout.layout.ccc,
   },
   bottomText: {
     fontSize: Layout.font.Body1,

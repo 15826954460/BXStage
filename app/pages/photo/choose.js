@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component, PureComponent} from "react";
 import {
-  StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Image,
+  StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Image, StatusBar,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -20,6 +20,7 @@ import LinearGradient from 'react-native-linear-gradient';
 /** 工具类的引用 */
 import {ImageData} from './mobx/mobx';
 import {bouncedUtils} from "../../utils/bouncedUtils";
+import {Util} from "../../utils/util";
 
 /** 常量声明 */
 const
@@ -46,10 +47,10 @@ export default class ChoosePhoto extends Component {
   }
 
   /** 选择图片 */
-  _changeImage = (filename) => {
+  _changeImage = (uri) => {
     /** 针对每一次选择对图片类表属性做相应的改变 */
     ImageData.photoImgList.map((item, index) => {
-      if (item.filename === filename) {
+      if (item.uri === uri) {
         if (!item.isSelect) {
           if (ImageData.selectNumber >= MAX_IMAGE_NUMBER - ImageData.selectImgList.length) {
             bouncedUtils.toast.show({content: `最多只能选${MAX_IMAGE_NUMBER - ImageData.selectImgList.length}张`})
@@ -74,7 +75,7 @@ export default class ChoosePhoto extends Component {
   _renderItem = ({item}) => {
     return <TouchableWithoutFeedback
       key={item.filename + item.uri}
-      onPress={() => this._changeImage(item.filename)}
+      onPress={() => this._changeImage(item.uri)}
     >
       <View
         style={{
@@ -155,6 +156,7 @@ export default class ChoosePhoto extends Component {
             paddingBottom: 50,
             backgroundColor: Layout.color.white_bg,
             width: Size.screen.width,
+            paddingTop: Util.isAndroid() ? StatusBar.currentHeight : 0,
           }}
           getItemLayout={(data, index) => (
             {length: (Size.screen.width - 3) / 4, offset: (Size.screen.width - 3) / 4 * index, index}
@@ -214,7 +216,7 @@ export default class ChoosePhoto extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   bottomButton: {
     width: Size.screen.width,
