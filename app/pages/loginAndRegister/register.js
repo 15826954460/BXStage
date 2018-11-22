@@ -25,7 +25,6 @@ import BottomText from '../../components/BottomText/BottomText';
 import CGradientButton from '../../components/CGradientButton';
 import CNavigation from '../../components/CNavigation';
 
-
 class Register extends Component {
 
   constructor(props) {

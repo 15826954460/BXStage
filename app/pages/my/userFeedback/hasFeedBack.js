@@ -9,7 +9,6 @@ import {Layout} from "../../../styles/layout";
 
 /** 第三方依赖库的引用 */
 import ImageViewer from 'react-native-image-zoom-viewer';
-// import {ImageCache} from "react-native-img-cache";
 
 /** 自定义组建的引用 */
 import CNavigation from '../../../components/CNavigation';
