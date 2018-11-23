@@ -58,6 +58,10 @@ export default class HasFeedBack extends Component {
     })
   }
 
+  _onPress = () => {
+    this.props.navigation.navigate('NoFeedBack')
+  }
+
   render() {
     let {isModalVisible, imgList} = this.state;
     return (
@@ -132,7 +136,7 @@ export default class HasFeedBack extends Component {
               fontSize: 15,
               textAlign: "center"
             }}
-            onPress={() => this.props.navigation.navigate('NoFeedBack')}
+            onPress={this._onPress}
           />
         </View>
 

@@ -49,6 +49,10 @@ export default class Installment extends Component {
     this.setState({barStyle: STATUS_BAR_DARK_THEME})
   }
 
+  _onPress = () => {
+    this.props.navigation.navigate('My')
+  }
+
   render() {
     return (
       <CNavigation
@@ -68,7 +72,7 @@ export default class Installment extends Component {
 
           <View style={styles.headerTopWrapper}>
             <Text style={styles.headerTitle}>{'逾期账单'}</Text>
-            <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('My')}>
+            <TouchableWithoutFeedback onPress={this._onPress}>
               <View style={styles.headerPicWrapper}>
                 <Image style={{width: 50, height: 50}}
                        source={require('../../images/me/index_icon_bixia.png')}/>

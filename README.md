@@ -169,5 +169,6 @@ react + react-native + mobx + axios + es6 + react-navigation + lottie-react-nati
 
 ### 后续工作
 
->  接下来会对自定义下拉刷新组件的封装 变成通用的自定义组件
+>  自定义下拉刷新组件的封装
+>  关于页面的渲染相关的优化
 

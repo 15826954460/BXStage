@@ -111,6 +111,10 @@ class Login extends Component {
       });
   };
 
+  _onPress = () => {
+    this.props.navigation.navigate("ValidationTelephone")
+  }
+
   render() {
     return (
       <CNavigation
@@ -139,13 +143,14 @@ class Login extends Component {
             keyboardType={"default"}
             maxLength={16}
             isShowPasswordIcon={true}
-            secureTextEntry={this.state.secureTextEntry}fegn
+            secureTextEntry={this.state.secureTextEntry} fegn
             changeSecureTextEntry={() => this.setState({secureTextEntry: !this.state.secureTextEntry})}
             clearInputValue={() => this.setState({passWord: "", disabled: true})}
             handle={this._getPassword}
           />
 
-          <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ValidationTelephone")}>
+          <TouchableWithoutFeedback
+            onPress={this._onPress}>
             <View style={styles.invitationCodeWrapper}>
               <Text style={styles.invitationCode}>{"忘记密码？"}</Text>
             </View>
@@ -158,7 +163,7 @@ class Login extends Component {
                              fontSize: 17,
                              color: "#FFFFFF",
                              letterSpacing: 0,
-                             textAlign: "center"
+                             textAlign: "center",
                            }}
                            onPress={this._validation}/>
         </ScrollView>

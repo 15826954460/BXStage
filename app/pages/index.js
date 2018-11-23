@@ -26,7 +26,6 @@ import SettingLoginPassword from './loginAndRegister/settingLoginPassword'; // �
 import ValidationTelephone from './loginAndRegister/validationTelephone'; // 手机号验证(忘记密码后需要跳转到的页面)
 import validationIdCard from './loginAndRegister/validationIdCard'; // 身份证验证
 import ModifyLoginPassword from './modifyLoginPassword'; // 重置密码
-import BXWebView from './bxWebView';
 import LoginOutPage from './loginOut/index'; // 退出登陆
 import MorePerson from './errorPage/morePerson'; // 人数较多的提示页面
 import EmptyPage from './errorPage/empty'; // 人数较多的提示页面
@@ -150,7 +149,6 @@ const Stack = createStackNavigator(
     ModifyLoginPassword: {screen: ModifyLoginPassword},
     HasFeedBack: {screen: HasFeedBack},
     NoFeedBack: {screen: NoFeedBack},
-    BXWebView: {screen: BXWebView},
     LoginOutPage: {screen: LoginOutPage},
     MainStack: {screen: MainStack},
     // InstalmentPage: {screen: InstalmentPage},
@@ -261,12 +259,7 @@ export default class InitStack extends Component {
               index: 0,
               actions: [
                 NavigationActions.navigate({
-                  // routeName: 'LoginAndRegister',
-                  // routeName: 'MainStack',
-                  // routeName: 'HasFeedBack',
-                  routeName: 'NoFeedBack',
-                  // routeName: 'Test',
-                  // routeName: 'PhotoStack',
+                  routeName: 'LoginAndRegister',
                   params: {initPage: _initPage}
                 }),
               ]
@@ -285,7 +278,6 @@ export default class InitStack extends Component {
         })
       )
     }
-    console.log(111111)
     SplashScreen.hide() // 隐藏白屏
   }
 

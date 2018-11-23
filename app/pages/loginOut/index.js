@@ -131,6 +131,10 @@ export default class LoginOut extends Component {
     )
   }
 
+  _onPress = () => {
+    this.props.navigation.navigate('ValidationTelephone')
+  }
+
   render() {
     return (
       <CNavigation
@@ -177,7 +181,7 @@ export default class LoginOut extends Component {
             handle={this._onChangeText}
           />
 
-          <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('ValidationTelephone')}>
+          <TouchableWithoutFeedback onPress={this._onPress}>
             <View style={styles.forgetSecretWrapper}>
               <Text style={styles.forgetSecret}>{'忘记密码？'}</Text>
             </View>
