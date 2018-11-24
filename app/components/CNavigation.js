@@ -299,7 +299,7 @@ export default class CNavigation extends Component {
                     barStyle={barStyle}
         />
 
-        <View style={[styles.container, {paddingTop: isPaddingTop ? 44: 0}]}>
+        <View style={[styles.container, {paddingTop: isPaddingTop ? (Util.isIPhoneX() ? 88 : 64): (Util.isAndroid() ? StatusBar.currentHeight + 44 : 44)}]}>
           {
             isNavContent ? <View style={[
               styles.navContainer,

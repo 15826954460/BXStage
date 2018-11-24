@@ -98,6 +98,17 @@ export default class MyLoan extends Component {
 
   _keyExtractor = (item, index) => index + '';
 
+  _headerComponent = (myLoan) => {
+    return <View style={styles.top}>
+      <Text style={{fontSize: 30, marginBottom: 5}}>
+        {'我的借款'}
+      </Text>
+      <Text style={{fontSize: 14, color: Layout.color.wgray_bar}}>
+        {`累计借款${myLoan.loanTimes}次，共${Util.toThousands(myLoan.loanAmount)}元`}
+      </Text>
+    </View>
+  }
+
   render() {
     const {myLoan} = this.state
     return (
@@ -111,16 +122,10 @@ export default class MyLoan extends Component {
                     scrollEventThrottle={16}
                     showsVerticalScrollIndicator={false}
         >
-          <View style={styles.top}>
-            <Text style={{fontSize: 30, marginBottom: 5}}>
-              {'我的借款'}
-            </Text>
-            <Text style={{fontSize: 14, color: Layout.color.wgray_bar}}>
-              {`累计借款${myLoan.loanTimes}次，共${Util.toThousands(myLoan.loanAmount)}元`}
-            </Text>
-          </View>
+
 
           <FlatList
+            ListHeaderComponent={this._headerComponent}
             data={myLoan.records}
             keyExtractor={this._keyExtractor}
             renderItem={({item}) => this._renderItem(item)}

@@ -259,7 +259,8 @@ export default class InitStack extends Component {
               index: 0,
               actions: [
                 NavigationActions.navigate({
-                  routeName: 'LoginAndRegister',
+                  routeName: 'Test',
+                  // routeName: 'LoginAndRegister',
                   params: {initPage: _initPage}
                 }),
               ]

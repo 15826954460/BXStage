@@ -1,14 +1,18 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View,
+  StyleSheet, Text, View, FlatList,
 } from "react-native";
 
 /** 全局样式的引用 */
+import {Size} from '../../styles/size';
+import {Layout} from "../../styles/layout";
 
 /** 第三方依赖库的引用 */
 
 /** 自定义组建的引用 */
+import CNavigation from '../../components/CNavigation';
+import PullRefresh from '../../components/pullRefresh/PullRefresh';
 
 /** 页面的引入 */
 
@@ -16,48 +20,111 @@ import {
 
 /** 常量声明 */
 
-class ChildCom extends Component {
+export default class Test extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {viewRef: null};
-    props.getRef instanceof Function && props.getRef(this)  // 父组件获取子组件实例
+    this.isAllowRender = false; // 避免页面初次渲染就执行render
+    this.state = {
+      initData: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      number: 0,
+      data: [0]
+    };
   }
 
-  _con = () => {
+  componentDidMount() {
+    this.setState({
+      data: this.state.data.concat(this.state.initData)
+    })
+  }
+
+  componentWillMount() {
+  }
+
+  componentWillUnmount() {
+  }
+
+  componentWillReceiveProps(nextProps, nextState) {
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return true
+  }
+
+  _keyExtractor = (item, index) => index + '';
+
+  _splitLine = () => {
+    return <View style={{borderBottomWidth: Size.screen.pixel, borderBottomColor: 'red'}}/>
+  }
+
+  _renderItem = ({item}) => {
+    return <View style={{...Layout.layout.rcc, height: 50, width: Size.screen.width}}>
+      <Text>{item}</Text>
+    </View>
+  }
+
+  /**
+   * 这里关于FlatList的坑，flex: 1, 的时候
+   * 如果初次渲染页面的的时候数据不够一满屏，就会多次触发 onEndReached 事件
+   * */
+  _onEndReached = () => {
+    this.state.number += 1
+    console.log(this.state.number)
+    /** 假设总共只有5页数据 */
+    if (this.state.number < 5) {
+      this.setState({
+        data: this.state.data.concat(this.state.initData)
+      })
+    }
+  }
+
+  /** 下拉刷新重置数据 */
+  _onHeaderRefreshing = () => {
+    let _timer = setTimeout(() => {
+      this.setState({
+        data: this.state.initData
+      })
+      clearTimeout(_timer)
+      _timer = null
+      this._pullInstance._fetchDataOk()
+    }, 3000)
+  }
+
+  _footerCom = () => {
+    return <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 16}}>
+      <Text style={{color: Layout.color.wgray_sub, fontSize: 13,}}>{'—— 已加载完所有数据 ——'}</Text>
+    </View>
   }
 
   render() {
     return (
-      <Text onPress={() => store.tick()} style={{fontSize: 50}}>{'我是子组件'}</Text>
-    );
-  }
-}
-
-export default class ParentCom extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {viewRef: null};
-  }
-
-
-  render() {
-    return (
-      <View style={styles.container}
-            >
-        <Text onPress={() => this._childInstance._con()} style={{fontSize: 50, color: 'red'}}>{'我是父组件11111'}</Text>
-        <ChildCom getRef={ref => this._childInstance = ref}/>
-        <ChildCom ref={ref => this._childInstanceTwo = ref}/>
-        <Text onPress={() => this._childInstanceTwo._con()} style={{fontSize: 50, color: 'red'}}>{'我是父组件2222'}</Text>
-      </View>
+      <CNavigation
+        leftButton={{
+          isShowTitle: false,
+          isShowIcon: true,
+        }}
+        isSafeAreaTop={false}
+        isPaddingTop={true}
+      >
+        <PullRefresh
+          ref={ref => this._pullInstance = ref}
+          style={{borderWidth: 1,}}
+          onHeaderRefreshing={this._onHeaderRefreshing}
+          scrollComponent={'FlatList'}
+          keyExtractor={this._keyExtractor}
+          data={this.state.data}
+          renderItem={this._renderItem}
+          // onEndReached={this._onEndReached}
+          ItemSeparatorComponent={this._splitLine}
+          ListFooterComponent={this._footerCom}
+        />
+      </CNavigation>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: "center",
-  },
+    width: Size.screen.width,
+    height: Size.screen.height,
+  }
 });
