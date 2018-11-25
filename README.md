@@ -34,15 +34,15 @@ react + react-native + mobx + axios + es6 + react-navigation + lottie-react-nati
 
 ### 关于第三方库的 xcode 以及 Android Studio 配置参考链接如下
 
->  lottie-react-native  参见   [参考链接](https://www.npmjs.com/package/lottie-react-native)
+>  lottie-react-native  参见   [https://www.npmjs.com/package/lottie-react-native](https://www.npmjs.com/package/lottie-react-native)
 
->  CameraRoll 配置参见   [参考链接](http://www.hangge.com/blog/cache/detail_1615.html)
+>  CameraRoll 配置参见   [http://www.hangge.com/blog/cache/detail_1615.html](http://www.hangge.com/blog/cache/detail_1615.html)
 
 >  mobx 的关于装饰器语法的支持 0.56.0 的版本自带有问题，还请降到0.56.0以下或是升级到更高的版本
 
->  react-native-splash-screen  参见  [参考链接](https://www.jianshu.com/p/4540ac17dfd4)
+>  react-native-splash-screen  参见  [https://www.jianshu.com/p/4540ac17dfd4](https://www.jianshu.com/p/4540ac17dfd4)
 
->  react-native-permissions 关于调用拍照功能的第三方库   [参考链接](https://github.com/react-community/react-native-image-picker/blob/master/docs/Install.md)
+>  react-native-permissions 关于调用拍照功能的第三方库   [https://github.com/react-community/react-native-image-picker/blob/master/docs/Install.md](https://github.com/react-community/react-native-image-picker/blob/master/docs/Install.md)
 
 ###  关于一些坑(有些没有贴链接，可以issues一起交流和学习,更多的坑期待和大家一起交流和学习)
 
@@ -56,17 +56,17 @@ react + react-native + mobx + axios + es6 + react-navigation + lottie-react-nati
 
 >  关于FlatList onEndReached 初始化多次执行
 
->  关于 component 和 PureComponent 的使用区别 [参考链接](http://www.imweb.io/topic/598973c2c72aa8db35d2e291)
+>  关于 component 和 PureComponent 的使用区别 [http://www.imweb.io/topic/598973c2c72aa8db35d2e291](http://www.imweb.io/topic/598973c2c72aa8db35d2e291)
 
 >  PanResponder 和 onScroll 事件的冲突
 
->  关于 android Studio 关于图片严格检测问题 uncompiled PNG file passed as argument. Must be compiled first into .flat file  的错误解决  [参考链接](https://github.com/react-navigation/react-navigation/issues/4755)
+>  关于 android Studio 关于图片严格检测问题 uncompiled PNG file passed as argument. Must be compiled first into .flat file  的错误解决  [https://github.com/react-navigation/react-navigation/issues/4755](https://github.com/react-navigation/react-navigation/issues/4755)
 
->  mobx的list数据使用问题  [参考链接](https://www.jianshu.com/p/24cf2ddbf4a6)
+>  mobx的list数据使用问题  [https://www.jianshu.com/p/24cf2ddbf4a6](https://www.jianshu.com/p/24cf2ddbf4a6)
 
 >  关于 mobx can't find variable symbol  的报错问题
-    [旧版本参考链接](https://github.com/mobxjs/mobx-react/issues/498)
-    [新版参考链接](https://github.com/mobxjs/mobx-react/issues/498)
+    [旧版本参考链接 https://github.com/mobxjs/mobx-react/issues/498](https://github.com/mobxjs/mobx-react/issues/498)
+    [新版参考链接 https://github.com/mobxjs/mobx-react/issues/498](https://github.com/mobxjs/mobx-react/issues/498)
 
 
 ### 项目目录结构

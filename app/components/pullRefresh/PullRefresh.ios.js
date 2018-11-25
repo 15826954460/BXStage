@@ -104,7 +104,7 @@ class HeaderComponent extends Component {
       duration: REFRESH_OK,
       useNativeDriver: true
     }).start(() => {
-      /** 延迟600ms重置数据 */
+      /** 延迟600ms进行动画回滚 */
       let _timer = setTimeout(() => {
         this.props.hasRefreshDown instanceof Function && this.props.hasRefreshDown()
         clearTimeout(_timer)
@@ -139,14 +139,14 @@ class HeaderComponent extends Component {
     }
     let translateY = y - PULL_HEIGHT;
     /** 改变样式 */
-    updateStyle && this._lottieWrapper.setNativeProps({style: {transform: [{translateY}]}});
+    updateStyle && this._lottieWrapper && this._lottieWrapper.setNativeProps({style: {transform: [{translateY}]}});
     this.state.getStatus = status
   }
 
   render() {
     return (
       <View
-        ref={(ref) => this._lottieWrapper = ref}
+        ref={ref => this._lottieWrapper = ref}
         style={[styles.lottieWrapper,
           {
             transform: [{translateY: -PULL_HEIGHT}],
@@ -223,12 +223,10 @@ export default class PullRefresh extends Component {
   _hasRefreshDown = () => {
     this._refreshDown = true
     // 状态的重置
-    this._setGestureStatus(NONE_STATUS);
-    this._headRefreshInstance._setRefreshStatus(NONE_STATUS)
-    this.state.enableHeaderRefresh = true,
-    this.state.enableFooterLoading = true,
+    this.setState({enableHeaderRefresh: true})
+    this.setState({enableFooterLoading: true})
     // 动画向上回滚
-    this._currentOffsetY < 0 && this._scrollToPos(0, true);
+    this._scrollToPos(0, true);
   }
 
   /** 请求数据结束 */
@@ -236,40 +234,30 @@ export default class PullRefresh extends Component {
     this._headRefreshInstance._hadDown = true
   }
 
-  /** 开始拖拽 */
-  onScrollBeginDrag = (e) => {
-
-  }
-
-  /** 开始滚动 */
-  onMomentumScrollBegin = (e) => {
-
-  }
-
   /** 修改当前状态 */
-  _setGestureStatus = status => {
+  _setGestureStatus = (status) => {
     this.state.gestureStatus = status;
   };
 
-  /** 调用下拉刷新 */
+  /** 下拉刷新 */
   _headerRefresh = () => {
-    this.state.enableFooterLoading = false // 禁止上拉加载
+    this.setState({enableFooterLoading: false})
+    // this.state.enableFooterLoading = false // 禁止上拉加载
     this.props.onHeaderRefreshing instanceof Function && this.props.onHeaderRefreshing()
   }
 
   /** 滚动过程中 */
   onScroll = (e) => {
-    // this._refreshDown = false;
     let {contentOffset, contentInset} = e.nativeEvent;
     this._currentOffsetY = contentOffset.y;
     let {enableHeaderRefresh, gestureStatus} = this.state;
     if (enableHeaderRefresh) {
-      let y = this._currentOffsetY * -1; //  - this._defaultContentInstet.top
+      let y = this._currentOffsetY * -1;
       if (gestureStatus !== PULL_DOWN_REFRESHING && gestureStatus !== PULL_DOWN_ALLOW_REFRESH) {
         if (y >= PULL_HEIGHT) {
           this._setGestureStatus(PULL_DOWN_ALLOW_REFRESH);
         }
-        else {
+        else if (y < PULL_HEIGHT && y >0){
           this._setGestureStatus(PULL_DOWN_NOT_REFRESH)
         }
       }
@@ -305,6 +293,10 @@ export default class PullRefresh extends Component {
             });
           }, 0);
         }
+        /** 向下滚动，且下拉距离不够下拉刷新 */
+        else if ((y < PULL_HEIGHT && y > 0) && gestureStatus === PULL_DOWN_NOT_REFRESH) {
+          this._scrollToPos(0, true);
+        }
       }
       this._headRefreshInstance && this._headRefreshInstance._setRefreshStatus(this.state.gestureStatus, y, this._refreshDown);
     }
@@ -323,10 +315,37 @@ export default class PullRefresh extends Component {
       let _timer = setTimeout(() => {
         this._headRefreshInstance._stopAnimated()
         this._refreshDown = false
+        this._setGestureStatus(NONE_STATUS);
+        this._headRefreshInstance._setRefreshStatus(NONE_STATUS)
         clearTimeout(_timer)
         _timer = null
       }, 200)
     }
+  }
+
+  /** 上拉加载 */
+  _onEndReached = () => {
+    if (this.state.enableFooterLoading) {
+      this.setState({enableHeaderRefresh: false})
+      // this.state.enableHeaderRefresh = false // 禁用下拉加载
+      this.props.onEndReached instanceof Function && this.props.onEndReached()
+    }
+  }
+
+  /** 上拉加载结束 */
+  _pullUpLoadingDown = (bool) => {
+    this.setState({enableFooterLoading: bool})
+    this.setState({enableHeaderRefresh: true})
+  }
+
+  _footerCom = () => {
+    return <View ref={ref => this._footerInstance = ref}
+                 style={[
+                   {justifyContent: 'center', alignItems: 'center', marginTop: 6, borderWidth: 1},
+                   {height: 40, opacity: 1}
+                 ]}>
+      <Text style={{color: Layout.color.wgray_sub, fontSize: 13,}}>{'—— 正在加载 ——'}</Text>
+    </View>
   }
 
   render() {
@@ -338,11 +357,11 @@ export default class PullRefresh extends Component {
         ScrollComponent = <ScrollView  {...this.props}/>;
         break;
       default:
-        ScrollComponent = <FlatList  {...this.props}/>;
+        ScrollComponent = <FlatList  {...this.props} onEndReached={this._onEndReached}/>;
         break;
     }
     return (
-      <View style={{flex: 1, position: 'relative', borderWidth: 1, borderColor: 'red'}}>
+      <View style={{flex: 1, position: 'relative',}}>
         {
           enableHeaderRefresh ? <HeaderComponent
             headerRefresh={this._headerRefresh}
@@ -356,14 +375,15 @@ export default class PullRefresh extends Component {
             {
               ref: ref => this._scrollInstance = ref,
               contentInset: this.state.contentInset,
-              onMomentumScrollBegin: this.onMomentumScrollBegin,
               onMomentumScrollEnd: this.onMomentumScrollEnd,
-              onScrollBeginDrag: this.onScrollBeginDrag,
               onScrollEndDrag: this.onScrollEndDrag,
               onScroll: this.onScroll,
               onEndReachedThreshold: 0.01,
               scrollEventThrottle: this.props.scrollEventThrottle || 16,
-              contentContainerStyle: this.props.contentContainerStyle || {backgroundColor: "#ffffff"},
+              ListFooterComponent: enableFooterLoading ? this._footerCom() : null,
+              contentContainerStyle: this.props.contentContainerStyle || {
+                backgroundColor: "#ffffff",
+              },
             },
             this.props.children
           )

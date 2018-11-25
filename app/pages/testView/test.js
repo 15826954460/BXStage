@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, FlatList,
+  StyleSheet, Text, View, FlatList, TouchableWithoutFeedback,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -27,14 +27,14 @@ export default class Test extends Component {
     this.isAllowRender = false; // 避免页面初次渲染就执行render
     this.state = {
       initData: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      number: 0,
+      page: 0, // 模拟请求接口的翻页
       data: [0]
     };
   }
 
   componentDidMount() {
     this.setState({
-      data: this.state.data.concat(this.state.initData)
+      data: this.state.initData
     })
   }
 
@@ -58,9 +58,11 @@ export default class Test extends Component {
   }
 
   _renderItem = ({item}) => {
-    return <View style={{...Layout.layout.rcc, height: 50, width: Size.screen.width}}>
-      <Text>{item}</Text>
-    </View>
+    return <TouchableWithoutFeedback onPress={() => {}}>
+      <View style={{...Layout.layout.rcc, height: 50, width: Size.screen.width, borderBottomWidth: 1}}>
+        <Text>{item}</Text>
+      </View>
+    </TouchableWithoutFeedback>
   }
 
   /**
@@ -68,13 +70,28 @@ export default class Test extends Component {
    * 如果初次渲染页面的的时候数据不够一满屏，就会多次触发 onEndReached 事件
    * */
   _onEndReached = () => {
-    this.state.number += 1
-    console.log(this.state.number)
-    /** 假设总共只有5页数据 */
-    if (this.state.number < 5) {
-      this.setState({
-        data: this.state.data.concat(this.state.initData)
-      })
+    console.log(this.state.page)
+    /** 假设总共只有3页数据
+     * 通过设置定时器来模拟请求接口
+     * */
+    if (this.state.page < 3) {
+      this.state.page += 1
+      let _timer = setTimeout(()=> {
+        this.setState({
+          data: this.state.data.concat(this.state.initData)
+        })
+        clearTimeout(_timer)
+        _timer = null
+        if (this.state.page >= 3) {
+          this._pullInstance._pullUpLoadingDown(true)
+        }
+        else {
+          this._pullInstance._pullUpLoadingDown(false)
+        }
+      }, 3000)
+    }
+    if (this.state.page >= 3) {
+
     }
   }
 
@@ -90,12 +107,6 @@ export default class Test extends Component {
     }, 3000)
   }
 
-  _footerCom = () => {
-    return <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 16}}>
-      <Text style={{color: Layout.color.wgray_sub, fontSize: 13,}}>{'—— 已加载完所有数据 ——'}</Text>
-    </View>
-  }
-
   render() {
     return (
       <CNavigation
@@ -108,7 +119,7 @@ export default class Test extends Component {
       >
         <PullRefresh
           ref={ref => this._pullInstance = ref}
-          style={{borderWidth: 1,}}
+          style={{borderWidth: 3,}}
           onHeaderRefreshing={this._onHeaderRefreshing}
           scrollComponent={'FlatList'}
           keyExtractor={this._keyExtractor}
@@ -116,7 +127,6 @@ export default class Test extends Component {
           renderItem={this._renderItem}
           onEndReached={this._onEndReached}
           ItemSeparatorComponent={this._splitLine}
-          ListFooterComponent={this._footerCom}
         />
       </CNavigation>
     );

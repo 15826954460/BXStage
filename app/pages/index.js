@@ -47,6 +47,7 @@ import CommonProblem from './my/commonProblem'; // 交易记录
 import SettingPage from './my/setting/index'; // 设置
 
 import Test from '../pages/testView/test';
+import JumpTest from '../pages/testView/jumpTest';
 
 /** 以下为相册相关页面的引用 */
 import PhotoPage from '../pages/photo'; // 所有图片的分类
@@ -165,6 +166,7 @@ const Stack = createStackNavigator(
     CommonProblem: {screen: CommonProblem},
     SettingPage: {screen: SettingPage},
     Test: {screen: Test},
+    JumpTest: {screen: JumpTest},
     PhotoStack: {screen: PhotoStack},
   },
   {
