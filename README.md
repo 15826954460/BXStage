@@ -65,9 +65,7 @@ react + react-native + mobx + axios + es6 + react-navigation + lottie-react-nati
 >  mobx的list数据使用问题  [https://www.jianshu.com/p/24cf2ddbf4a6](https://www.jianshu.com/p/24cf2ddbf4a6)
 
 >  关于 mobx can't find variable symbol  的报错问题
-    [旧版本参考链接 https://github.com/mobxjs/mobx-react/issues/498](https://github.com/mobxjs/mobx-react/issues/498)
-
-    [新版参考链接 https://github.com/mobxjs/mobx-react/issues/498](https://github.com/mobxjs/mobx-react/issues/498)
+    [旧版本参考链接 https://github.com/mobxjs/mobx-react/issues/498](https://github.com/mobxjs/mobx-react/issues/498)   [新版参考链接 https://github.com/mobxjs/mobx-react/issues/498](https://github.com/mobxjs/mobx-react/issues/498)
 
 
 ### 项目目录结构
