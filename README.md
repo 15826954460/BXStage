@@ -24,7 +24,7 @@ react + react-native + mobx + axios + es6 + react-navigation + lottie-react-nati
 
 * react version 16.3.1
 * react-native version 0.55.4
-* https://github.com/15826954460/BXStage.git
+* git clone https://github.com/15826954460/BXStage.git
 * cd RENleProject
 * npm/cnpm install , ios 系统建议 yarn install
 * xcode/android Studio 打开项目运行
@@ -34,15 +34,40 @@ react + react-native + mobx + axios + es6 + react-navigation + lottie-react-nati
 
 ### 关于第三方库的 xcode 以及 Android Studio 配置参考链接如下
 
->  lottie-react-native  参见  https://www.npmjs.com/package/lottie-react-native
+>  lottie-react-native  参见   [参考链接](https://www.npmjs.com/package/lottie-react-native)
 
->  CameraRoll 配置参见  http://www.hangge.com/blog/cache/detail_1615.html
+>  CameraRoll 配置参见   [参考链接](http://www.hangge.com/blog/cache/detail_1615.html)
 
 >  mobx 的关于装饰器语法的支持 0.56.0 的版本自带有问题，还请降到0.56.0以下或是升级到更高的版本
 
->  react-native-splash-screen  参见 https://www.jianshu.com/p/4540ac17dfd4
+>  react-native-splash-screen  参见  [参考链接](https://www.jianshu.com/p/4540ac17dfd4)
 
->  react-native-permissions 关于调用拍照功能的第三方库  https://github.com/react-community/react-native-image-picker/blob/master/docs/Install.md
+>  react-native-permissions 关于调用拍照功能的第三方库   [参考链接](https://github.com/react-community/react-native-image-picker/blob/master/docs/Install.md)
+
+###  关于一些坑(有些没有贴链接，可以issues一起交流和学习,更多的坑期待和大家一起交流和学习)
+
+>  android 系统的元素定位无法超出父元素的边界
+
+>  android 系统全圆角的据此问题
+
+>  react-navigation 导航快速点击会导致多次页面跳转
+
+>  react-navigation this.props.navigation.navigate() 页面跳转到已经存在的路由会导致页面跳转动画跨多个页面的bug
+
+>  关于FlatList onEndReached 初始化多次执行
+
+>  关于 component 和 PureComponent 的使用区别 [参考链接](http://www.imweb.io/topic/598973c2c72aa8db35d2e291)
+
+>  PanResponder 和 onScroll 事件的冲突
+
+>  关于 android Studio 关于图片严格检测问题 uncompiled PNG file passed as argument. Must be compiled first into .flat file  的错误解决  [参考链接](https://github.com/react-navigation/react-navigation/issues/4755)
+
+>  mobx的list数据使用问题  [参考链接](https://www.jianshu.com/p/24cf2ddbf4a6)
+
+>  关于 mobx can't find variable symbol  的报错问题
+    [旧版本参考链接](https://github.com/mobxjs/mobx-react/issues/498)
+    [新版参考链接](https://github.com/mobxjs/mobx-react/issues/498)
+
 
 ### 项目目录结构
 ```
@@ -169,6 +194,7 @@ react + react-native + mobx + axios + es6 + react-navigation + lottie-react-nati
 
 ### 后续工作
 
+>  一些高阶组件的封装
 >  自定义下拉刷新组件的封装
->  关于页面的渲染相关的优化
+>  功能模块、数据模块、业务模块的解耦
 

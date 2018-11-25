@@ -114,7 +114,7 @@ export default class Test extends Component {
           keyExtractor={this._keyExtractor}
           data={this.state.data}
           renderItem={this._renderItem}
-          // onEndReached={this._onEndReached}
+          onEndReached={this._onEndReached}
           ItemSeparatorComponent={this._splitLine}
           ListFooterComponent={this._footerCom}
         />
