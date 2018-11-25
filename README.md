@@ -5,9 +5,9 @@
     一路采坑走来确实有不少收获，希望可以和大家一起学习和成长，当然，如果对您有帮助，也请你不要吝啬给个 star
 
 ### 测试版本的下载地址
->  https://fir.im/5n14    安卓的下包地址
+>  安卓包下载地址   https://fir.im/5n14
 
->  https://fir.im/jtas      IOS下包地址
+>  IOS包下载地址   https://fir.im/jtas
 
 >  密码: bixia2018
 
@@ -66,6 +66,7 @@ react + react-native + mobx + axios + es6 + react-navigation + lottie-react-nati
 
 >  关于 mobx can't find variable symbol  的报错问题
     [旧版本参考链接 https://github.com/mobxjs/mobx-react/issues/498](https://github.com/mobxjs/mobx-react/issues/498)
+
     [新版参考链接 https://github.com/mobxjs/mobx-react/issues/498](https://github.com/mobxjs/mobx-react/issues/498)
 
 
