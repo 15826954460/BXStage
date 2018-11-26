@@ -174,10 +174,11 @@ export default class PullRefresh extends Component {
   static defaultProps = {
     scrollComponent: 'FlatList',
     enableHeaderRefresh: true,
-    enableFooterLoading: true,
+    enableFooterLoading: false,
   }
 
   _refreshDown = false;
+  _currentOffsetY = 0;
 
   constructor(props) {
     super(props);
@@ -224,7 +225,6 @@ export default class PullRefresh extends Component {
     this._refreshDown = true
     // 状态的重置
     this.setState({enableHeaderRefresh: true})
-    this.setState({enableFooterLoading: true})
     // 动画向上回滚
     this._scrollToPos(0, true);
   }
@@ -242,7 +242,6 @@ export default class PullRefresh extends Component {
   /** 下拉刷新 */
   _headerRefresh = () => {
     this.setState({enableFooterLoading: false})
-    // this.state.enableFooterLoading = false // 禁止上拉加载
     this.props.onHeaderRefreshing instanceof Function && this.props.onHeaderRefreshing()
   }
 
@@ -327,7 +326,6 @@ export default class PullRefresh extends Component {
   _onEndReached = () => {
     if (this.state.enableFooterLoading) {
       this.setState({enableHeaderRefresh: false})
-      // this.state.enableHeaderRefresh = false // 禁用下拉加载
       this.props.onEndReached instanceof Function && this.props.onEndReached()
     }
   }
@@ -346,6 +344,15 @@ export default class PullRefresh extends Component {
                  ]}>
       <Text style={{color: Layout.color.wgray_sub, fontSize: 13,}}>{'—— 正在加载 ——'}</Text>
     </View>
+  }
+
+  /** 根据内容显示高度来判断是否显示底部提示文案 */
+  onContentSizeChange = (w, h) => {
+    if (h < Size.screen.height - Size.screen.statusBarHeight) {
+      this.setState({enableFooterLoading: false})
+    } else {
+      this.setState({enableFooterLoading: true})
+    }
   }
 
   render() {

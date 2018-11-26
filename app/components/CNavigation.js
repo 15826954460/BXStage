@@ -299,12 +299,12 @@ export default class CNavigation extends Component {
                     barStyle={barStyle}
         />
 
-        <View style={[styles.container, {paddingTop: isPaddingTop ? (Util.isIPhoneX() ? 88 : 64): (Util.isAndroid() ? StatusBar.currentHeight + 44 : 44)}]}>
+        <View style={[styles.container, {paddingTop: isPaddingTop ? (44 + Size.screen.statusBarHeight) : 0}]}>
           {
             isNavContent ? <View style={[
               styles.navContainer,
-              {height: (!isSafeAreaTop && Util.isIPhoneX()) ? 88 : (Util.isAndroid() ? (Size.screen.statusBarHeight + 44) : (!isSafeAreaTop ? 64 : 44))},
-              {paddingTop: (!isSafeAreaTop && Util.isIPhoneX()) ? 24 : (Util.isAndroid() ? StatusBar.currentHeight : (!isSafeAreaTop ? 20 : 0)) },
+              {height: !isSafeAreaTop ? (Size.screen.statusBarHeight + 44) : 44},
+              {paddingTop: !isSafeAreaTop ? Size.screen.statusBarHeight : 0},
               {backgroundColor: navBackgroundColor},
             ]}>
               <View style={styles.buttonWrapper}>

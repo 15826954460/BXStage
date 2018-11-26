@@ -26,7 +26,7 @@ export default class Test extends Component {
     super(props);
     this.isAllowRender = false; // 避免页面初次渲染就执行render
     this.state = {
-      initData: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      initData: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       page: 0, // 模拟请求接口的翻页
       data: [0]
     };
@@ -58,7 +58,8 @@ export default class Test extends Component {
   }
 
   _renderItem = ({item}) => {
-    return <TouchableWithoutFeedback onPress={() => {}}>
+    return <TouchableWithoutFeedback onPress={() => {
+    }}>
       <View style={{...Layout.layout.rcc, height: 50, width: Size.screen.width, borderBottomWidth: 1}}>
         <Text>{item}</Text>
       </View>
@@ -76,7 +77,7 @@ export default class Test extends Component {
      * */
     if (this.state.page < 3) {
       this.state.page += 1
-      let _timer = setTimeout(()=> {
+      let _timer = setTimeout(() => {
         this.setState({
           data: this.state.data.concat(this.state.initData)
         })
