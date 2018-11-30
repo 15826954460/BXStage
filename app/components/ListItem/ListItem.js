@@ -5,8 +5,8 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from "../../styles/layout";
-import {Size} from '../../styles/size';
+import Layout from "../../styles/layout";
+import Size from '../../styles/size';
 
 /** 第三方依赖库的引用 */
 import PropTypes from 'prop-types';

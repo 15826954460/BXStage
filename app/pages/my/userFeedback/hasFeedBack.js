@@ -5,7 +5,7 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from "../../../styles/layout";
+import Layout from "../../../styles/layout";
 
 /** 第三方依赖库的引用 */
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -18,7 +18,7 @@ import CGradientButton from '../../../components/CGradientButton';
 import FeedBackCell from './feedBackCell'
 
 /** 工具类的引用 */
-import {Util} from '../../../utils/util';
+import Util from '../../../utils/util';
 
 /** 常量声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽度

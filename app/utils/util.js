@@ -134,4 +134,4 @@ const Util = {
     return IdCardUtils.validateIdCard(idCardNum)
   }
 }
-export {Util}
+export default Util

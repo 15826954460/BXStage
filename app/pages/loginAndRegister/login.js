@@ -3,11 +3,11 @@ import React, {Component} from "react";
 import {StyleSheet, Text, Image, View, ScrollView, Dimensions, TouchableWithoutFeedback} from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from "../../styles/layout";
+import Layout from "../../styles/layout";
 
 /** 工具方法的引用 */
-import {Util} from "../../utils/util";
-import {bouncedUtils} from "../../utils/bouncedUtils";
+import Util from "../../utils/util";
+import bouncedUtils from "../../utils/bouncedUtils";
 import StorageData from "../../store/storageData";
 
 /** 第三方依赖库的引用 */

@@ -14,7 +14,7 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from "../../../styles/layout";
+import Layout from "../../../styles/layout";
 
 /** 第三方依赖库的引用 */
 import Permissions from 'react-native-permissions'; // 判断是否有调用相机或照片权限的第三方库
@@ -27,9 +27,9 @@ import CNavigation from '../../../components/CNavigation';
 /** 页面的引入 */
 
 /** 工具类的引用 */
-import {bouncedUtils} from '../../../utils/bouncedUtils';
+import bouncedUtils from '../../../utils/bouncedUtils';
 import {ImageData} from '../../photo/mobx/mobx';
-import {Util} from '../../../utils/util';
+import Util from '../../../utils/util';
 
 /** 常量声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽度

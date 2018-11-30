@@ -9,7 +9,7 @@ import {
 /** 全局样式的引用 */
 
 /** 第三方依赖库的引用 */
-import {Layout} from "../../../styles/layout";
+import Layout from "../../../styles/layout";
 
 /** 自定义组建的引用 */
 import CNavigation from '../../../components/CNavigation';

@@ -8,4 +8,4 @@ const configData = {
   howToGetCode: "http://bixiabtest.bixiaapp.com/appConfig/getInvitationCode.html",
   productIntro: "http://bixiabtest.bixiaapp.com/appConfig/intro.html"
 }
-export {configData}
+export default configData

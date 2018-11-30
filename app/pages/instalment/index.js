@@ -5,7 +5,7 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from "../../styles/layout";
+import Layout from "../../styles/layout";
 
 /** 第三方依赖库的引用 */
 import DeviceInfo from "react-native-device-info";
@@ -18,8 +18,8 @@ import CGradientButton from '../../components/CGradientButton';
 import withFocus from '../../components/HOC/HOCNavigationEvents';
 
 /** 全局公用方法的引用 */
-import {Util} from '../../utils/util';
-import {Size} from "../../styles/size";
+import Util from '../../utils/util';
+import Size from "../../styles/size";
 
 const STATUS_BAR_LIGHT_THEME = 'light-content',
   STATUS_BAR_DARK_THEME = 'dark-content';

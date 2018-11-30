@@ -5,7 +5,7 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from "../../../styles/layout";
+import Layout from "../../../styles/layout";
 /** 第三方依赖库的引用 */
 import ReadMore from 'react-native-read-more-text';
 // import {CachedImage,ImageCache} from "react-native-img-cache";
@@ -16,7 +16,7 @@ import ReadMore from 'react-native-read-more-text';
 
 /** 工具类的引用 */
 import StorageData from '../../../store/storageData';
-import {Util} from '../../../utils/util';
+import Util from '../../../utils/util';
 
 /** 常量声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽度

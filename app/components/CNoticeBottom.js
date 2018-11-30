@@ -6,16 +6,16 @@ import {
 
 
 /** 全局样式的引用 */
-import {Layout} from "../styles/layout";
-import {Util} from "../utils/util";
-import {Size} from "../styles/size";
+import Layout from "../styles/layout";
+import Util from "../utils/util";
+import Size from "../styles/size";
 
 /** 第三方依赖库的引用 */
 import RootSiblings from 'react-native-root-siblings';
 import PropTypes from 'prop-types';
 
 /** 自定义组建的引用 */
-import {bouncedUtils} from '../utils/bouncedUtils';
+import bouncedUtils from '../utils/bouncedUtils';
 
 /**  声明一些常量 */
 const {width, height} = Dimensions.get('window');

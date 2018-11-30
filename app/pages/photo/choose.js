@@ -5,8 +5,8 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from "../../styles/layout";
-import {Size} from "../../styles/size";
+import Layout from "../../styles/layout";
+import Size from "../../styles/size";
 
 /** 第三方依赖库的引用 */
 import {observer} from 'mobx-react';
@@ -19,8 +19,8 @@ import LinearGradient from 'react-native-linear-gradient';
 
 /** 工具类的引用 */
 import {ImageData} from './mobx/mobx';
-import {bouncedUtils} from "../../utils/bouncedUtils";
-import {Util} from "../../utils/util";
+import bouncedUtils from "../../utils/bouncedUtils";
+import Util from "../../utils/util";
 
 /** 常量声明 */
 const

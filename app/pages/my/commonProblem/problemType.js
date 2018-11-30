@@ -5,7 +5,7 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from "../../../styles/layout";
+import Layout from "../../../styles/layout";
 
 /** 第三方依赖库的引用 */
 import * as Animatable from 'react-native-animatable';
@@ -16,7 +16,7 @@ import CTouchableWithoutFeedback from '../../../components/CTouchableWithoutFeed
 /** 页面的引入 */
 
 /** 工具类的引用 */
-import {Util} from '../../../utils/util';
+import Util from '../../../utils/util';
 import {easeOutQuart, LinearOutSlowInInterpolator} from '../../../utils/curve';
 
 /** 常量声明 */

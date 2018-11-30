@@ -15,9 +15,9 @@ import CTabIcon from '../components/CTabIcon';
 
 /** 工具类的引用 */
 import {Horizontal_RToL_TranslateX, IOS_Default} from "../utils/transitionconfig";
-import {Routers} from '../store/routes';
+import Routers from '../store/routes';
 import StorageData from '../store/storageData';
-import {Layout} from "../styles/layout";
+import Layout from "../styles/layout";
 
 /** 页面引入 */
 import LoginAndRegister from './loginAndRegister'; // 登陆和注册
@@ -48,6 +48,7 @@ import SettingPage from './my/setting/index'; // 设置
 
 import Test from '../pages/testView/test';
 import JumpTest from '../pages/testView/jumpTest';
+import Notice from '../pages/testView/notice';
 
 /** 以下为相册相关页面的引用 */
 import PhotoPage from '../pages/photo'; // 所有图片的分类
@@ -168,6 +169,7 @@ const Stack = createStackNavigator(
     Test: {screen: Test},
     JumpTest: {screen: JumpTest},
     PhotoStack: {screen: PhotoStack},
+    Notice: {screen: Notice},
   },
   {
     initialRouteName: 'AuthStatus',
@@ -237,6 +239,7 @@ export default class InitStack extends Component {
 
 
   componentDidMount() {
+    SplashScreen.hide() // 隐藏白屏
     /** 添加app状态改变事件监听 */
     AppState.addEventListener('change', this._handleAppStateChange);
 
@@ -261,7 +264,7 @@ export default class InitStack extends Component {
               index: 0,
               actions: [
                 NavigationActions.navigate({
-                  routeName: 'Test',
+                  routeName: 'Notice',
                   // routeName: 'LoginAndRegister',
                   params: {initPage: _initPage}
                 }),
@@ -281,7 +284,6 @@ export default class InitStack extends Component {
         })
       )
     }
-    SplashScreen.hide() // 隐藏白屏
   }
 
   _handleAppStateChange = (nextAppState) => {

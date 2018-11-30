@@ -14,8 +14,8 @@ import LinearGradient from 'react-native-linear-gradient';
 
 /** 工具类的引用 */
 import {ImageData} from './mobx/mobx';
-import {Layout} from "../../styles/layout";
-import {Util} from "../../utils/util";
+import Layout from "../../styles/layout";
+import Util from "../../utils/util";
 
 /** 常量声明 */
 const {width, height} = Dimensions.get('window');//屏幕宽度

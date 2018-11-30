@@ -5,19 +5,19 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Size} from '../../../styles/size';
+import Size from '../../../styles/size';
 /** 第三方依赖库的引用 */
 
 /** 自定义组建的引用 */
 import CNavigation from '../../../components/CNavigation';
 import ListItem from '../../../components/ListItem/ListItem';
-import {Layout} from "../../../styles/layout";
+import Layout from "../../../styles/layout";
 
 /** 页面的引入 */
 
 /** 工具类的引用 */
 import StorageData from '../../../store/storageData';
-import {Util} from '../../../utils/util';
+import Util from '../../../utils/util';
 
 /** 常量声明 */
 

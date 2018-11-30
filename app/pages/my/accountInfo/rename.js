@@ -5,7 +5,7 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from "../../../styles/layout";
+import Layout from "../../../styles/layout";
 /** 第三方依赖库的引用 */
 
 /** 自定义组建的引用 */
@@ -15,7 +15,7 @@ import CTouchableWithoutFeedback from '../../../components/CTouchableWithoutFeed
 
 /** 工具类的引用 */
 import StorageData from "../../../store/storageData";
-import {bouncedUtils} from "../../../utils/bouncedUtils";
+import bouncedUtils from "../../../utils/bouncedUtils";
 
 /** 常量声明 */
 

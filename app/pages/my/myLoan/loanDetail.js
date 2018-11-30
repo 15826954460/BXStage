@@ -5,8 +5,8 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from "../../../styles/layout";
-import {Size} from "../../../styles/size";
+import Layout from "../../../styles/layout";
+import Size from "../../../styles/size";
 
 /** 第三方依赖库的引用 */
 
@@ -19,7 +19,7 @@ import CGradientButton from '../../../components/CGradientButton';
 
 /** 工具类的引用 */
 import StorageData from '../../../store/storageData';
-import {Util} from '../../../utils/util';
+import Util from '../../../utils/util';
 
 /** 常量声明 */
 

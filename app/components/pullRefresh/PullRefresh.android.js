@@ -8,8 +8,8 @@ if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 /** 全局样式的引用 */
-import {Size} from '../../styles/size';
-import {Layout} from "../../styles/layout";
+import Size from '../../styles/size';
+import Layout from "../../styles/layout";
 
 /** 第三方依赖库的引用 */
 import LottieView from 'lottie-react-native';

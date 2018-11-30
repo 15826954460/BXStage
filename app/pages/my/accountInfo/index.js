@@ -5,8 +5,8 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from "../../../styles/layout";
-import {Size} from "../../../styles/size";
+import Layout from "../../../styles/layout";
+import Size from "../../../styles/size";
 
 /** 第三方依赖库的引用 */
 import Permissions from 'react-native-permissions'; // 判断是否有调用相机或照片权限的第三方库
@@ -22,8 +22,8 @@ import withFocus from '../../../components/HOC/HOCNavigationEvents';
 /** 工具类的引用 */
 import StorageData from "../../../store/storageData";
 import {bankInfo} from "../../../store/data";
-import {bouncedUtils} from '../../../utils/bouncedUtils';
-import {Util} from '../../../utils/util';
+import bouncedUtils from '../../../utils/bouncedUtils';
+import Util from '../../../utils/util';
 
 /** 常量声明 */
 

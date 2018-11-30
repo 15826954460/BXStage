@@ -4,7 +4,7 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from '../../styles/layout';
+import Layout from '../../styles/layout';
 
 /** 第三方依赖库的引用 */
 
@@ -16,10 +16,10 @@ import withOnScroll from '../../components/HOC/HOCOnscroll';
 import withFocus from '../../components/HOC/HOCNavigationEvents';
 
 /** 全局工具方法的引用 */
-import {Util} from "../../utils/util";
+import Util from "../../utils/util";
 import StorageData from "../../store/storageData";
-import {bouncedUtils} from "../../utils/bouncedUtils";
-import {configData} from '../../store/configData';
+import bouncedUtils from "../../utils/bouncedUtils";
+import configData from '../../store/configData';
 
 /** 声明常量 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
@@ -29,7 +29,6 @@ const
 
 const WithScrollView = withOnScroll(ScrollView)
 
-@withFocus
 class Main extends Component {
 
   constructor(props) {
@@ -325,6 +324,7 @@ class Main extends Component {
 
 withFocus(Main)
 export default withCNavigation(Main)
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import {
   StyleSheet, ImageBackground, Text, View, Animated,
 } from "react-native";
-import {Layout} from "../styles/layout";
+import Layout from "../styles/layout";
 
 /** 全局样式的引用 */
 
@@ -15,7 +15,7 @@ import RootSiblings from 'react-native-root-siblings';
 import CGradientButton from './CGradientButton';
 
 /** 自定义工具方法的使用 */
-import {bouncedUtils} from '../utils/bouncedUtils';
+import bouncedUtils from '../utils/bouncedUtils';
 import {easeInOut} from '../utils/curve';
 
 /** 声明一些常量 */

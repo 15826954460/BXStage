@@ -18,8 +18,7 @@ import HOCNavigationFocus from '../../components/HOC/HOCNavigationEvents';
 
 /** 获取自定义的静态方法 */
 import StaticPages from '../../utils/staticPage';
-import {bouncedUtils} from '../../utils/bouncedUtils';
-import {Layout} from "../../styles/layout";
+import bouncedUtils from '../../utils/bouncedUtils';
 
 // @HOCNavigationFocus
 export default class ValidationCode extends Component {

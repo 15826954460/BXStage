@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 
 /** 全局样式的引用 */
-import {Size} from '../../../styles/size'
-import {Layout} from '../../../styles/layout';
+import Size from '../../../styles/size'
+import Layout from '../../../styles/layout';
 import StorageData from '../../../store/storageData';
 
 /** 第三方依赖库的引用 */
@@ -21,7 +21,7 @@ import * as Animatable from 'react-native-animatable';
 import ListItem from '../../../components/ListItem/ListItem';
 
 /** 共局方法的引用 */
-import {bouncedUtils} from '../../../utils/bouncedUtils';
+import bouncedUtils from '../../../utils/bouncedUtils';
 
 /** 定义一些常量 */
 const {width, height, pixel} = Size.screen;

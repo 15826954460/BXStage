@@ -11,7 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 /** 全局样式的引用 */
 
 /** 第三方依赖库的引用 */
-import {Util} from '../utils/util';
+import Util from '../utils/util';
 
 /** 自定义组建的引用 */
 import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';

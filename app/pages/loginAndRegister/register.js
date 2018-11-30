@@ -3,13 +3,13 @@ import React, {Component} from "react";
 import {
   StyleSheet, Text, Image, View, ScrollView, Dimensions, TouchableWithoutFeedback, Keyboard,
 } from "react-native";
-import {Layout} from "../../styles/layout";
+import Layout from "../../styles/layout";
 
 /** 全局样式的引用 */
 
 /** 工具方法的引用 */
-import {Util} from '../../utils/util';
-import {bouncedUtils} from '../../utils/bouncedUtils';
+import Util from '../../utils/util';
+import bouncedUtils from '../../utils/bouncedUtils';
 import StaticPages from '../../utils/staticPage';
 import StorageData from '../../store/storageData';
 

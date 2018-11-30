@@ -12,7 +12,7 @@ import {
 
 /** 自定义组建的引用 */
 import CNavigation from '../../components/CNavigation';
-import {Layout} from "../../styles/layout";
+import Layout from "../../styles/layout";
 
 
 export default class EmptyPage extends Component {

@@ -6,10 +6,9 @@ import {
   View,
 } from "react-native";
 
-
 /** 全局样式的引用 */
-import {Layout} from "../styles/layout";
-import {Util} from "../utils/util"
+import Layout from "../styles/layout";
+import Util from "../utils/util"
 
 /** 第三方依赖库的引用 */
 import RootSiblings from 'react-native-root-siblings';

@@ -12,8 +12,8 @@ import {StackActions, NavigationActions} from 'react-navigation';
 /** 自定义组建的引用 */
 import CNavigation from '../../components/CNavigation';
 import CGradientButton from '../../components/CGradientButton';
-import {Layout} from "../../styles/layout";
-import {Routers} from '../../store/routes';
+import Layout from "../../styles/layout";
+import Routers from '../../store/routes';
 
 /** 自定义工具方法的使用 */
 import StorageData from '../../store/storageData';

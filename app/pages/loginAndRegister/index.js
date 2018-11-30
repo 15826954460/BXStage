@@ -5,15 +5,15 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from '../../styles/layout';
-import {Size} from '../../styles/size';
+import Layout from '../../styles/layout';
+import Size from '../../styles/size';
 
 /** 第三方依赖库的引用 */
 
 /** 自定义组建的引用 */
 import LoginPage from './login';
 import RegisterPage from './register';
-import {Util} from "../../utils/util";
+import Util from "../../utils/util";
 
 /** 声明一些常量 */
 const {width, height} = Dimensions.get('window');

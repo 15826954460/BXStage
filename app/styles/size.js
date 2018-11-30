@@ -150,4 +150,4 @@ const Size = {
     if (model === "x86_64") return "Simulator";
   }
 }
-export {Size}
+export default Size

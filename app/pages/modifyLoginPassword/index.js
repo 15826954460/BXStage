@@ -8,7 +8,7 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from '../../styles/layout';
+import Layout from '../../styles/layout';
 
 /** 第三方依赖库的引用 */
 
@@ -21,8 +21,8 @@ import CTouchableWithoutFeedback from '../../components/CTouchableWithoutFeedbac
 /** 获取自定义的静态方法 */
 import StaticPages from '../../utils/staticPage';
 import StorageData from '../../store/storageData';
-import {bouncedUtils} from '../../utils/bouncedUtils';
-import {Util} from '../../utils/util';
+import bouncedUtils from '../../utils/bouncedUtils';
+import Util from '../../utils/util';
 
 export default class Vue2 extends Component {
 

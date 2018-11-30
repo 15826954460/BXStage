@@ -50,4 +50,4 @@ const bouncedUtils = {
     hide: () => SiblingsLoading.hideSiblings instanceof Function && SiblingsLoading.hideSiblings(),
   }
 }
-export {bouncedUtils}
+export default bouncedUtils

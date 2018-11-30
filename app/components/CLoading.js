@@ -5,7 +5,7 @@ import {
 } from "react-native";
 
 /** 全局样式的引用 */
-import {Layout} from "../styles/layout";
+import Layout from "../styles/layout";
 
 /** 第三方依赖库的引用 */
 import RootSiblings from 'react-native-root-siblings';
