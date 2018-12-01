@@ -186,6 +186,7 @@ export default class CNavigation extends Component {
   /** 根据滚动动态修改导航以及状态栏的样式 */
   _fadeInNavStyle = (p) => {
     const {theme} = this.props
+    /** 渐变导航 */
     if (theme === 'variable') {
       let _navBackgroundColor, _borderBottomWidth, _barStyle, _Icon, _opacity
       _navBackgroundColor = p ? (p >= 0.5 ? `rgba(255,255,255,${p})` : 'transparent') : 'transparent'
@@ -214,6 +215,7 @@ export default class CNavigation extends Component {
 
     }
     else {
+      /** 底部下滑线的显示 */
       let _navBackgroundColor, _borderBottomWidth
       _navBackgroundColor = p ? (p > 0.2 ? `rgba(255,255,255,1)` : 'transparent') : 'transparent'
       _borderBottomWidth = p ? (p > 0.2 ? Size.screen.pixel : 0) : 0
