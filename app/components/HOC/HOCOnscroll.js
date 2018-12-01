@@ -25,7 +25,7 @@ const withScrollComponent = (ScrollComponent) => {
       return (
         <Consumer>
           {
-            ({getNav}) => <ScrollComponent getNav={getNav} {...this.props}/>
+            ({getNav}) => <ScrollComponent {...this.props} getNav={getNav}/>
           }
         </Consumer>
       )
@@ -46,8 +46,8 @@ export default function withOnScroll(ScrollComponent) {
       maxOffsetY = Math.min(Math.floor(maxOffsetY), height * 0.1);
       maxOffsetY <= 0 && (maxOffsetY = height * 0.1)
       let alpha = (y / maxOffsetY).toFixed(2)
-      let nav = props.getNav
-      nav && nav._fadeInBottomLine(alpha)
+      let nav = props.getNav()
+      nav && nav._fadeInNavStyle(alpha)
     }
   })
 

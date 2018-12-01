@@ -84,7 +84,7 @@ const MainStack = createBottomTabNavigator(
     },
   },
   {
-    initialRouteName: '分期',
+    initialRouteName: '我',
     /** 配置导航的相关参数(这里针对全局配置，也可以放在单独配置) */
     tabBarOptions: {
       activeTintColor: Layout.color.red_main, // 文字激活的颜色
@@ -153,8 +153,6 @@ const Stack = createStackNavigator(
     NoFeedBack: {screen: NoFeedBack},
     LoginOutPage: {screen: LoginOutPage},
     MainStack: {screen: MainStack},
-    // InstalmentPage: {screen: InstalmentPage},
-    // My: {screen: My},
     MorePerson: {screen: MorePerson},
     EmptyPage: {screen: EmptyPage},
     NetErrorPage: {screen: NetErrorPage},
@@ -264,7 +262,8 @@ export default class InitStack extends Component {
               index: 0,
               actions: [
                 NavigationActions.navigate({
-                  routeName: 'Notice',
+                  routeName: 'MainStack',
+                  // routeName: 'Notice',
                   // routeName: 'LoginAndRegister',
                   params: {initPage: _initPage}
                 }),

@@ -52,11 +52,15 @@ class ButtonItem extends Component {
   _navigate = () => {
     const {handle} = this.props.options
     /** 执行特定的事件 */
-    handle && handle instanceof Function && handle()
+    if (handle && handle instanceof Function) {
+      handle()
+      return
+    }
+    this.props.navigation.pop()
   }
 
   render() {
-    const {title, titleStyle, Icon} = this.props.options
+    const {title, Icon, disabled, color, fontSize, opacity} = this.props.options
     const {leftOrRight} = this.props
     return (
       <CTouchableWithoutFeedback handle={this._navigate}>
@@ -64,8 +68,8 @@ class ButtonItem extends Component {
           {
             title ? <Text
               numberOfLines={1}
-              style={[titleStyle]}
-            > {title} </Text> : <Image source={Icon}/>
+              style={[{color: color, fontSize: fontSize, opacity: opacity}]}
+            > {title} </Text> : !disabled ? <Image source={Icon}/> : null
           }
         </View>
       </CTouchableWithoutFeedback>
@@ -92,12 +96,12 @@ class TitleItem extends Component {
   }
 
   render() {
-    const {title, titleStyle, handle} = this.props.centerTitle
+    const {title, handle, color, fontSize, opacity} = this.props.centerTitle
     return (
       <CTouchableWithoutFeedback onPress={handle}>
         <View style={[Layout.layout.rcc, {flex: 5}]}>
           <Text numberOfLines={1}
-                style={[titleStyle]}
+                style={[{color: color, fontSize: fontSize, opacity: opacity, fontWeight: 'bold'}]}
           >{title}</Text>
         </View>
       </CTouchableWithoutFeedback>
@@ -117,6 +121,8 @@ export default class CNavigation extends Component {
     isNavContent: PropTypes.bool,
     theme: PropTypes.oneOf(['dark', 'light', 'variable']),
     barStyle: PropTypes.string,
+    translucent: PropTypes.bool,
+    whiteOrBlack: PropTypes.string,
   }
 
   static defaultProps = {
@@ -128,43 +134,49 @@ export default class CNavigation extends Component {
     isNavContent: true, // 是否需要导航
     theme: 'dark', // 导航的主题颜色
     barStyle: 'dark-content', // 状态栏的颜色
+    translucent: false, // 是否是沉浸式状态
+    whiteOrBlack: 'black',
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      // 主题
-      theme: props.theme,
-      // 背景色
-      commonBackgroundColor: props.commonBackgroundColor,
-      // 状态栏样式
-      barStyle: props.barStyle,
+      theme: props.theme, // 主题
+      commonBackgroundColor: props.commonBackgroundColor, // 背景色
+      barStyle: props.barStyle, // 状态栏样式
       // 导航样式
       navStyle: {
-        navBackgroundColor: props.navBackgroundColor,
-        borderBottomColor: props.borderBottomColor,
+        backgroundColor: Layout.color.white_bg,
+        ...props.navStyle,
       },
       // 中间文字
       centerTitle: {
         handle: null,
         title: '',
-        titleStyle: {color: '#000', fontSize: 16, fontWeight: 'bold'},
+        color: Layout.color.black,
+        fontSize: 16,
+        fontWeight: 'bold',
+        opacity: 1,
         ...props.centerTitle,
       },
       // 左边按钮
       leftButton: {
         title: '',
-        titleStyle: {color: '#000'},
-        ...props.leftButton,
-        Icon: LEFT_ICON_BLACK,
+        Icon: props.whiteOrBlack === 'white' ? LEFT_ICON_WHITE : LEFT_ICON_BLACK,
+        color: Layout.color.black,
+        fontSize: 14,
+        opacity: 1,
+        disabled: false,
         ...props.leftButton,
       },
       // 右边按钮
       rightButton: {
         title: '',
-        titleStyle: {color: '#000'},
-        ...props.rightButton,
-        Icon: RIGHT_ICON_BLACK,
+        Icon: props.whiteOrBlack === 'white' ? LEFT_ICON_WHITE : LEFT_ICON_BLACK,
+        disabled: true,
+        color: Layout.color.black,
+        fontSize: 14,
+        opacity: 1,
         ...props.rightButton,
       },
     };
@@ -172,28 +184,47 @@ export default class CNavigation extends Component {
   }
 
   /** 根据滚动动态修改导航以及状态栏的样式 */
-  _fadeInBottomLine = (p) => {
+  _fadeInNavStyle = (p) => {
     const {theme} = this.props
-    let _navBackgroundColor, _barStyle, _theme
     if (theme === 'variable') {
+      let _navBackgroundColor, _borderBottomWidth, _barStyle, _Icon, _opacity
       _navBackgroundColor = p ? (p >= 0.5 ? `rgba(255,255,255,${p})` : 'transparent') : 'transparent'
-      _barStyle = (p >= 0.5) ? 'dark-content' : 'light-content'
-      _theme = (p >= 0.5) ? 'dark' : 'light'
+      _borderBottomWidth = p ? (p > 0.5 ? Size.screen.pixel : 0) : 0
+      _barStyle = p ? (p >= 0.5 ? 'dark-content' : 'light-content') : 'light-content'
+      _Icon = (p >= 0.5) ? LEFT_ICON_BLACK : LEFT_ICON_WHITE
+      _opacity = (p >= 0.5) ? (p >= 1 ? 1 : p) : 0
       this.setState({
         navBackgroundColor: _navBackgroundColor,
         barStyle: _barStyle,
-        theme: _theme,
+        leftButton: {
+          Icon: _Icon,
+        },
+        centerTitle: {
+          ...this.state.centerTitle,
+          opacity: Number(_opacity),
+        },
+        navStyle: {
+          ...this.state.navStyle,
+          backgroundColor: _navBackgroundColor,
+          borderBottomWidth: _borderBottomWidth,
+        }
       })
     }
     else if (theme === 'light') {
 
     }
     else {
-
+      let _navBackgroundColor, _borderBottomWidth
+      _navBackgroundColor = p ? (p > 0.2 ? `rgba(255,255,255,1)` : 'transparent') : 'transparent'
+      _borderBottomWidth = p ? (p > 0.2 ? Size.screen.pixel : 0) : 0
+      this.setState({
+        navStyle: {
+          ...this.state.navStyle,
+          backgroundColor: _navBackgroundColor,
+          borderBottomWidth: _borderBottomWidth,
+        }
+      })
     }
-    this._navWrapperInstance.setNativeProps({
-      borderBottomWidth: Size.screen.pixel,
-    })
   }
 
   componentWillMount() {
@@ -201,12 +232,11 @@ export default class CNavigation extends Component {
   }
 
   _handleFirstConnectivityChange = (isConnected) => {
-    window.console.log(`-------- 当前联网状态为 '${isConnected}-------`);
+    // window.console.log(`-------- 当前联网状态为 '${isConnected}-------`);
     NetInfo.isConnected.removeEventListener('connectionChange', this._handleFirstConnectivityChange);
   }
 
   componentDidMount() {
-    this._fadeInBottomLine()
   }
 
   shouldComponentUpdate(nextProps) {
@@ -218,8 +248,8 @@ export default class CNavigation extends Component {
   }
 
   render() {
-    const {commonBackgroundColor, isSafeAreaTop, isNavContent, isSafeAreaBottom} = this.props
-    const {barStyle, navBackgroundColor, theme, centerTitle, leftButton, rightButton} = this.state
+    const {isSafeAreaTop, isNavContent, isSafeAreaBottom, translucent} = this.props
+    const {theme, commonBackgroundColor, navStyle, centerTitle, leftButton, rightButton, barStyle} = this.state
     return (
 
       <SafeAreaView
@@ -232,23 +262,22 @@ export default class CNavigation extends Component {
         <CStatusBar ref={ref => this._statusBarInstance = ref} barStyle={barStyle}/>
 
         <View style={[styles.container,
-          {paddingTop: isSafeAreaTop ? NAV_HEIGHT : (Size.screen.statusBarHeight + NAV_HEIGHT)}
+          {paddingTop: translucent ? 0 : (isSafeAreaTop ? NAV_HEIGHT : (Size.screen.statusBarHeight + NAV_HEIGHT))}
         ]}>
           {
-            isNavContent ? <View ref={ref => this._navWrapperInstance = ref}
+            isNavContent ? <View
+              ref={ref => this._navWrapperInstance = ref}
               style={[styles.buttonWrapper,
-              {height: !isSafeAreaTop ? (Size.screen.statusBarHeight + IPHONEX_NAV_HEIGHT) : NAV_HEIGHT},
-              {paddingTop: !isSafeAreaTop ? Size.screen.statusBarHeight : 0},
-              {backgroundColor: navBackgroundColor},
-            ]}>
+                {height: (isSafeAreaTop ? NAV_HEIGHT : (Size.screen.statusBarHeight + NAV_HEIGHT))},
+                {paddingTop: !isSafeAreaTop ? Size.screen.statusBarHeight : 0},
+                {...navStyle}
+              ]}>
               <ButtonItem theme={theme} options={leftButton} leftOrRight={'left'}/>
               <TitleItem theme={theme} centerTitle={centerTitle}/>
               <ButtonItem theme={theme} options={rightButton} leftOrRight={'right'}/>
             </View> : null
           }
-
           {this.props.children}
-
         </View>
       </SafeAreaView>
 
@@ -256,30 +285,31 @@ export default class CNavigation extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    flex: 1,
-    width: Size.screen.width,
-  },
-  buttonWrapper: {
-    position: 'absolute',
-    width: width,
-    zIndex: 999,
-    top: 0,
-    ...Layout.layout.rsbc,
-  },
-  btn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 2,
-  },
-  leftButtonStyle: {
-    justifyContent: 'flex-start',
-    paddingLeft: 12,
-  },
-  rightButtonStyle: {
-    justifyContent: 'flex-end',
-    paddingRight: 12
-  }
-});
+const
+  styles = StyleSheet.create({
+    container: {
+      position: 'relative',
+      flex: 1,
+      width: Size.screen.width,
+    },
+    buttonWrapper: {
+      position: 'absolute',
+      width: width,
+      zIndex: 999,
+      top: 0,
+      ...Layout.layout.rsbc,
+    },
+    btn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 2,
+    },
+    leftButtonStyle: {
+      justifyContent: 'flex-start',
+      paddingLeft: 12,
+    },
+    rightButtonStyle: {
+      justifyContent: 'flex-end',
+      paddingRight: 12
+    }
+  });

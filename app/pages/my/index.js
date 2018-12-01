@@ -24,12 +24,14 @@ import configData from '../../store/configData';
 /** 声明常量 */
 const {width, height} = Dimensions.get('window');//屏幕宽度
 const
-  STATUS_BAR_LIGHT_THEME = 'light-content',
-  STATUS_BAR_DARK_THEME = 'dark-content';
+  STATUS_BAR_LIGHT_THEME = 'light-content';
 
-const WithScrollView = withOnScroll(ScrollView)
+const
+  WithScrollView = withOnScroll(ScrollView)
 
-class Main extends Component {
+@withFocus
+@withCNavigation
+export default class Main extends Component {
 
   constructor(props) {
     super(props);
@@ -39,16 +41,19 @@ class Main extends Component {
       userInfo: {}, // 账户信息
     };
     this.navConfig = {
+      theme: 'variable',
+      translucent: true,
+      navStyle: {
+        backgroundColor: 'transparent',
+        borderBottomColor: Layout.color.wgray_sub,
+        borderBottomWidth: 0,
+      },
       centerTitle: {
         title: '我的信息',
-        titleStyle: {
-          fontSize: 18,
-          fontWeight: 'bold',
-        }
+        opacity: 0,
       },
-      theme: 'variable',
+      whiteOrBlack: 'white',
       barStyle: STATUS_BAR_LIGHT_THEME,
-      isPaddingTop: false,
       isSafeAreaTop: false,
       isSafeAreaBottom: false,
     }
@@ -121,9 +126,7 @@ class Main extends Component {
     const {headPicture} = this.state.userInfo
     return (
       <WithScrollView style={styles.container}
-                      scrollEventThrottle={10}
-                      keyboardDismissMode={"on-drag"}
-                      keyboardShouldPersistTaps={"handled"}
+                      scrollEventThrottle={16}
                       showsVerticalScrollIndicator={false}
       >
         <ImageBackground
@@ -153,7 +156,8 @@ class Main extends Component {
 
             <CTouchableWithoutFeedback
               handle={() => {
-                this.props.navigation.navigate('AccountInfo', this.state.userInfo)
+                this.props.navigation.navigate('Notice')
+                // this.props.navigation.navigate('AccountInfo', this.state.userInfo)
               }}>
               <View style={{
                 width: 116, height: 116,
@@ -321,9 +325,6 @@ class Main extends Component {
     );
   }
 }
-
-withFocus(Main)
-export default withCNavigation(Main)
 
 const styles = StyleSheet.create({
   container: {

@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, FlatList, Image,ScrollView,
+  StyleSheet, Text, View, FlatList, Image, ScrollView,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -18,7 +18,7 @@ import withOnScroll from '../../../components/HOC/HOCOnscroll';
 /** 工具类的引用 */
 
 /** 常量声明 */
-const WithScrollView = withOnScroll(FlatList)
+const WithScrollView = withOnScroll(FlatList);
 
 @withCNavigation
 export default class Notice extends Component {
@@ -30,13 +30,15 @@ export default class Notice extends Component {
       data: [1, 2, 3, 4, 5]
     };
     this.navConfig = {
+      isSafeAreaTop: false,
       centerTitle: {
         title: '通知',
       },
       commonBackgroundColor: Layout.color.gray_bg,
       navStyle: {
-        navBackgroundColor: Layout.color.gray_bg,
-        borderBottomColor: Layout.color.gray_bg,
+        backgroundColor: 'transparent',
+        borderBottomColor: Layout.color.wgray_sub,
+        borderBottomWidth: 0,
       },
     }
   }
@@ -93,22 +95,18 @@ export default class Notice extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        {
-          !this.state.hasNotice ? <Empty/> : <WithScrollView
-            ref={ref => this._pullInstance = ref}
-            contentContainerStyle={{paddingHorizontal: 12}}
-            style={styles.flatListStyle}
-            keyExtractor={this._keyExtractor}
-            data={this.state.data}
-            renderItem={this._renderItem}
-            onEndReached={this._onEndReached}
-            ListFooterComponent={this._footerCom}
-            onEndReachedThreshold={0.01}
-            scrollEventThrottle={16}
-          />
-        }
-      </View>
+      !this.state.hasNotice ? <Empty/> : <WithScrollView
+        ref={ref => this._pullInstance = ref}
+        contentContainerStyle={{paddingHorizontal: 12}}
+        style={styles.flatListStyle}
+        keyExtractor={this._keyExtractor}
+        data={this.state.data}
+        renderItem={this._renderItem}
+        onEndReached={this._onEndReached}
+        ListFooterComponent={this._footerCom}
+        onEndReachedThreshold={0.01}
+        scrollEventThrottle={16}
+      />
     );
   }
 }

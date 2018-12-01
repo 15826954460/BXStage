@@ -9,7 +9,9 @@ import {Provider} from './HOCcontext';
 export default function withCNavigation(TargetComponent) {
 
   class ComponentCNavigation extends TargetComponent {
-    _getCNav = () => this._CNavInstance // 返回导航组件的实例
+    _getCNav = () => {
+      return this._CNavInstance
+    } // 返回导航组件的实例
 
     _getNavProps = () => {
       if (this.navConfig) {
@@ -21,7 +23,7 @@ export default function withCNavigation(TargetComponent) {
 
     render() {
       return (
-        <Provider value={{getNav: this._getCNav()}}>
+        <Provider value={{getNav: this._getCNav}}>
           <CNavigation {...this._getNavProps()}
                        getRef={ref => this._CNavInstance = ref}>
             {super.render()}
