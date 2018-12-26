@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, ScrollView, ImageBackground, Image, Dimensions,
+  StyleSheet, Text, View, ScrollView, ImageBackground, Image, Dimensions,TouchableWithoutFeedback
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -11,7 +11,7 @@ import {Layout} from "../../../styles/layout";
 import * as Animatable from 'react-native-animatable';
 
 /** 自定义组建的引用 */
-import CTouchableWithoutFeedback from '../../../components/CTouchableWithoutFeedback';
+import HOCTouchable from '../../../components/HOC/CTouchable';
 
 /** 页面的引入 */
 
@@ -20,6 +20,7 @@ import {Util} from '../../../utils/util';
 import {easeOutQuart, LinearOutSlowInInterpolator} from '../../../utils/curve';
 
 /** 常量声明 */
+const CTouchableWithoutFeedback = HOCTouchable(TouchableWithoutFeedback)
 const
   PROPLEM_TYPE_LIST = [
     {

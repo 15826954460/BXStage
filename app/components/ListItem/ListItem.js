@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, Dimensions, Image,
+  StyleSheet, Text, View, Dimensions, Image,TouchableWithoutFeedback,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -12,7 +12,9 @@ import {Size} from '../../styles/size';
 import PropTypes from 'prop-types';
 
 /** 自定义组建的引用 */
-import CTouchableWithoutFeedback from '../../components/CTouchableWithoutFeedback';
+import HOCTouchable from '../../components/HOC/CTouchable';
+
+const CTouchableWithoutFeedback = HOCTouchable(TouchableWithoutFeedback)
 
 /** 工具类的引用 */
 import StorageData from '../../store/storageData';

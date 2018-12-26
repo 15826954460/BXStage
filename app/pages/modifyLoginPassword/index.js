@@ -4,7 +4,7 @@ import {
   StyleSheet, ScrollView,
   Keyboard,
   Text,
-  View,
+  View,TouchableWithoutFeedback,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -16,13 +16,15 @@ import {Layout} from '../../styles/layout';
 import CNavigation from '../../components/CNavigation';
 import BXTextInput from '../../components/CTextInput';
 import CGradientButton from '../../components/CGradientButton';
-import CTouchableWithoutFeedback from '../../components/CTouchableWithoutFeedback';
+import HOCTouchable from '../../components/HOC/CTouchable';
 
 /** 获取自定义的静态方法 */
 import StaticPages from '../../utils/staticPage';
 import StorageData from '../../store/storageData';
 import {bouncedUtils} from '../../utils/bouncedUtils';
 import {Util} from '../../utils/util';
+
+const CTouchableWithoutFeedback = HOCTouchable(TouchableWithoutFeedback)
 
 export default class Vue2 extends Component {
 

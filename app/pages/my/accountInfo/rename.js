@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, TextInput, Image, ScrollView,
+  StyleSheet, Text, View, TextInput, Image, ScrollView,TouchableWithoutFeedback
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -10,7 +10,7 @@ import {Layout} from "../../../styles/layout";
 
 /** 自定义组建的引用 */
 import CNavigation from '../../../components/CNavigation';
-import CTouchableWithoutFeedback from '../../../components/CTouchableWithoutFeedback';
+import HOCTouchable from '../../../components/HOC/CTouchable';
 /** 页面的引入 */
 
 /** 工具类的引用 */
@@ -18,6 +18,7 @@ import StorageData from "../../../store/storageData";
 import {bouncedUtils} from "../../../utils/bouncedUtils";
 
 /** 常量声明 */
+const CTouchableWithoutFeedback = HOCTouchable(TouchableWithoutFeedback)
 
 export default class ReName extends Component {
 

@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from "react";
 import {
-  StyleSheet, Dimensions, Text, View, Image, Platform, StatusBar, NetInfo
+  StyleSheet, Dimensions, Text, View, Image, Platform, StatusBar, NetInfo,TouchableWithoutFeedback
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -11,16 +11,16 @@ import {Size} from "../styles/size";
 /** 第三方依赖库的引用 */
 import {SafeAreaView, withNavigation} from 'react-navigation';
 import PropTypes from 'prop-types';
-import DeviceInfo from "react-native-device-info";
 
 /** 自定义组建的引用 */
-import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
+import HOCTouchable from './HOC/CTouchable';
 import CStatusBar from './CStatusBar';
 import {Util} from "../utils/util";
 
 /** 自定义工具方法的引用 */
 
 /** 一些常量的声明 */
+const CTouchableWithoutFeedback = HOCTouchable(TouchableWithoutFeedback)
 const {width, height} = Dimensions.get('window');//屏幕宽高
 const
   LEFT_ICON_BLACK = require('../images/common/navig_img_back_black.png'),

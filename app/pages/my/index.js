@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {
-  StyleSheet, Text, View, ScrollView, Image, ImageBackground, Dimensions, Linking,
+  StyleSheet, Text, View, ScrollView, Image, ImageBackground, Dimensions, TouchableWithoutFeedback,Linking,
 } from "react-native";
 
 /** 全局样式的引用 */
@@ -9,7 +9,7 @@ import {Layout} from '../../styles/layout';
 /** 第三方依赖库的引用 */
 
 /** 自定义组建的引用 */
-import CTouchableWithoutFeedback from '../../components/CTouchableWithoutFeedback';
+import HOCTouchable from '../../components/HOC/CTouchable';
 import ListItem from '../../components/ListItem/ListItem';
 import withCNavigation from '../../components/HOC/HOCCNavigation';
 import withOnScroll from '../../components/HOC/HOCOnscroll';
@@ -22,6 +22,7 @@ import {bouncedUtils} from "../../utils/bouncedUtils";
 import {configData} from '../../store/configData';
 
 /** 声明常量 */
+const CTouchableWithoutFeedback = HOCTouchable(TouchableWithoutFeedback)
 const {width, height} = Dimensions.get('window');//屏幕宽度
 const
   STATUS_BAR_LIGHT_THEME = 'light-content',

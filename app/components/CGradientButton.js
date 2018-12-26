@@ -1,7 +1,7 @@
 /** react 组建的引用 */
 import React, {Component} from 'react';
 import {
-  Text, Dimensions,
+  Text, Dimensions,TouchableWithoutFeedback
 } from 'react-native';
 
 /** 第三方依赖库的引用 */
@@ -14,7 +14,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Util} from '../utils/util';
 
 /** 自定义组建的引用 */
-import CTouchableWithoutFeedback from './CTouchableWithoutFeedback';
+import HOCTouchable from './HOC/CTouchable';
+const CTouchableWithoutFeedback = HOCTouchable(TouchableWithoutFeedback)
+
 
 /** 一些常量的声明 */
 const {width, height} = Dimensions.get('window');
