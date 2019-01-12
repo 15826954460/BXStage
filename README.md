@@ -198,7 +198,5 @@ react + react-native + mobx + axios + es6 + react-navigation + lottie-react-nati
 
 ### 后续工作
 
->  一些高阶组件的封装
->  自定义下拉刷新组件的封装
->  功能模块、数据模块、业务模块的解耦
+高阶组件的封装已经完成，功能模块和业务模块的解耦已完成，且切换到 pullRefresh 进行了解
 
